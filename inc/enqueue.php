@@ -83,6 +83,12 @@ function kachotech_child_enqueue_scripts() {
 			'ajax_url' => admin_url( 'admin-ajax.php' ),
 			'hero_nonce' => wp_create_nonce( 'kt_hero_nonce' ),
 		) );
+
+		// Ensure WooCommerce scripts are loaded for AJAX functionality
+		if ( function_exists( 'wp_enqueue_cart' ) ) {
+			wp_enqueue_script( 'jquery' );
+			wp_enqueue_script( 'woocommerce' );
+		}
 	}
 }
 add_action( 'wp_enqueue_scripts', 'kachotech_child_enqueue_scripts', 20 );

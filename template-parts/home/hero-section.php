@@ -46,24 +46,6 @@ function kt_get_products_for_cat( $cat_slug, $limit = 6 ) {
 ?>
 
 <section class="kt-hero-bg min-h-screen overflow-hidden">
-  <!-- SIDEBAR -->
-  <div id="kt-sidebar-backdrop" class="kt-sidebar-backdrop fixed inset-0 z-50 hidden items-stretch">
-    <div id="kt-sidebar" class="h-full w-72 max-w-full bg-[#020617] px-6 py-6 transform -translate-x-full transition-transform duration-300 ease-out">
-      <div class="mb-6 flex items-center justify-between">
-        <span class="text-lg font-bold tracking-[.18em] uppercase">KACHOTECH</span>
-        <button id="kt-close-sidebar" class="text-slate-300 hover:text-white">✕</button>
-      </div>
-      <nav class="space-y-4 text-sm font-semibold uppercase tracking-[.16em] text-slate-300">
-        <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="block hover:text-white">Home</a>
-        <a href="<?php echo esc_url( get_term_link( 'heaters', 'product_cat' ) ); ?>" class="block hover:text-white">Heaters</a>
-        <a href="<?php echo esc_url( get_term_link( 'cosmetics', 'product_cat' ) ); ?>" class="block hover:text-white">Cosmetics</a>
-        <a href="<?php echo esc_url( get_term_link( 'electronics', 'product_cat' ) ); ?>" class="block hover:text-white">Electronics</a>
-        <a href="#" class="block hover:text-white">Winter Deals</a>
-        <a href="#" class="block hover:text-white">Contact</a>
-      </nav>
-      <div class="mt-8 border-t border-slate-700/80 pt-4 text-xs text-slate-400">Trusted heating, electronics &amp; cosmetics across Pakistan.</div>
-    </div>
-  </div>
 
   <div class="mx-auto flex h-full max-w-6xl flex-col px-4">
 
@@ -88,7 +70,7 @@ function kt_get_products_for_cat( $cat_slug, $limit = 6 ) {
           <div class="kt-slide kt-slide-active" data-kt-slide="0">
             <div class="grid h-full items-center gap-8 md:grid-cols-[1.1fr_minmax(0,1fr)]">
               <div class="kt-anim-text space-y-6">
-                <h1 class="text-4xl md:text-5xl lg:text-6xl font-white leading-tight">BORING<br><span class="text-kt-primary">ROOMS?</span></h1>
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-black text-white leading-tight">BORING<br><span class="text-kt-primary">ROOMS?</span></h1>
                 <p class="max-w-md text-sm md:text-base text-slate-300">Turn freezing nights into warm, cozy evenings with safe, fuel-efficient heaters curated for Pakistan’s harsh winters.</p>
                 <div class="flex flex-wrap items-center gap-4 text-xs md:text-sm text-slate-300"><span>Starting from <span class="font-semibold text-white">Rs 2,499</span></span><span class="h-1 w-1 rounded-full bg-slate-500"></span><span>Extra <span class="font-semibold text-kt-primary">10% OFF</span> on online payments</span></div>
                 <div class="flex flex-wrap items-center gap-4 pt-2"><a href="#" class="inline-flex items-center justify-center rounded-full bg-kt-primary px-6 py-3 text-xs md:text-sm font-semibold uppercase tracking-[.2em] shadow-lg shadow-kt-primary/50 hover:bg-[#ff3b5b]">SHOP HEATERS</a></div>
@@ -107,7 +89,7 @@ function kt_get_products_for_cat( $cat_slug, $limit = 6 ) {
           <div class="kt-slide" data-kt-slide="1">
             <div class="grid h-full items-center gap-8 md:grid-cols-[1.1fr_minmax(0,1fr)]">
               <div class="kt-anim-text space-y-6">
-                <h2 class="text-4xl md:text-5xl lg:text-6xl font-black leading-tight">DRY<br><span class="text-kt-primary">SKIN?</span></h2>
+                <h2 class="text-4xl md:text-5xl lg:text-6xl font-black text-white leading-tight">DRY<br><span class="text-kt-primary">SKIN?</span></h2>
                 <p class="max-w-md text-sm md:text-base text-slate-300">Hydrating serums, moisturisers and makeup bundles that keep your skin glowing instead of cracking all winter.</p>
                 <div class="flex flex-wrap items-center gap-4 text-xs md:text-sm text-slate-300"><span>Bundles from <span class="font-semibold text-white">Rs 1,799</span></span><span class="h-1 w-1 rounded-full bg-slate-500"></span><span>Free mini serum on orders over <span class="font-semibold">Rs 4,000</span></span></div>
                 <div class="flex flex-wrap items-center gap-4 pt-2"><a href="<?php echo esc_url( get_term_link( 'cosmetics', 'product_cat' ) ); ?>" class="inline-flex items-center justify-center rounded-full bg-kt-primary px-6 py-3 text-xs md:text-sm font-semibold uppercase tracking-[.2em] shadow-lg shadow-kt-primary/50 hover:bg-[#ff3b5b]">SHOP COSMETICS</a></div>
@@ -124,7 +106,7 @@ function kt_get_products_for_cat( $cat_slug, $limit = 6 ) {
           <div class="kt-slide" data-kt-slide="2">
             <div class="grid h-full items-center gap-8 md:grid-cols-[1.1fr_minmax(0,1fr)]">
               <div class="kt-anim-text space-y-6">
-                <h2 class="text-4xl md:text-5xl lg:text-6xl font-black leading-tight">DULL<br><span class="text-kt-primary">EVENINGS?</span></h2>
+                <h2 class="text-4xl md:text-5xl lg:text-6xl font-black text-white leading-tight">DULL<br><span class="text-kt-primary">EVENINGS?</span></h2>
                 <p class="max-w-md text-sm md:text-base text-slate-300">Kettles, audio and smart gadgets for the perfect winter entertainment setup at home.</p>
                 <div class="flex flex-wrap items-center gap-4 text-xs md:text-sm text-slate-300"><span>Combos from <span class="font-semibold text-white">Rs 3,299</span></span><span class="h-1 w-1 rounded-full bg-slate-500"></span><span>Bundle &amp; save up to <span class="font-semibold">25%</span></span></div>
                 <div class="flex flex-wrap items-center gap-4 pt-2"><a href="<?php echo esc_url( get_term_link( 'electronics', 'product_cat' ) ); ?>" class="inline-flex items-center justify-center rounded-full bg-kt-primary px-6 py-3 text-xs md:text-sm font-semibold uppercase tracking-[.2em] shadow-lg shadow-kt-primary/50 hover:bg-[#ff3b5b]">BROWSE ELECTRONICS</a></div>
@@ -142,15 +124,39 @@ function kt_get_products_for_cat( $cat_slug, $limit = 6 ) {
         <!-- bottom products + NEXT -->
         <div class="mt-3 flex items-center justify-between gap-4">
           <div id="kt-product-rows" class="flex-1 overflow-hidden">
-            <!-- HEATERS row -->
+            <?php
+            // Display only heaters row
+            $products = kt_get_products_for_cat( 'heaters', 3 );
+            ?>
             <div class="kt-products-row kt-products-row-active gap-3 md:gap-4">
-              <article class="kt-product-card flex-1 rounded-2xl bg-gradient-to-r from-rose-500 via-amber-400 to-rose-500 p-0.5 text-xs">
-                <div class="flex h-full w-full items-center gap-3 rounded-[15px] bg-slate-950/95 p-3">
-                  <div class="h-16 w-20 overflow-hidden rounded-xl bg-slate-800"><img src="https://via.placeholder.com/160x120.png?text=Heater+1" class="h-full w-full object-cover" alt=""></div>
-                  <div class="flex flex-1 flex-col gap-1"><h3 class="text-[11px] font-semibold uppercase tracking-[.16em] text-slate-100">Room Heater Mini</h3><p class="text-[11px] text-slate-400">Perfect for rooms up to 120 sq ft.</p><div class="flex items-center justify-between text-[11px]"><span class="font-semibold text-white">Rs 3,499</span><button class="font-semibold text-kt-primary">Add to Cart</button></div></div>
-                </div>
-              </article>
-              <!-- other sample cards omitted for brevity -->
+                <?php
+                if ( ! empty( $products ) ) {
+                    foreach ( $products as $product ) {
+                        $product_id = $product->get_id();
+                        $product_title = $product->get_name();
+                        $product_price = wc_price( $product->get_price() );
+                        $product_image = $product->get_image( array( 80, 64 ) );
+                        ?>
+                        <article class="kt-product-card flex-1 rounded-2xl bg-gradient-to-r from-rose-500 via-amber-400 to-rose-500 p-0.5 text-xs">
+                            <div class="flex h-full w-full items-center gap-3 rounded-[15px] bg-slate-950/95 p-3">
+                                <div class="h-16 w-20 overflow-hidden rounded-xl bg-slate-800">
+                                    <?php echo wp_kses_post( $product_image ); ?>
+                                </div>
+                                <div class="flex flex-1 flex-col gap-1">
+                                    <h3 class="text-[11px] font-semibold uppercase tracking-[.16em] text-slate-100 line-clamp-2"><?php echo esc_html( $product_title ); ?></h3>
+                                    <p class="text-[11px] text-slate-400"><?php echo wp_kses_post( $product_price ); ?></p>
+                                    <div class="flex items-center justify-between text-[11px]">
+                                        <button class="kt-add-to-cart font-semibold text-kt-primary hover:text-[#ff3b5b]" data-product-id="<?php echo esc_attr( $product_id ); ?>">
+                                            Add to Cart
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                        <?php
+                    }
+                }
+                ?>
             </div>
           </div>
 
@@ -168,11 +174,6 @@ function kt_get_products_for_cat( $cat_slug, $limit = 6 ) {
   const tabs    = Array.from(document.querySelectorAll('[data-kt-tab]'));
   const rows    = Array.from(document.querySelectorAll('.kt-products-row'));
   const nextBtn = document.getElementById('kt-next');
-
-  const sidebarBackdrop = document.getElementById('kt-sidebar-backdrop');
-  const sidebar         = document.getElementById('kt-sidebar');
-  const closeSidebarBtn = document.getElementById('kt-close-sidebar');
-  const openSidebarBtns = Array.from(document.querySelectorAll('.kt-open-sidebar'));
 
   const stickyHeader = document.getElementById('kt-sticky-header');
 
@@ -204,13 +205,6 @@ function kt_get_products_for_cat( $cat_slug, $limit = 6 ) {
   tabs.forEach((tab, idx) => { tab.addEventListener('click', () => { setActive(idx); restartAuto(); }); });
   nextBtn?.addEventListener('click', () => { goNext(); restartAuto(); });
 
-  function openSidebar(){ sidebarBackdrop.classList.remove('hidden'); requestAnimationFrame(() => { sidebar.classList.remove('-translate-x-full'); }); }
-  function closeSidebar(){ sidebar.classList.add('-translate-x-full'); setTimeout(() => sidebarBackdrop.classList.add('hidden'), 250); }
-
-  openSidebarBtns.forEach(btn => btn.addEventListener('click', openSidebar));
-  closeSidebarBtn?.addEventListener('click', closeSidebar);
-  sidebarBackdrop?.addEventListener('click', e => { if(e.target === sidebarBackdrop) closeSidebar(); });
-
   let lastY = window.scrollY;
   window.addEventListener('scroll', () => {
     const y = window.scrollY;
@@ -226,5 +220,71 @@ function kt_get_products_for_cat( $cat_slug, $limit = 6 ) {
 
   rows[0]?.classList.add('kt-products-row-active');
   restartAuto();
+
+  // AJAX Add to Cart Handler
+  document.addEventListener('click', function(e) {
+    if (e.target.classList.contains('kt-add-to-cart')) {
+      const btn = e.target;
+      const productId = btn.getAttribute('data-product-id');
+      
+      if (!productId) return;
+
+      btn.disabled = true;
+      const originalText = btn.textContent;
+      btn.textContent = 'Adding...';
+
+      // Use jQuery if available, otherwise use fetch
+      if (typeof jQuery !== 'undefined' && typeof wc_add_to_cart_params !== 'undefined') {
+        jQuery.post(
+          wc_add_to_cart_params.wc_ajax_url.toString().replace('%%endpoint%%', 'add_to_cart'),
+          {
+            product_id: productId,
+            quantity: 1,
+            security: wc_add_to_cart_params.security
+          },
+          function(response) {
+            btn.textContent = '✓ Added';
+            jQuery(document.body).trigger('added_to_cart', [response.fragments, response.cart_hash, btn]);
+            
+            setTimeout(() => {
+              btn.textContent = originalText;
+              btn.disabled = false;
+            }, 1500);
+          }
+        );
+      } else {
+        // Fallback: Direct add to cart via standard WooCommerce method
+        const form = new FormData();
+        form.append('action', 'woocommerce_add_to_cart');
+        form.append('product_id', productId);
+        form.append('quantity', 1);
+        form.append('nonce', document.querySelector('input[name="woocommerce-add-to-cart-nonce"]')?.value || '');
+
+        fetch('/wp-admin/admin-ajax.php', {
+          method: 'POST',
+          body: form,
+          credentials: 'same-origin'
+        })
+        .then(response => response.json())
+        .then(data => {
+          btn.textContent = '✓ Added';
+          setTimeout(() => {
+            btn.textContent = originalText;
+            btn.disabled = false;
+          }, 1500);
+          // Reload to refresh cart
+          setTimeout(() => location.reload(), 1600);
+        })
+        .catch(err => {
+          console.error('Add to cart error:', err);
+          btn.textContent = 'Error';
+          setTimeout(() => {
+            btn.textContent = originalText;
+            btn.disabled = false;
+          }, 1500);
+        });
+      }
+    }
+  });
 })();
 </script>

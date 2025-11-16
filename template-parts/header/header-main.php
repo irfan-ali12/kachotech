@@ -373,5 +373,50 @@ document.addEventListener('DOMContentLoaded', function () {
             initMenuToggle();
         }
     })();
+
+    // SIDEBAR for hamburger menu
+    (function() {
+        const sidebarBackdrop = document.getElementById('kt-sidebar-backdrop');
+        const sidebar = document.getElementById('kt-sidebar');
+        const closeSidebarBtn = document.getElementById('kt-close-sidebar');
+        const openSidebarBtns = Array.from(document.querySelectorAll('.kt-open-sidebar'));
+
+        function openSidebar() {
+            sidebarBackdrop.classList.remove('hidden');
+            requestAnimationFrame(() => {
+                sidebar.classList.remove('-translate-x-full');
+            });
+        }
+
+        function closeSidebar() {
+            sidebar.classList.add('-translate-x-full');
+            setTimeout(() => sidebarBackdrop.classList.add('hidden'), 250);
+        }
+
+        openSidebarBtns.forEach(btn => btn.addEventListener('click', openSidebar));
+        closeSidebarBtn?.addEventListener('click', closeSidebar);
+        sidebarBackdrop?.addEventListener('click', e => {
+            if (e.target === sidebarBackdrop) closeSidebar();
+        });
+    })();
     </script>
+
+<!-- SIDEBAR (appears on all pages) -->
+<div id="kt-sidebar-backdrop" class="kt-sidebar-backdrop fixed inset-0 z-50 hidden items-stretch">
+    <div id="kt-sidebar" class="h-full w-72 max-w-full bg-[#020617] px-6 py-6 transform -translate-x-full transition-transform duration-300 ease-out">
+        <div class="mb-6 flex items-center justify-between">
+            <span class="text-lg font-bold tracking-[.18em] uppercase">KACHOTECH</span>
+            <button id="kt-close-sidebar" class="text-slate-300 hover:text-white">✕</button>
+        </div>
+        <nav class="space-y-4 text-sm font-semibold uppercase tracking-[.16em] text-slate-300">
+            <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="block hover:text-white">Home</a>
+            <a href="<?php echo esc_url( get_term_link( 'heaters', 'product_cat' ) ); ?>" class="block hover:text-white">Heaters</a>
+            <a href="<?php echo esc_url( get_term_link( 'cosmetics', 'product_cat' ) ); ?>" class="block hover:text-white">Cosmetics</a>
+            <a href="<?php echo esc_url( get_term_link( 'electronics', 'product_cat' ) ); ?>" class="block hover:text-white">Electronics</a>
+            <a href="#" class="block hover:text-white">Winter Deals</a>
+            <a href="#" class="block hover:text-white">Contact</a>
+        </nav>
+        <div class="mt-8 border-t border-slate-700/80 pt-4 text-xs text-slate-400">Trusted heating, electronics &amp; cosmetics across Pakistan.</div>
+    </div>
+</div>
 
