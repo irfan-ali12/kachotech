@@ -33,6 +33,24 @@ function kt_diagnostic_output() {
   echo 'Store API Available: ' . ( function_exists( 'woocommerce_rest_api_init' ) ? 'YES' : 'NO' ) . "\n";
   echo 'PHP Version: ' . PHP_VERSION . "\n";
   echo 'WordPress Version: ' . get_bloginfo( 'version' ) . "\n";
+  // Output enqueued handles for quick inspection
+  global $wp_styles, $wp_scripts;
+  if ( isset( $wp_styles ) && is_object( $wp_styles ) ) {
+    $queued = isset( $wp_styles->queue ) ? implode( ',', $wp_styles->queue ) : '';
+    echo 'Enqueued styles: ' . $queued . "\n";
+    if ( isset( $wp_styles->registered['kt-hero-css'] ) ) {
+      $src = $wp_styles->registered['kt-hero-css']->src;
+      echo 'kt-hero-css src: ' . $src . "\n";
+    }
+  }
+  if ( isset( $wp_scripts ) && is_object( $wp_scripts ) ) {
+    $squeued = isset( $wp_scripts->queue ) ? implode( ',', $wp_scripts->queue ) : '';
+    echo 'Enqueued scripts: ' . $squeued . "\n";
+    if ( isset( $wp_scripts->registered['kt-hero-js'] ) ) {
+      $ssrc = $wp_scripts->registered['kt-hero-js']->src;
+      echo 'kt-hero-js src: ' . $ssrc . "\n";
+    }
+  }
   echo '-->' . "\n";
 }
 

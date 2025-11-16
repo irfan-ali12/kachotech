@@ -1,0 +1,149 @@
+/* Hero section styles (extracted from prototype) */
+.kt-hero-bg{
+  --kt-hero-bg-image: none;
+  position:relative;
+  min-height:100vh;
+  padding-top:60px;
+  background-color:#050816;
+  background-image:
+    radial-gradient(circle at 10% 0%, rgba(255,36,70,0.18) 0, transparent 40%),
+    radial-gradient(circle at 90% 100%, rgba(56,189,248,0.18) 0, transparent 45%),
+    linear-gradient(135deg, rgba(15,23,42,0.96), rgba(2,6,23,0.98));
+  background-size:cover;
+  background-position:center;
+}
+
+.kt-slide{
+  position:absolute; inset:0; opacity:0; pointer-events:none;
+  transform:translateX(40px) scale(.98);
+  transition:opacity 420ms ease, transform 420ms cubic-bezier(.22,.61,.36,1);
+}
+.kt-slide-active{ opacity:1; pointer-events:auto; transform:translateX(0) scale(1); }
+.kt-slide-active .kt-anim-text{ animation:kt-fade-up 480ms ease-out both; }
+.kt-slide-active .kt-anim-image{ animation:kt-zoom-in 520ms 80ms ease-out both; }
+
+@keyframes kt-fade-up{ from{opacity:0;transform:translateY(26px);} to{opacity:1;transform:translateY(0);} }
+@keyframes kt-zoom-in{ 0%{opacity:0;transform:translateY(24px)scale(.9)rotate(-3deg);} 60%{opacity:1;transform:translateY(-6px)scale(1.03)rotate(1deg);} 100%{opacity:1;transform:translateY(0)scale(1)rotate(0deg);} }
+
+.kt-product-card{ transition:transform 180ms ease, box-shadow 180ms ease, background 180ms ease; box-shadow:0 14px 28px rgba(15,23,42,.55); }
+.kt-product-card:hover{ transform:translateY(-6px); box-shadow:0 24px 56px rgba(15,23,42,.85); background:rgba(15,23,42,.9); }
+
+.kt-products-row{ display:none; }
+.kt-products-row-active{ display:flex; }
+
+.kt-tab{ writing-mode:vertical-rl; transform:rotate(180deg); letter-spacing:.18em; transition:color 120ms ease; }
+.kt-tab-active{ color:#ff2446; }
+
+.kt-arc{ border-radius:999px; border:1px solid rgba(148,163,184,.35); }
+.kt-product-visual{ width:320px; height:240px; }
+@media (min-width:768px){ .kt-product-visual{ width:380px; height:280px; } }
+
+/* Add-to-cart button visual feedback */
+.kt-hero-toast{ position:fixed; right:16px; bottom:20px; background:#111827; color:#fff; padding:10px 14px; border-radius:10px; box-shadow:0 8px 20px rgba(2,6,23,.6); z-index:99999; font-size:13px; }
+
+/* Match screenshot visuals */
+.kt-hero-title{ display:block; font-weight:900; line-height:0.9; margin:0 0 6px; }
+.kt-hero-title-line{ display:block; font-family: system-ui, -apple-system, 'Inter', 'SF Pro Text', sans-serif; }
+.kt-hero-title-line-1{ color:#fff; font-size:48px; letter-spacing:-1px; }
+.kt-hero-title-line-2{ color:#ff2446; font-size:64px; margin-top:4px; }
+@media (min-width:768px){
+  .kt-hero-title-line-1{ font-size:64px; }
+  .kt-hero-title-line-2{ font-size:96px; }
+}
+
+/* Vertical tabs tweaks to match screenshot */
+.kt-tab{ color:rgba(148,163,184,.6); font-weight:700; font-size:12px; letter-spacing:.18em; }
+.kt-tab-active{ color:#ff2446; }
+.kt-tab:not(:last-child){ margin-bottom:18px; }
+
+/* CTA primary (big pill with glow) */
+.kt-cta-primary{ display:inline-flex; align-items:center; gap:12px; padding:14px 34px; border-radius:999px; background:linear-gradient(90deg,#ff2446,#ff3b5b); box-shadow:0 10px 40px rgba(255,36,70,.25); color:#fff; font-weight:700; }
+.kt-cta-primary:hover{ filter:brightness(1.02); }
+
+/* secondary link with subtle circle icon */
+.kt-cta-secondary{ color:rgba(255,255,255,.84); display:inline-flex; align-items:center; gap:10px; }
+.kt-cta-secondary .circle{ width:34px; height:34px; border-radius:50%; border:1px solid rgba(255,255,255,.06); display:inline-flex; align-items:center; justify-content:center; }
+
+/* Right visual card with rounded rectangle and halo circle */
+.kt-anim-image{ position:relative; }
+.kt-anim-image .kt-visual-card{ background:linear-gradient(180deg, rgba(2,6,23,.9), rgba(2,6,23,.85)); border-radius:28px; padding:28px; display:flex; align-items:center; justify-content:center; box-shadow:0 40px 120px rgba(2,6,23,.7); }
+.kt-anim-image .kt-visual-card:before{ content:""; position:absolute; right:6%; top:8%; width:420px; height:320px; border-radius:28px; background:rgba(0,0,0,.25); z-index:1; }
+.kt-anim-image .kt-product-visual{ position:relative; z-index:3; }
+.kt-anim-image::after{ content:""; position:absolute; right:0; top:18%; width:360px; height:360px; border-radius:50%; border:2px solid rgba(21,127,152,0.18); transform:translate(18px,-16px); z-index:2; }
+
+/* Product row cards: darker with inset shadow and small thumbnail */
+.kt-products-row .kt-product-card{ background:linear-gradient(180deg, rgba(6,10,18,.9), rgba(3,6,11,.85)); border-radius:14px; padding:12px; display:flex; align-items:center; gap:12px; box-shadow: inset 0 1px 0 rgba(255,255,255,.02), 0 10px 30px rgba(2,6,23,.7); }
+.kt-products-row .kt-product-card .h-16{ width:72px; height:56px; border-radius:10px; overflow:hidden; }
+.kt-products-row .kt-product-card h3{ color:#e6eef8; font-size:13px; font-weight:700; }
+.kt-products-row .kt-product-card p{ color:rgba(230,238,248,.6); font-size:12px; margin:0; }
+.kt-products-row .kt-product-card .price{ color:#fff; font-weight:700; }
+.kt-products-row .kt-product-card .kt-hero-add-to-cart{ color:#ff2446; font-weight:700; }
+
+/* Split card style: colored image panel on left, white content on right */
+.kt-product-card-compact.split-card{ background:transparent; padding:0; box-shadow:none; }
+.kt-product-card-compact.split-card{ height:128px; }
+.kt-product-card-compact.split-card .kt-card-image-bg{ width:38%; min-width:100px; border-top-left-radius:12px; border-bottom-left-radius:12px; display:flex; align-items:center; justify-content:center; padding:6px; position:relative; overflow:visible; }
+.kt-product-card-compact.split-card .kt-card-image-bg .kt-card-thumb{ width:120px; height:80px; display:flex; align-items:center; justify-content:center; overflow:visible; }
+.kt-product-card-compact.split-card .kt-card-image-bg .kt-card-thumb img{ width:140px; height:100%; object-fit:contain; transform: translateX(-14px); box-shadow: 0 10px 32px rgba(2,6,23,.22); border-radius:10px; }
+.kt-product-card-compact.split-card .kt-card-body{ flex:1; box-shadow:0 8px 22px rgba(2,6,23,.06); padding:10px 12px; position:relative; min-height:128px; }
+.kt-product-card-compact.split-card .kt-card-body h3{ color:#0f1724; font-size:12px; }
+.kt-product-card-compact.split-card .kt-rating{ color:#f6b024; font-size:12px; }
+.kt-product-card-compact.split-card .kt-stars{ color:#f6b024; letter-spacing:2px; font-size:12px; display:inline-block; }
+.kt-product-card-compact.split-card .kt-hero-add-to-cart{ color:#ff2446; background:transparent; border:0; }
+
+/* WooCommerce star-rating tweaks inside card */
+.kt-card-body .star-rating { color: #f6b024; display:inline-block; }
+.kt-card-body .star-rating span { color: #f6b024; }
+.kt-card-body .star-rating .rating { display:none; }
+
+/* make cards sit with space between them like the reference */
+.kt-products-row .kt-product-card-compact{ margin:0; }
+
+/* Layout: make three compact cards per row */
+.kt-products-row{ display:flex; }
+.kt-products-row .kt-product-card-compact{ flex: 0 0 calc(33.333% - 12px); margin-right:12px; }
+.kt-products-row .kt-product-card-compact:last-child{ margin-right:0; }
+
+/* Heart (favourite) icon inside card */
+.kt-card-body .kt-like{ position:absolute; right:12px; top:12px; width:28px; height:28px; display:inline-flex; align-items:center; justify-content:center; border-radius:8px; background:transparent; color:#ff2446; }
+.kt-card-body .kt-like svg{ width:16px; height:16px; }
+
+/* Next button style from screenshot: bright rounded rectangle with glow */
+#kt-next{ background:#ff2446; color:#fff; padding:12px 18px; border-radius:16px; box-shadow:0 12px 36px rgba(255,36,70,.28); border:none; }
+
+
+/* Responsive tweaks */
+@media (max-width:767px){
+  .kt-hero-title-line-1{ font-size:28px; }
+  .kt-hero-title-line-2{ font-size:36px; }
+  .kt-anim-image::after{ display:none; }
+}
+
+/* Compact title and product sizes for responsive hero (Nike layout) */
+.kt-hero-title-compact{ display:block; font-weight:900; line-height:0.85; margin:0 0 4px; }
+.kt-hero-title-line-1-compact{ color:#fff; font-size:32px; letter-spacing:-1px; display:block; }
+.kt-hero-title-line-2-compact{ color:#ff2446; font-size:42px; margin-top:2px; display:block; }
+
+/* Ensure title uses the correct font stack and rendering */
+.kt-hero-title-compact, .kt-hero-title-compact .kt-hero-title-line { font-family: "Inter", system-ui, -apple-system, 'SF Pro Text', 'Segoe UI', Roboto, sans-serif; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; }
+
+@media (min-width:768px){
+  .kt-hero-title-line-1-compact{ font-size:48px; }
+  .kt-hero-title-line-2-compact{ font-size:58px; margin-top:4px; }
+}
+
+@media (min-width:1024px){
+  .kt-hero-title-line-1-compact{ font-size:64px; }
+  .kt-hero-title-line-2-compact{ font-size:80px; }
+}
+
+.kt-product-visual-compact{ width:200px; height:160px; object-fit:cover; }
+@media (min-width:768px){ .kt-product-visual-compact{ width:280px; height:220px; } }
+@media (min-width:1024px){ .kt-product-visual-compact{ width:340px; height:280px; } }
+
+.kt-product-card-compact{ transition:transform 180ms ease, box-shadow 180ms ease; box-shadow:0 10px 24px rgba(2,6,23,.4); }
+.kt-product-card-compact:hover{ transform:translateY(-2px); box-shadow:0 14px 32px rgba(2,6,23,.6); }
+
+/* Hero sidebar and layout tweaks */
+.kt-hero-sidebar{ display:flex; flex-direction:column; align-items:center; justify-content:center; padding:32px 12px; gap:20px; min-height:100vh; box-sizing:border-box; }
+.kt-hero-main{ flex:1; display:flex; flex-direction:column; justify-content:center; }

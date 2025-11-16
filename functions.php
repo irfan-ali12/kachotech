@@ -49,3 +49,70 @@ require get_stylesheet_directory() . '/inc/helpers.php';
 
 
 
+/**
+ * KachoTech header helpers – dashicons + ajax search
+ */
+
+// Front-end assets
+add_action( 'wp_enqueue_scripts', function () {
+    // Dashicons (WordPress icon set)
+    wp_enqueue_style( 'dashicons' );
+
+    // Header CSS
+    wp_enqueue_style(
+        'kt-header-custom-css',
+        get_stylesheet_directory_uri() . '/assets/css/header-custom.css',
+        array(),
+        '1.0'
+    );
+
+    // AJAX product search script
+    wp_enqueue_script(
+        'kt-ajax-search',
+        get_stylesheet_directory_uri() . '/assets/js/kt-ajax-search.js',
+        array( 'jquery' ),
+        '1.0',
+        true
+    );
+
+    wp_localize_script(
+        'kt-ajax-search',
+        'ktAjaxSearch',
+        array(
+            'ajaxUrl' => admin_url( 'admin-ajax.php' ),
+            'nonce'   => wp_create_nonce( 'kt_ajax_search' ),
+            'minChars'=> 2,
+        )
+    );
+});
+
+// AJAX handler removed - now in inc/search-ajax.php
+
+/**
+ * Serve a modern order-tracking view when visitor uses ?order-tracking=1
+ * Falls back to a dedicated page if user created one with slug 'order-tracking'.
+ */
+add_action( 'template_redirect', function() {
+    if ( empty( $_GET['order-tracking'] ) ) {
+        return;
+    }
+
+    // Allow plugins/themes to short-circuit
+    if ( apply_filters( 'kachotech_disable_order_tracking_endpoint', false ) ) {
+        return;
+    }
+
+    status_header( 200 );
+    nocache_headers();
+
+    get_header();
+
+    echo '<main class="site-main">';
+    // Load the modern order tracking template
+    include get_stylesheet_directory() . '/template-parts/order-tracking-page.php';
+    echo '</main>';
+
+    get_footer();
+    exit;
+} );
+
