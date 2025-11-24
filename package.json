@@ -1,0 +1,12 @@
+{
+  "name": "kachotech-astra-child",
+  "version": "1.0.0",
+  "description": "KachoTech Astra Child Theme",
+  "scripts": {
+    "build": "tailwindcss -i ./assets/css/tailwind-input.css -o ./assets/css/tailwind.min.css --minify",
+    "watch": "tailwindcss -i ./assets/css/tailwind-input.css -o ./assets/css/tailwind.min.css --watch"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.3.6"
+  }
+}

@@ -40,20 +40,14 @@ function kachotech_child_enqueue_scripts() {
 	// Homepage and section styles (load on homepage only)
 	if ( ! is_admin() && ( is_home() || is_front_page() ) ) {
 
-		// Tailwind Play CDN (provides utility classes used by hero markup)
-		// ONLY load on homepage to prevent conflicts with WooCommerce shop page
-		wp_register_script(
-			'tailwind-cdn',
-			'https://cdn.tailwindcss.com',
+		// Load locally compiled Tailwind CSS (no CDN dependency)
+		// Built from assets/css/tailwind-input.css using npm run build
+		wp_enqueue_style(
+			'tailwind-local-css',
+			get_stylesheet_directory_uri() . '/assets/css/tailwind.min.css',
 			array(),
-			null,
-			false
+			'1.0'
 		);
-
-		// Inline tailwind.config to extend theme colors used in hero
-		$tw_config = "tailwind.config = { theme: { extend: { colors: { kt: { primary: '#ff2446', dark: '#050816' } } } } };";
-		wp_add_inline_script( 'tailwind-cdn', $tw_config );
-		wp_enqueue_script( 'tailwind-cdn' );
 
 		// Homepage common CSS (if present)
 		wp_enqueue_style(
