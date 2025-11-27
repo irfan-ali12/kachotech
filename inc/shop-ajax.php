@@ -274,72 +274,120 @@ function kt_filter_products_ajax() {
             }
             ?>
 
-            <article class="kt-product-card">
-                <div class="kt-product-image-wrap">
-                    <a href="<?php the_permalink(); ?>">
-                        <?php
-                        if ( $image ) {
-                            echo '<img src="' . esc_url( $image ) . '" alt="' . esc_attr( $title ) . '" class="kt-product-image">';
-                        } else {
-                            echo '<div class="kt-product-image-placeholder"></div>';
-                        }
-                        ?>
-                    </a>
-                    <?php if ( $badge_text ) : ?>
-                        <span class="kt-badge <?php echo esc_attr( $badge_class ); ?>"><?php echo esc_html( $badge_text ); ?></span>
-                    <?php endif; ?>
-                    <?php if ( ! $in_stock ) : ?>
-                        <span class="kt-badge kt-badge-out">OUT OF STOCK</span>
-                    <?php endif; ?>
-                </div>
+            <div class="kt-product-card <?php echo $in_stock ? '' : 'out-of-stock'; ?>">
+                            <!-- THUMBNAIL + BADGES INSIDE -->
+                            <div class="kt-thumb">
+                                <?php if ( $badge_text ) : ?>
+                                    <span class="kt-badge <?php echo esc_attr( $badge_class ); ?>">
+                                        <?php echo esc_html( $badge_text ); ?>
+                                    </span>
+                                <?php endif; ?>
 
-                <div class="kt-product-content">
-                    <h3 class="kt-product-title">
-                        <a href="<?php the_permalink(); ?>"><?php echo esc_html( $title ); ?></a>
-                    </h3>
+                                <span class="kt-stock-status <?php echo $in_stock ? 'in-stock' : ''; ?>">
+                                    <?php echo $in_stock ? 'In Stock' : 'Out of Stock'; ?>
+                                </span>
 
-                    <?php if ( $description ) : ?>
-                        <p class="kt-product-desc"><?php echo wp_kses_post( $description ); ?></p>
-                    <?php endif; ?>
+                                <a href="<?php the_permalink(); ?>">
+                                    <?php
+                                    if ( $image ) {
+                                        echo '<img src="' . esc_url( $image ) . '" alt="' . esc_attr( $title ) . '" class="kt-product-image">';
+                                    } else {
+                                        echo '<div class="kt-product-image-placeholder"></div>';
+                                    }
+                                    ?>
+                                </a>
+                            </div>
 
-                    <div class="kt-product-bottom">
-                        <div class="kt-price-block">
-                            <?php if ( $on_sale && $sale_price ) : ?>
-                                <span class="kt-price-current-light">Rs <?php echo esc_html( number_format( (float) $sale_price, 0, '.', ',' ) ); ?></span>
-                                <span class="kt-price-old">Rs <?php echo esc_html( number_format( (float) $price, 0, '.', ',' ) ); ?></span>
-                            <?php else : ?>
-                                <span class="kt-price-current-dark">Rs <?php echo esc_html( number_format( (float) $price, 0, '.', ',' ) ); ?></span>
-                            <?php endif; ?>
-                        </div>
+                            <!-- RATING ROW -->
+                            <div class="kt-rating-row">
+                                <div class="kt-stars">
+                                    <?php
+                                    $filled = floor( $rating );
+                                    $half = ( $rating - $filled ) >= 0.5;
+                                    for ( $i = 0; $i < 5; $i++ ) {
+                                        if ( $i < $filled ) {
+                                            echo '<i class="fa-solid fa-star"></i>';
+                                        } elseif ( $i === $filled && $half ) {
+                                            echo '<i class="fa-solid fa-star-half-stroke"></i>';
+                                        } else {
+                                            echo '<i class="fa-regular fa-star"></i>';
+                                        }
+                                    }
+                                    ?>
+                                </div>
+                                <span class="kt-rating-count">
+                                    <?php
+                                    if ( $review_count > 0 ) {
+                                        echo '(' . esc_html( $review_count ) . ')';
+                                    } else {
+                                        echo 'No reviews yet';
+                                    }
+                                    ?>
+                                </span>
+                            </div>
 
-                        <div class="kt-product-rating-stars">
-                            <?php
-                            $filled = floor( $rating );
-                            for ( $i = 0; $i < 5; $i++ ) {
-                                if ( $i < $filled ) {
-                                    echo '<span class="kt-star-filled">★</span>';
-                                } else {
-                                    echo '<span class="kt-star-empty">☆</span>';
+                            <!-- CATEGORY -->
+                            <div class="kt-category">
+                                <?php
+                                $product_cats = $product->get_category_ids();
+                                if ( ! empty( $product_cats ) ) {
+                                    $cat = get_term( $product_cats[0], 'product_cat' );
+                                    if ( $cat && ! is_wp_error( $cat ) ) {
+                                        echo esc_html( $cat->name );
+                                    }
                                 }
-                            }
-                            ?>
-                            <?php if ( $review_count > 0 ) : ?>
-                                <span class="kt-review-count">(<?php echo esc_html( $review_count ); ?>)</span>
-                            <?php endif; ?>
-                        </div>
+                                ?>
+                            </div>
 
-                        <?php if ( $in_stock ) : ?>
-                            <a href="<?php echo esc_url( $product->add_to_cart_url() ); ?>" data-product_id="<?php echo esc_attr( $product_id ); ?>" class="kt-btn-add add_to_cart_button ajax_add_to_cart">
-                                Add to cart
-                            </a>
-                        <?php else : ?>
-                            <button class="kt-btn-add kt-btn-add-disabled" disabled>
-                                Add to cart
-                            </button>
-                        <?php endif; ?>
-                    </div>
-                </div>
-            </article>
+                            <!-- TITLE -->
+                            <h3 class="kt-title">
+                                <a href="<?php the_permalink(); ?>">
+                                    <?php echo esc_html( $title ); ?>
+                                </a>
+                            </h3>
+
+                            <!-- PRICE -->
+                            <div class="kt-price-row">
+                                <?php if ( $on_sale && $sale_price ) : ?>
+                                    <span class="kt-price-current">Rs <?php echo esc_html( number_format( (float) $sale_price, 0, '.', ',' ) ); ?></span>
+                                    <span class="kt-price-old">Rs <?php echo esc_html( number_format( (float) $price, 0, '.', ',' ) ); ?></span>
+                                <?php else : ?>
+                                    <span class="kt-price-current">Rs <?php echo esc_html( number_format( (float) $price, 0, '.', ',' ) ); ?></span>
+                                <?php endif; ?>
+                            </div>
+
+                            <!-- AVAILABILITY -->
+                            <div class="kt-availability <?php echo $in_stock ? 'in-stock' : 'out-of-stock'; ?>">
+                                <?php
+                                $stock = $product->get_stock_quantity();
+                                if ( $in_stock && $stock ) {
+                                    echo 'Available: ' . esc_html( (int) $stock ) . ' pcs';
+                                } elseif ( $in_stock ) {
+                                    echo 'Available';
+                                } else {
+                                    echo 'Out of Stock';
+                                }
+                                ?>
+                            </div>
+
+                            <!-- FOOTER BUTTONS -->
+                            <div class="kt-footer-actions">
+                                <?php if ( $in_stock ) : ?>
+                                    <a
+                                        href="<?php echo esc_url( $product->add_to_cart_url() ); ?>"
+                                        data-product_id="<?php echo esc_attr( $product_id ); ?>"
+                                        class="kt-btn-cart add_to_cart_button ajax_add_to_cart"
+                                    >
+                                        Add to Cart
+                                    </a>
+                                <?php else : ?>
+                                    <button class="kt-btn-cart" disabled>Add to Cart</button>
+                                <?php endif; ?>
+                                <a href="<?php the_permalink(); ?>" class="kt-btn-details" title="View Details">
+                                    <i class="fa-solid fa-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
 
             <?php
             $products_displayed++;

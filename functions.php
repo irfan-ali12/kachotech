@@ -169,7 +169,7 @@ function kt_load_featured_products() {
 		if ( has_post_thumbnail() ) {
 			$html .= '<img src="' . esc_url( get_the_post_thumbnail_url( get_the_ID(), 'medium' ) ) . '" alt="' . esc_attr( get_the_title() ) . '" class="mx-auto h-28 w-auto object-contain" />';
 		} else {
-			$html .= '<img src="https://via.placeholder.com/200x200?text=' . urlencode( get_the_title() ) . '" alt="' . esc_attr( get_the_title() ) . '" class="mx-auto h-28 w-auto object-contain" />';
+			$html .= '<img src="https://www.daewooelectricals.com/blog/wp-content/uploads/2023/11/admin-ajax.jpg" alt="' . esc_attr( get_the_title() ) . '" class="mx-auto h-28 w-auto object-contain" />';
 		}
 
 		$html .= '</div>';
@@ -289,3 +289,30 @@ function kt_handle_contact_form() {
     ) );
 }
 
+//-------------------------------------------------------
+// Enqueue Single product page scripts and styles
+//-------------------------------------------------------
+// KachoTech – Load Tailwind on WooCommerce product pages
+function kt_enqueue_tailwind_for_product() {
+
+	// Only on WooCommerce single product pages
+	if ( ! function_exists( 'is_product' ) || ! is_product() ) {
+		return;
+	}
+
+	wp_enqueue_style(
+		'kt-tailwind',
+		get_stylesheet_directory_uri() . '/assets/css/tailwind.min.css',
+		array(),
+		'1.0.0'
+	);
+
+	// Inter font (optional but matches your mock)
+	wp_enqueue_style(
+		'kt-inter-font',
+		'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap',
+		array(),
+		null
+	);
+}
+add_action( 'wp_enqueue_scripts', 'kt_enqueue_tailwind_for_product', 30 );

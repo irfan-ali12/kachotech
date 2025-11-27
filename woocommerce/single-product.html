@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>KT – Product Details</title>
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            kt: {
+              primary: '#ff2446',
+            }
+          },
+          fontFamily: {
+            inter: ['Inter', 'system-ui', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Font (Inter) -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"/>
+
+  <style>
+    body{
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-900">
+
+  <!-- PAGE WRAP -->
+  <main class="max-w-6xl mx-auto px-4 lg:px-0 py-8 lg:py-10">
+
+    <!-- Breadcrumbs -->
+    <nav class="text-xs sm:text-sm text-slate-500 mb-4 flex flex-wrap items-center gap-1">
+      <a href="#" class="hover:text-kt-primary">Home</a>
+      <span>/</span>
+      <a href="#" class="hover:text-kt-primary">Heaters</a>
+      <span>/</span>
+      <span class="text-slate-700 font-medium">Turbo Room Heater 1800W</span>
+    </nav>
+
+    <!-- TOP GRID: GALLERY + MAIN INFO -->
+    <section class="grid lg:grid-cols-2 gap-8 lg:gap-10 mb-10">
+
+      <!-- LEFT: IMAGE GALLERY -->
+      <div>
+        <!-- Main Image -->
+        <div class="relative bg-white rounded-2xl shadow-sm flex items-center justify-center min-h-[320px] sm:min-h-[380px]">
+          <img id="kt-main-image"
+               src="https://img.freepik.com/free-photo/levitating-music-headphones-display_23-2149817602.jpg"
+               alt="Turbo Room Heater 1800W"
+               class="max-h-[320px] sm:max-h-[360px] w-auto object-contain transition-all duration-300" />
+        </div>
+
+        <!-- Thumbnails carousel -->
+        <div class="mt-4 flex items-center gap-3">
+          <!-- Left arrow -->
+          <button id="kt-thumb-prev"
+                  class="w-9 h-9 rounded-full bg-white shadow-sm flex items-center justify-center text-slate-500 hover:text-kt-primary">
+            <i class="fa-solid fa-chevron-left text-xs"></i>
+          </button>
+
+          <!-- Thumbs strip -->
+          <div class="flex-1 flex items-center gap-3 overflow-hidden">
+            <button class="kt-thumb-btn relative flex-1 bg-white rounded-xl flex items-center justify-center py-2 border-2 border-kt-primary"
+                    data-index="0">
+              <img src="https://img.freepik.com/free-photo/levitating-music-headphones-display_23-2149817602.jpg"
+                   alt="Heater thumbnail 1"
+                   class="h-20 object-contain" />
+            </button>
+            <button class="kt-thumb-btn relative flex-1 bg-white rounded-xl flex items-center justify-center py-2 border border-slate-200"
+                    data-index="1">
+              <img src="https://plus.unsplash.com/premium_photo-1678099940967-73fe30680949?fm=jpg"
+                   alt="Heater thumbnail 2"
+                   class="h-20 object-contain" />
+            </button>
+            <button class="kt-thumb-btn relative flex-1 bg-white rounded-xl flex items-center justify-center py-2 border border-slate-200"
+                    data-index="2">
+              <img src="https://img.freepik.com/free-photo/levitating-music-headphones-display_23-2149817602.jpg"
+                   alt="Heater thumbnail 3"
+                   class="h-20 object-contain" />
+            </button>
+            <button class="kt-thumb-btn relative flex-1 bg-white rounded-xl flex items-center justify-center py-2 border border-slate-200"
+                    data-index="3">
+              <img src="https://plus.unsplash.com/premium_photo-1678099940967-73fe30680949?fm=jpg"
+                   alt="Heater thumbnail 4"
+                   class="h-20 object-contain" />
+            </button>
+          </div>
+
+          <!-- Right arrow -->
+          <button id="kt-thumb-next"
+                  class="w-9 h-9 rounded-full bg-white shadow-sm flex items-center justify-center text-slate-500 hover:text-kt-primary">
+            <i class="fa-solid fa-chevron-right text-xs"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- RIGHT: PRODUCT INFO -->
+      <div class="space-y-4 lg:space-y-5">
+
+        <!-- Title -->
+        <h1 class="text-2xl sm:text-3xl font-semibold leading-snug">
+          Turbo Room Heater 1800W – Fast Heating for Winter Nights
+        </h1>
+
+        <!-- Rating / SKU / Stock -->
+        <div class="flex flex-wrap items-center gap-3 text-sm">
+          <!-- Stars + count -->
+          <div class="flex items-center gap-2">
+            <div class="flex text-amber-400 text-sm">
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-regular fa-star text-slate-300"></i>
+            </div>
+            <span class="text-slate-500 text-xs sm:text-sm">4.0 (26 reviews)</span>
+          </div>
+
+          <span class="hidden sm:inline text-slate-300">|</span>
+
+          <div class="text-xs sm:text-sm text-slate-500">
+            <span class="font-medium text-slate-700">SKU:</span> KT-HTR-1800
+          </div>
+
+          <span class="hidden sm:inline text-slate-300">|</span>
+
+          <!-- Stock badge -->
+          <span class="inline-flex items-center text-xs font-medium text-emerald-600 border border-emerald-400 bg-emerald-50 rounded-full px-3 py-1">
+            In Stock
+          </span>
+        </div>
+
+        <!-- Separator -->
+        <div class="border-t-2 border-slate-200 my-1"></div>
+
+        <!-- Price row -->
+        <div class="flex items-baseline gap-3">
+          <div class="text-3xl font-semibold text-kt-primary">
+            Rs 6,499
+          </div>
+          <div class="text-base text-slate-400 line-through">
+            Rs 8,999
+          </div>
+        </div>
+
+        <!-- Category -->
+        <div class="text-xs uppercase tracking-[0.18em] text-slate-500">
+          Heaters • Winter Essentials
+        </div>
+
+        <!-- Short Description -->
+        <p class="text-sm sm:text-[15px] text-slate-600 max-w-xl">
+          High-efficiency 1800W turbo room heater for quick and even heating in medium-sized rooms.
+          Features dual heat modes, tip-over protection and silent fan operation for comfortable winter nights.
+        </p>
+
+        <!-- Purchase row: qty + buttons -->
+        <div class="space-y-3">
+          <!-- Qty + buttons all in one row -->
+          <div class="flex flex-wrap items-center gap-3">
+
+            <!-- Qty control -->
+            <div class="flex items-center rounded-full border border-slate-300 overflow-hidden h-11 bg-white">
+              <button type="button"
+                      class="w-8 h-full flex items-center justify-center text-slate-500 hover:bg-slate-100"
+                      onclick="ktChangeQty(-1)">
+                −
+              </button>
+              <input id="kt-qty"
+                     type="number"
+                     min="1"
+                     value="1"
+                     class="w-12 h-full border-x border-slate-200 text-center text-sm outline-none focus:ring-0" />
+              <button type="button"
+                      class="w-8 h-full flex items-center justify-center text-slate-500 hover:bg-slate-100"
+                      onclick="ktChangeQty(1)">
+                +
+              </button>
+            </div>
+
+            <!-- Add to Cart -->
+            <button class="flex-1 h-11 inline-flex items-center justify-center rounded-full bg-emerald-500 text-white text-sm font-medium hover:bg-emerald-600 transition">
+              Add to Cart
+            </button>
+
+            <!-- Buy Now -->
+            <button class="flex-1 h-11 inline-flex items-center justify-center rounded-full bg-slate-900 text-white text-sm font-medium hover:bg-black transition">
+              Buy Now
+            </button>
+          </div>
+
+          <!-- Stock info -->
+          <div class="text-xs text-emerald-600">
+            Available: <span class="font-medium">18 pcs</span>
+          </div>
+        </div>
+
+        <!-- Separator -->
+        <div class="border-t-2 border-slate-200 my-2"></div>
+
+        <!-- Specifications -->
+        <div class="space-y-3">
+          <h3 class="text-sm font-semibold text-slate-900">
+            Specifications
+          </h3>
+
+          <dl class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-1 text-sm">
+            <div class="flex justify-between sm:block">
+              <dt class="font-medium text-slate-900">Brand</dt>
+              <dd class="text-slate-500 sm:mt-0.5">KachoTech</dd>
+            </div>
+            <div class="flex justify-between sm:block">
+              <dt class="font-medium text-slate-900">Model</dt>
+              <dd class="text-slate-500 sm:mt-0.5">KT-HTR-1800</dd>
+            </div>
+            <div class="flex justify-between sm:block">
+              <dt class="font-medium text-slate-900">Color</dt>
+              <dd class="text-slate-500 sm:mt-0.5">Matte White / Charcoal</dd>
+            </div>
+            <div class="flex justify-between sm:block">
+              <dt class="font-medium text-slate-900">Power</dt>
+              <dd class="text-slate-500 sm:mt-0.5">1800W • 2 Heat Modes</dd>
+            </div>
+            <div class="flex justify-between sm:block">
+              <dt class="font-medium text-slate-900">Safety</dt>
+              <dd class="text-slate-500 sm:mt-0.5">Tip-over & Overheat Protection</dd>
+            </div>
+            <div class="flex justify-between sm:block">
+              <dt class="font-medium text-slate-900">Coverage Area</dt>
+              <dd class="text-slate-500 sm:mt-0.5">Up to 220 ft²</dd>
+            </div>
+          </dl>
+        </div>
+
+        <!-- Separator -->
+        <div class="border-t-2 border-slate-200 my-3"></div>
+
+        <!-- Payment methods -->
+        <div class="space-y-1">
+          <p class="text-xs text-slate-500 font-medium uppercase tracking-[0.18em]">
+            Payment Methods
+          </p>
+          <img src="https://via.placeholder.com/420x40?text=Visa+%7C+Mastercard+%7C+JazzCash+%7C+EasyPaisa"
+               alt="Accepted payment methods"
+               class="max-w-xs w-full h-auto" />
+        </div>
+      </div>
+    </section>
+
+    <!-- TABS: Description / Specification / Reviews -->
+    <section class="mb-10">
+      <!-- Tab headers -->
+      <div class="border-b border-slate-200 flex gap-6 text-sm">
+        <button data-tab="description"
+                class="kt-tab-btn py-3 border-b-2 border-kt-primary text-kt-primary font-medium">
+          Product Description
+        </button>
+        <button data-tab="specification"
+                class="kt-tab-btn py-3 border-b-2 border-transparent text-slate-500 hover:text-slate-900">
+          Specification
+        </button>
+        <button data-tab="reviews"
+                class="kt-tab-btn py-3 border-b-2 border-transparent text-slate-500 hover:text-slate-900">
+          Reviews (26)
+        </button>
+      </div>
+
+      <!-- Tab bodies -->
+      <div class="pt-5 text-sm leading-relaxed text-slate-700">
+        <!-- Description -->
+        <div id="kt-tab-description" class="kt-tab-panel">
+          <p class="mb-3">
+            The Turbo Room Heater 1800W is built for fast, efficient heating during harsh winters.
+            Dual-mode settings allow you to control the perfect level of warmth, while the quiet fan keeps noise
+            to a minimum.
+          </p>
+          <p class="mb-3">
+            Designed with safety as a priority, it features automatic tip-over shut-off, overheat protection
+            and a cool-touch exterior. Ideal for bedrooms, lounges and home offices.
+          </p>
+          <ul class="list-disc pl-5 space-y-1">
+            <li>Instant heating with 1800W ceramic element</li>
+            <li>2 heat modes + fan-only mode</li>
+            <li>Energy-efficient design with even heat distribution</li>
+            <li>Compact, lightweight and easy to move</li>
+          </ul>
+        </div>
+
+        <!-- Specification tab (short summary) -->
+        <div id="kt-tab-specification" class="kt-tab-panel hidden">
+          <div class="grid sm:grid-cols-2 gap-y-2 gap-x-10 text-sm">
+            <div>
+              <p><span class="font-medium text-slate-900">Voltage:</span>
+                <span class="text-slate-600 ml-1">220–240V / 50-60Hz</span></p>
+              <p><span class="font-medium text-slate-900">Dimensions:</span>
+                <span class="text-slate-600 ml-1">34 × 19 × 16 cm</span></p>
+              <p><span class="font-medium text-slate-900">Cable Length:</span>
+                <span class="text-slate-600 ml-1">1.5 m</span></p>
+            </div>
+            <div>
+              <p><span class="font-medium text-slate-900">Body Material:</span>
+                <span class="text-slate-600 ml-1">ABS + Metal Grill</span></p>
+              <p><span class="font-medium text-slate-900">Warranty:</span>
+                <span class="text-slate-600 ml-1">12 Months</span></p>
+              <p><span class="font-medium text-slate-900">Country of Origin:</span>
+                <span class="text-slate-600 ml-1">Imported</span></p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Reviews tab (static example) -->
+        <div id="kt-tab-reviews" class="kt-tab-panel hidden">
+          <div class="space-y-4">
+            <div>
+              <p class="font-medium text-slate-900">Overall rating</p>
+              <div class="flex items-center gap-2 mt-1">
+                <div class="flex text-amber-400 text-base">
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-regular fa-star text-slate-300"></i>
+                </div>
+                <span class="text-sm text-slate-500">4.0 out of 5 • 26 reviews</span>
+              </div>
+            </div>
+
+            <div class="space-y-3">
+              <div class="border border-slate-100 rounded-xl p-3 bg-white">
+                <div class="flex items-center justify-between mb-1">
+                  <p class="font-medium text-sm">Ahmed R.</p>
+                  <span class="text-xs text-slate-400">2 weeks ago</span>
+                </div>
+                <div class="flex text-amber-400 text-xs mb-1">
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-regular fa-star text-slate-300"></i>
+                </div>
+                <p class="text-sm text-slate-600">
+                  Heats my bedroom in just a few minutes. Very quiet and feels safe to use overnight.
+                </p>
+              </div>
+
+              <div class="border border-slate-100 rounded-xl p-3 bg-white">
+                <div class="flex items-center justify-between mb-1">
+                  <p class="font-medium text-sm">Sara K.</p>
+                  <span class="text-xs text-slate-400">1 month ago</span>
+                </div>
+                <div class="flex text-amber-400 text-xs mb-1">
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-regular fa-star text-slate-300"></i>
+                  <i class="fa-regular fa-star text-slate-300"></i>
+                </div>
+                <p class="text-sm text-slate-600">
+                  Works well but gets a bit hot on the surface after long use. Still good value for money.
+                </p>
+              </div>
+            </div>
+
+            <!-- Simple review form placeholder -->
+            <form class="mt-2 space-y-2">
+              <p class="font-medium text-sm text-slate-900">Write a review</p>
+              <textarea class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-kt-primary focus:ring-1 focus:ring-kt-primary"
+                        rows="3"
+                        placeholder="Share your experience with this heater..."></textarea>
+              <button type="button"
+                      class="inline-flex px-4 py-2 rounded-full bg-kt-primary text-white text-xs font-medium hover:bg-rose-600">
+                Submit Review
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Related Products heading only -->
+    <section class="mb-10">
+      <h2 class="text-xl font-semibold text-slate-900 mb-3">
+        Related Products
+      </h2>
+      <!-- You’ll output WooCommerce related products grid here -->
+    </section>
+
+  </main>
+
+  <!-- JS: thumbnails, tabs, quantity -->
+  <script>
+    // -------- GALLERY ----------
+    const ktImages = [
+      'https://img.freepik.com/free-photo/levitating-music-headphones-display_23-2149817602.jpg',
+      'https://plus.unsplash.com/premium_photo-1678099940967-73fe30680949?fm=jpg',
+      'https://img.freepik.com/free-photo/levitating-music-headphones-display_23-2149817602.jpg',
+      'https://plus.unsplash.com/premium_photo-1678099940967-73fe30680949?fm=jpg'
+    ];
+
+    let ktCurrentIndex = 0;
+    const mainImg = document.getElementById('kt-main-image');
+    const thumbButtons = document.querySelectorAll('.kt-thumb-btn');
+
+    function ktUpdateGallery() {
+      mainImg.src = ktImages[ktCurrentIndex];
+      thumbButtons.forEach((btn, i) => {
+        if (i === ktCurrentIndex) {
+          btn.classList.remove('border', 'border-slate-200');
+          btn.classList.add('border-2', 'border-kt-primary');
+        } else {
+          btn.classList.remove('border-2', 'border-kt-primary');
+          btn.classList.add('border', 'border-slate-200');
+        }
+      });
+    }
+
+    thumbButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        ktCurrentIndex = parseInt(btn.dataset.index, 10);
+        ktUpdateGallery();
+      });
+    });
+
+    document.getElementById('kt-thumb-prev').addEventListener('click', () => {
+      ktCurrentIndex = (ktCurrentIndex - 1 + ktImages.length) % ktImages.length;
+      ktUpdateGallery();
+    });
+
+    document.getElementById('kt-thumb-next').addEventListener('click', () => {
+      ktCurrentIndex = (ktCurrentIndex + 1) % ktImages.length;
+      ktUpdateGallery();
+    });
+
+    // init
+    ktUpdateGallery();
+
+    // -------- QTY ----------
+    function ktChangeQty(delta) {
+      const input = document.getElementById('kt-qty');
+      let val = parseInt(input.value || '1', 10);
+      val = isNaN(val) ? 1 : val + delta;
+      if (val < 1) val = 1;
+      input.value = val;
+    }
+
+    // -------- TABS ----------
+    const tabButtons = document.querySelectorAll('.kt-tab-btn');
+    const tabPanels = {
+      description: document.getElementById('kt-tab-description'),
+      specification: document.getElementById('kt-tab-specification'),
+      reviews: document.getElementById('kt-tab-reviews')
+    };
+
+    tabButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = btn.getAttribute('data-tab');
+
+        // switch active styles
+        tabButtons.forEach(b => {
+          if (b === btn) {
+            b.classList.add('border-kt-primary', 'text-kt-primary', 'font-medium');
+            b.classList.remove('text-slate-500');
+          } else {
+            b.classList.remove('border-kt-primary', 'text-kt-primary', 'font-medium');
+            b.classList.add('border-transparent', 'text-slate-500');
+          }
+        });
+
+        // show/hide panels
+        Object.keys(tabPanels).forEach(key => {
+          tabPanels[key].classList.toggle('hidden', key !== target);
+        });
+      });
+    });
+  </script>
+</body>
+</html>

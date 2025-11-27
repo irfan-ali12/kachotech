@@ -298,9 +298,9 @@ function updatePriceTooltip(value, $slider, $tooltipElement, isMobile) {
       currentFilters.min_rating = mobileRating;
 
       // Sync price - FIXED PRICE CALCULATION
-var mobileSliderValue = $priceRangeMobile.val();
-var mobilePriceMax = minPrice + (mobileSliderValue / 100) * (maxPrice - minPrice);
-currentFilters.max_price = Math.round(mobilePriceMax);
+      var mobileSliderValue = $priceRangeMobile.val();
+      var mobilePriceMax = minPrice + (mobileSliderValue / 100) * (maxPrice - minPrice);
+      currentFilters.max_price = Math.round(mobilePriceMax);
 
       // Sync search
       var mobileSearch = $('#kt-product-search-mobile').val();

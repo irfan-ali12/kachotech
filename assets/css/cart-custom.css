@@ -1,0 +1,111 @@
+/* KachoTech Cart Page Customizations */
+
+/* Ensure quantity input is visible and properly styled */
+.woocommerce table.shop_table td.product-quantity,
+.woocommerce-cart table.shop_table td.product-quantity {
+    display: table-cell !important;
+}
+
+/* Override WooCommerce quantity wrapper */
+.quantity {
+    display: inline-flex !important;
+    align-items: center;
+    gap: 4px;
+}
+
+/* Ensure quantity input field is visible */
+.quantity input.qty,
+input.qty {
+    width: 50px !important;
+    height: 34px !important;
+    padding: 0 !important;
+    text-align: center;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 4px !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    display: block !important;
+    background: #ffffff !important;
+    color: #0f172a !important;
+}
+
+.quantity input.qty:focus {
+    outline: none !important;
+    border-color: #ff2446 !important;
+    box-shadow: 0 0 0 2px rgba(255, 36, 70, 0.1) !important;
+}
+
+/* Hide WooCommerce up/down arrows for quantity */
+.quantity input[type="number"]::-webkit-outer-spin-button,
+.quantity input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none !important;
+    margin: 0 !important;
+}
+
+.quantity input[type="number"] {
+    -moz-appearance: textfield !important;
+}
+
+/* Style quantity buttons */
+.quantity button.plus,
+.quantity button.minus {
+    width: 34px !important;
+    height: 34px !important;
+    border: 1px solid #cbd5e1 !important;
+    background: #f1f5f9 !important;
+    border-radius: 4px !important;
+    cursor: pointer !important;
+    font-size: 16px !important;
+    font-weight: 600 !important;
+    color: #0f172a !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transition: all 0.2s ease !important;
+}
+
+.quantity button.plus:hover,
+.quantity button.minus:hover {
+    background: #ff2446 !important;
+    color: #ffffff !important;
+    border-color: #ff2446 !important;
+}
+
+/* Fix cart item alignment */
+.woocommerce-cart table.shop_table tr td {
+    vertical-align: middle !important;
+}
+
+/* Checkout button height fix */
+.woocommerce .wc-proceed-to-checkout .checkout-button,
+a.checkout-button {
+    padding: 11px 18px !important;
+    height: auto !important;
+    line-height: 1.4 !important;
+    border-radius: 8px !important;
+    background: #ff2446 !important;
+    color: #ffffff !important;
+    font-weight: 600 !important;
+    font-size: 14px !important;
+}
+
+.woocommerce .wc-proceed-to-checkout .checkout-button:hover,
+a.checkout-button:hover {
+    background: #e0203b !important;
+}
+
+/* Cart table responsive */
+@media (max-width: 768px) {
+    .quantity input.qty,
+    input.qty {
+        width: 45px !important;
+        height: 32px !important;
+    }
+
+    .quantity button.plus,
+    .quantity button.minus {
+        width: 32px !important;
+        height: 32px !important;
+    }
+}
