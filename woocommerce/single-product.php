@@ -775,7 +775,52 @@ $first_src = $image_urls[0];
                 <h3>Specifications</h3>
                 <div class="kt-specs-grid">
                     <?php
+                    // Get Brand from product_brand taxonomy
+                    $brand_terms = wp_get_post_terms( $product->get_id(), 'product_brand', array( 'fields' => 'names' ) );
+                    $brand_name = ! empty( $brand_terms ) && ! is_wp_error( $brand_terms ) ? implode( ', ', $brand_terms ) : 'N/A';
+                    ?>
+                    <div class="kt-spec-row">
+                        <span class="kt-spec-name">Brand:</span>
+                        <span class="kt-spec-value"><?php echo esc_html( $brand_name ); ?></span>
+                    </div>
+
+                    <?php
+                    // Get recommended attributes based on product categories
+                    $recommended_attrs = kt_get_recommended_attributes( $product->get_id() );
+                    $shown_specs = 1; // Start with 1 because Brand is already shown
+                    $max_main_specs = 5;
+                    
+                    // First, display recommended attributes
+                    foreach ( $recommended_attrs as $attr_slug ) {
+                        if ( $shown_specs >= $max_main_specs ) break;
+                        
+                        $terms = wc_get_product_terms(
+                            $product->get_id(),
+                            $attr_slug,
+                            array( 'fields' => 'names' )
+                        );
+                        
+                        if ( ! empty( $terms ) && ! is_wp_error( $terms ) ) {
+                            $attr = wc_get_attribute( $attr_slug );
+                            $label = $attr ? $attr->name : ucfirst( str_replace( '_', ' ', $attr_slug ) );
+                            $value = implode( ', ', $terms );
+                        } else {
+                            $attr = wc_get_attribute( $attr_slug );
+                            $label = $attr ? $attr->name : ucfirst( str_replace( '_', ' ', $attr_slug ) );
+                            $value = 'N/A';
+                        }
+                        ?>
+                        <div class="kt-spec-row">
+                            <span class="kt-spec-name"><?php echo esc_html( $label ); ?></span>
+                            <span class="kt-spec-value"><?php echo esc_html( $value ); ?></span>
+                        </div>
+                        <?php
+                        $shown_specs++;
+                    }
+                    
+                    // If still have room, add product attributes
                     foreach ( $product->get_attributes() as $attribute ) :
+                        if ( $shown_specs >= $max_main_specs ) break;
                         if ( $attribute->get_visible() ) :
                             $label = wc_attribute_label( $attribute->get_name() );
                             $terms = wc_get_product_terms(
@@ -783,12 +828,21 @@ $first_src = $image_urls[0];
                                 $attribute->get_name(),
                                 array( 'fields' => 'names' )
                             );
+                            if ( ! empty( $terms ) && ! is_wp_error( $terms ) ) {
+                                $value = implode( ', ', $terms );
+                            } else {
+                                $value = 'N/A';
+                            }
                             ?>
                             <div class="kt-spec-row">
                                 <span class="kt-spec-name"><?php echo esc_html( $label ); ?></span>
-                                <span class="kt-spec-value"><?php echo esc_html( implode( ', ', $terms ) ); ?></span>
+                                <span class="kt-spec-value"><?php echo esc_html( $value ); ?></span>
                             </div>
-                        <?php endif; endforeach; ?>
+                            <?php
+                            $shown_specs++;
+                        endif;
+                    endforeach;
+                    ?>
                 </div>
             </div>
 
@@ -816,18 +870,73 @@ $first_src = $image_urls[0];
 
         <div class="kt-tab-content" id="kt-tab-spec">
             <div class="kt-specs-grid">
-                <?php foreach ( $product->get_attributes() as $attribute ) :
+                <?php
+                // Display Brand
+                $brand_terms = wp_get_post_terms( $product->get_id(), 'product_brand', array( 'fields' => 'names' ) );
+                $brand_name = ! empty( $brand_terms ) && ! is_wp_error( $brand_terms ) ? implode( ', ', $brand_terms ) : 'N/A';
+                ?>
+                <div class="kt-spec-row">
+                    <span class="kt-spec-name">Brand:</span>
+                    <span class="kt-spec-value"><?php echo esc_html( $brand_name ); ?></span>
+                </div>
+
+                <?php
+                // Get recommended attributes based on product categories
+                $recommended_attrs = kt_get_recommended_attributes( $product->get_id() );
+                $attr_display_map = array();
+                
+                // Display all recommended attributes
+                foreach ( $recommended_attrs as $attr_slug ) {
+                    $terms = wc_get_product_terms(
+                        $product->get_id(),
+                        $attr_slug,
+                        array( 'fields' => 'names' )
+                    );
+                    
+                    if ( ! empty( $terms ) && ! is_wp_error( $terms ) ) {
+                        $attr = wc_get_attribute( $attr_slug );
+                        $label = $attr ? $attr->name : ucfirst( str_replace( '_', ' ', $attr_slug ) );
+                        $value = implode( ', ', $terms );
+                    } else {
+                        $attr = wc_get_attribute( $attr_slug );
+                        $label = $attr ? $attr->name : ucfirst( str_replace( '_', ' ', $attr_slug ) );
+                        $value = 'N/A';
+                    }
+                    
+                    $attr_display_map[ $label ] = $value;
+                    ?>
+                    <div class="kt-spec-row">
+                        <span class="kt-spec-name"><?php echo esc_html( $label ); ?></span>
+                        <span class="kt-spec-value"><?php echo esc_html( $value ); ?></span>
+                    </div>
+                    <?php
+                }
+                
+                // Display all product attributes
+                foreach ( $product->get_attributes() as $attribute ) :
                     if ( $attribute->get_visible() ) :
                         $label = wc_attribute_label( $attribute->get_name() );
+                        
+                        // Skip if already displayed as recommended attribute
+                        if ( isset( $attr_display_map[ $label ] ) ) {
+                            continue;
+                        }
+                        
                         $terms = wc_get_product_terms(
                             $product->get_id(),
                             $attribute->get_name(),
                             array( 'fields' => 'names' )
                         );
+                        
+                        if ( ! empty( $terms ) && ! is_wp_error( $terms ) ) {
+                            $value = implode( ', ', $terms );
+                        } else {
+                            $value = 'N/A';
+                        }
                         ?>
                         <div class="kt-spec-row">
                             <span class="kt-spec-name"><?php echo esc_html( $label ); ?></span>
-                            <span class="kt-spec-value"><?php echo esc_html( implode( ', ', $terms ) ); ?></span>
+                            <span class="kt-spec-value"><?php echo esc_html( $value ); ?></span>
                         </div>
                     <?php endif; endforeach; ?>
             </div>
@@ -889,7 +998,8 @@ $first_src = $image_urls[0];
 (function() {
   const ktImages = <?php echo wp_json_encode( $image_urls ); ?>;
   const mainImg = document.getElementById('kt-main-img');
-  const thumbs = Array.prototype.slice.call(document.querySelectorAll('.kt-thumb'));
+  const thumbTrack = document.getElementById('kt-thumb-track');
+  const thumbs = thumbTrack ? Array.prototype.slice.call(thumbTrack.querySelectorAll('.kt-thumb')) : [];
   const prevBtn = document.getElementById('kt-thumb-prev');
   const nextBtn = document.getElementById('kt-thumb-next');
 

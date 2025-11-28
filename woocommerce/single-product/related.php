@@ -70,22 +70,22 @@ if ( empty( $related_products ) ) {
 
     <div class="kt-related-grid">
         <?php
-        foreach ( $related_products as $product ) {
-            if ( ! $product ) {
+        foreach ( $related_products as $rel_product ) {
+            if ( ! $rel_product ) {
                 continue;
             }
 
             // Get product data
-            $product_id = $product->get_id();
-            $title = $product->get_name();
-            $price = $product->get_regular_price();
-            $sale_price = $product->get_sale_price();
-            $rating = $product->get_average_rating();
-            $review_count = $product->get_review_count();
-            $in_stock = $product->is_in_stock();
-            $on_sale = $product->is_on_sale();
-            $featured = $product->is_featured();
-            $stock = $product->get_stock_quantity();
+            $product_id = $rel_product->get_id();
+            $title = $rel_product->get_name();
+            $price = $rel_product->get_regular_price();
+            $sale_price = $rel_product->get_sale_price();
+            $rating = $rel_product->get_average_rating();
+            $review_count = $rel_product->get_review_count();
+            $in_stock = $rel_product->is_in_stock();
+            $on_sale = $rel_product->is_on_sale();
+            $featured = $rel_product->is_featured();
+            $stock = $rel_product->get_stock_quantity();
 
             // Get badge
             $badge_class = '';
@@ -100,7 +100,7 @@ if ( empty( $related_products ) ) {
             }        
 
             // Get category
-            $product_cats = $product->get_category_ids();
+            $product_cats = $rel_product->get_category_ids();
             $cat_name = '';
             if ( ! empty( $product_cats ) ) {
                 $cat = get_term( $product_cats[0], 'product_cat' );
@@ -123,10 +123,10 @@ if ( empty( $related_products ) ) {
                     <?php echo $in_stock ? 'In Stock' : 'Out of Stock'; ?>
                 </span>
 
-                <a href="<?php echo esc_url( $product->get_permalink() ); ?>">
+                <a href="<?php echo esc_url( $rel_product->get_permalink() ); ?>">
                     <?php
                     // Get the image ID for proper handling
-                    $image_id = $product->get_image_id();
+                    $image_id = $rel_product->get_image_id();
                     if ( $image_id ) {
                         $image_url = wp_get_attachment_image_url( $image_id, 'woocommerce_thumbnail' );
                         if ( $image_url ) {
@@ -173,7 +173,7 @@ if ( empty( $related_products ) ) {
             <!-- CATEGORY -->
             <div class="kt-category">
                 <?php
-                $product_cats = $product->get_category_ids();
+                $product_cats = $rel_product->get_category_ids();
                 if ( ! empty( $product_cats ) ) {
                     $cat = get_term( $product_cats[0], 'product_cat' );
                     if ( $cat && ! is_wp_error( $cat ) ) {
@@ -185,7 +185,7 @@ if ( empty( $related_products ) ) {
 
             <!-- TITLE -->
             <h3 class="kt-title">
-                <a href="<?php echo esc_url( $product->get_permalink() ); ?>">
+                <a href="<?php echo esc_url( $rel_product->get_permalink() ); ?>">
                     <?php echo esc_html( $title ); ?>
                 </a>
             </h3>
@@ -217,7 +217,7 @@ if ( empty( $related_products ) ) {
             <div class="kt-footer-actions">
                 <?php if ( $in_stock ) : ?>
                     <a
-                        href="<?php echo esc_url( $product->add_to_cart_url() ); ?>"
+                        href="<?php echo esc_url( $rel_product->add_to_cart_url() ); ?>"
                         data-product_id="<?php echo esc_attr( $product_id ); ?>"
                         class="kt-btn-cart add_to_cart_button ajax_add_to_cart"
                     >
@@ -226,7 +226,7 @@ if ( empty( $related_products ) ) {
                 <?php else : ?>
                     <button class="kt-btn-cart" disabled>Add to Cart</button>
                 <?php endif; ?>
-                <a href="<?php echo esc_url( $product->get_permalink() ); ?>" class="kt-btn-details" title="View Details">
+                <a href="<?php echo esc_url( $rel_product->get_permalink() ); ?>" class="kt-btn-details" title="View Details">
                     <i class="fa-solid fa-arrow-right"></i>
                 </a>
             </div>
