@@ -25,6 +25,10 @@ function kt_filter_products_ajax() {
     $search = isset( $_POST['search'] ) ? sanitize_text_field( wp_unslash( $_POST['search'] ) ) : '';
     $paged = isset( $_POST['paged'] ) ? intval( wp_unslash( $_POST['paged'] ) ) : 1;
     $orderby = isset( $_POST['orderby'] ) ? sanitize_text_field( wp_unslash( $_POST['orderby'] ) ) : 'date';
+    
+    // Get category_id if this is a category page (for filtering only category products)
+    $category_id = isset( $_POST['category_id'] ) ? intval( wp_unslash( $_POST['category_id'] ) ) : 0;
+    $is_category_page = isset( $_POST['is_category_page'] ) ? wp_validate_boolean( wp_unslash( $_POST['is_category_page'] ) ) : false;
 
     // Parse arrays
     $cat_array = ! empty( $categories ) ? array_filter( array_map( 'sanitize_text_field', explode( ',', $categories ) ) ) : array();
@@ -91,8 +95,30 @@ function kt_filter_products_ajax() {
         $args['s'] = $search;
     }
 
-    // Add tax_query for categories
-    if ( ! empty( $cat_array ) ) {
+    // If this is a category page, ALWAYS filter by the current category
+    if ( $is_category_page && $category_id > 0 ) {
+        $args['tax_query'][] = array(
+            'taxonomy' => 'product_cat',
+            'field'    => 'id',
+            'terms'    => $category_id,
+            'operator' => 'IN',
+        );
+        
+        // If user selected sub-categories, add them to the filter
+        if ( ! empty( $cat_array ) ) {
+            $args['tax_query'][] = array(
+                'taxonomy' => 'product_cat',
+                'field'    => 'slug',
+                'terms'    => $cat_array,
+                'operator' => 'IN',
+            );
+            // Set relation to AND so products must be in main category AND selected sub-category
+            if ( count( $args['tax_query'] ) > 1 ) {
+                $args['tax_query']['relation'] = 'AND';
+            }
+        }
+    } elseif ( ! empty( $cat_array ) ) {
+        // On shop page, use selected categories
         $args['tax_query'][] = array(
             'taxonomy' => 'product_cat',
             'field'    => 'slug',
@@ -287,7 +313,7 @@ function kt_filter_products_ajax() {
                                     <?php echo $in_stock ? 'In Stock' : 'Out of Stock'; ?>
                                 </span>
 
-                                <a href="<?php the_permalink(); ?>">
+                                <a href="<?php echo esc_url( $product->get_permalink() ); ?>">
                                     <?php
                                     if ( $image ) {
                                         echo '<img src="' . esc_url( $image ) . '" alt="' . esc_attr( $title ) . '" class="kt-product-image">';
@@ -341,7 +367,7 @@ function kt_filter_products_ajax() {
 
                             <!-- TITLE -->
                             <h3 class="kt-title">
-                                <a href="<?php the_permalink(); ?>">
+                                <a href="<?php echo esc_url( $product->get_permalink() ); ?>">
                                     <?php echo esc_html( $title ); ?>
                                 </a>
                             </h3>
@@ -383,7 +409,7 @@ function kt_filter_products_ajax() {
                                 <?php else : ?>
                                     <button class="kt-btn-cart" disabled>Add to Cart</button>
                                 <?php endif; ?>
-                                <a href="<?php the_permalink(); ?>" class="kt-btn-details" title="View Details">
+                                <a href="<?php echo esc_url( $product->get_permalink() ); ?>" class="kt-btn-details" title="View Details">
                                     <i class="fa-solid fa-arrow-right"></i>
                                 </a>
                             </div>

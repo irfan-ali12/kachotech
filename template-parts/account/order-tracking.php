@@ -26,7 +26,7 @@ if ( $user_id ) {
 }
 ?>
 
-<div class="mx-auto max-w-6xl px-4 py-8">
+<div class="mx-auto px-4 py-8" style="max-width: 1200px; width: 100%; box-sizing: border-box;">
 	<div class="grid gap-8 md:grid-cols-[1fr_3fr]">
 		<!-- Sidebar -->
 		<aside class="space-y-4">

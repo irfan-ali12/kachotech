@@ -1,3 +1,9 @@
+/* Hero section products buttons*/
+button.kt-add-to-cart.font-semibold.text-kt-primary:hover {
+    background-color: #ffffff00;
+    color:#ff2446;
+}
+
 /* Hero section styles (extracted from prototype) */
 .kt-hero-bg{
   --kt-hero-bg-image: none;
@@ -13,6 +19,13 @@
   background-position:center;
 }
 
+@media (max-width:767px){
+  .kt-hero-bg{
+    padding-top:50px;
+    min-height:35vh;
+  }
+}
+
 .kt-slide{
   position:absolute; inset:0; opacity:0; pointer-events:none;
   transform:translateX(40px) scale(.98);
@@ -25,8 +38,58 @@
 @keyframes kt-fade-up{ from{opacity:0;transform:translateY(26px);} to{opacity:1;transform:translateY(0);} }
 @keyframes kt-zoom-in{ 0%{opacity:0;transform:translateY(24px)scale(.9)rotate(-3deg);} 60%{opacity:1;transform:translateY(-6px)scale(1.03)rotate(1deg);} 100%{opacity:1;transform:translateY(0)scale(1)rotate(0deg);} }
 
+@media (max-width:767px){
+  .kt-slide{
+    position:relative;
+    padding:0.75rem 0;
+    display:none !important;
+    align-items:center;
+    justify-content:center;
+    width:100%;
+    height:auto;
+    min-height:auto;
+    opacity:0 !important;
+  }
+  
+  /* Show only active slide on mobile */
+  .kt-slide-active{
+    display:flex !important;
+    opacity:1 !important;
+  }
+  
+  /* Force all slides to have same centered layout on mobile */
+  .kt-slide .grid {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+    align-items: center;
+    justify-items: center;
+    min-height: auto !important;
+    text-align: center;
+    width: 100%;
+  }
+  
+  /* Image on top */
+  .kt-anim-image {
+    order: -1;
+    display: block !important;
+    min-width: 0;
+    margin: 0 auto;
+  }
+  
+  /* Content below (center aligned) */
+  .kt-anim-text {
+    order: 1;
+    min-width: 0;
+    text-align: center;
+  }
+}
+
 .kt-product-card{ transition:transform 180ms ease, box-shadow 180ms ease, background 180ms ease; box-shadow:0 14px 28px rgba(15,23,42,.55); }
 .kt-product-card:hover{ transform:translateY(-6px); box-shadow:0 24px 56px rgba(15,23,42,.85); background:rgba(15,23,42,.9); }
+
+/* Hide mobile navigation controls on desktop */
+#kt-nav-controls{ display:none; }
 
 .kt-products-row{ display:none; }
 .kt-products-row-active{ display:flex; }
@@ -37,6 +100,13 @@
 .kt-arc{ border-radius:999px; border:1px solid rgba(148,163,184,.35); }
 .kt-product-visual{ width:320px; height:240px; }
 @media (min-width:768px){ .kt-product-visual{ width:380px; height:280px; } }
+
+@media (max-width:767px){
+  .kt-product-visual{ 
+    width:180px; 
+    height:150px; 
+  }
+}
 
 /* Add-to-cart button visual feedback */
 .kt-hero-toast{ position:fixed; right:16px; bottom:20px; background:#111827; color:#fff; padding:10px 14px; border-radius:10px; box-shadow:0 8px 20px rgba(2,6,23,.6); z-index:99999; font-size:13px; }
@@ -59,6 +129,38 @@
 /* CTA primary (big pill with glow) */
 .kt-cta-primary{ display:inline-flex; align-items:center; gap:12px; padding:14px 34px; border-radius:999px; background:linear-gradient(90deg,#ff2446,#ff3b5b); box-shadow:0 10px 40px rgba(255,36,70,.25); color:#fff; font-weight:700; }
 .kt-cta-primary:hover{ filter:brightness(1.02); }
+
+/* Hardcoded CTA button styles for all views (desktop + mobile) */
+a.inline-flex {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 10px 28px !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  border-radius: 999px !important;
+  background-color: #ff2446 !important;
+  background-image: linear-gradient(90deg, #ff2446, #ff3b5b) !important;
+  color: #ffffff !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  border: none !important;
+  box-shadow: 0 8px 24px rgba(255, 36, 70, 0.35) !important;
+  cursor: pointer !important;
+  transition: all 200ms ease !important;
+  text-decoration: none !important;
+}
+
+a.inline-flex:hover {
+  filter: brightness(1.05) !important;
+  box-shadow: 0 10px 32px rgba(255, 36, 70, 0.45) !important;
+  transform: translateY(-2px) !important;
+}
+
+a.inline-flex:active {
+  transform: translateY(0) !important;
+  box-shadow: 0 4px 12px rgba(255, 36, 70, 0.35) !important;
+}
 
 /* secondary link with subtle circle icon */
 .kt-cta-secondary{ color:rgba(255,255,255,.84); display:inline-flex; align-items:center; gap:10px; }
@@ -114,9 +216,182 @@
 
 /* Responsive tweaks */
 @media (max-width:767px){
-  .kt-hero-title-line-1{ font-size:28px; }
-  .kt-hero-title-line-2{ font-size:36px; }
+  .kt-hero-title-line-1{ font-size:32px; }
+  .kt-hero-title-line-2{ font-size:40px; }
   .kt-anim-image::after{ display:none; }
+  
+  /* Hide arc on mobile */
+  .kt-arc{ display:none; }
+  
+  /* Hide sidebar tabs on mobile */
+  aside{ display:none !important; }
+  
+  /* Main container - compact and centered */
+  .mx-auto.flex.h-full.max-w-6xl.flex-col{
+    padding:0.5rem;
+    gap: 0.25rem;
+    justify-content: center;
+  }
+  
+  /* Keep horizontal layout on mobile */
+  .flex.min-h-0.flex-1.gap-6{
+    flex-direction:column;
+    gap:0.5rem;
+    min-height: auto;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Compact image card - consistent for all slides */
+  .kt-anim-image .kt-visual-card{
+    border-radius:12px;
+    padding:0.25rem;
+  }
+  
+  /* Hide arc decorations on mobile for consistent look */
+  .kt-anim-image .kt-arc{
+    display:none !important;
+  }
+  
+  /* HIDE PRODUCT CARDS ON MOBILE */
+  .kt-products-row {
+    display: none !important;
+  }
+  
+  /* Hide text label, show only arrows on mobile */
+  #kt-next {
+    display: none !important;
+  }
+  
+  /* Navigation button container styling */
+  #kt-nav-controls {
+    display: flex !important;
+    gap: 8px !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100% !important;
+    margin-top: 1rem !important;
+  }
+  
+  /* Previous and Next arrow buttons - compact design */
+  .kt-nav-btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 36px !important;
+    height: 36px !important;
+    padding: 0 !important;
+    border: none !important;
+    border-radius: 8px !important;
+    background-color: #ff2446 !important;
+    color: #ffffff !important;
+    font-size: 16px !important;
+    font-weight: bold !important;
+    cursor: pointer !important;
+    transition: all 200ms ease !important;
+    box-shadow: 0 4px 12px rgba(255, 36, 70, 0.4) !important;
+    z-index: 100 !important;
+    position: relative !important;
+  }
+  
+  .kt-nav-btn:active {
+    background-color: #ff3b5b !important;
+    box-shadow: 0 2px 8px rgba(255, 36, 70, 0.6) !important;
+    transform: scale(0.95) !important;
+  }
+  
+  .kt-nav-btn:disabled {
+    opacity: 0.5 !important;
+    cursor: not-allowed !important;
+  }
+  
+  /* Adjust bottom section for mobile */
+  .mt-3.flex.items-center.justify-between.gap-4{
+    gap:0.5rem;
+    margin-top:0.75rem;
+    flex-direction: column;
+  }
+  
+  /* Center slides container on mobile */
+  .relative.flex-1.min-h {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: auto !important;
+  }
+  
+  /* Adjust text content */
+  h1, h2{
+    line-height:1.05 !important;
+    margin:0 !important;
+    text-align: center !important;
+  }
+  
+  /* Moderate h1 title size on mobile */
+  .kt-anim-text h1 {
+    font-size: 44px !important;
+  }
+  
+  .kt-anim-text h2 {
+    font-size: 44px !important;
+  }
+  
+  /* Increase CTA button size on mobile */
+  .kt-anim-text a.inline-flex {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 12px 24px !important;
+    margin-top: 0.5rem !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    border-radius: 20px !important;
+    background-color: #ff2446 !important;
+    background-image: linear-gradient(90deg, #ff2446, #ff3b5b) !important;
+    color: #ffffff !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+    border: none !important;
+    box-shadow: 0 4px 12px rgba(255, 36, 70, 0.4) !important;
+    cursor: pointer !important;
+    transition: all 200ms ease !important;
+    text-decoration: none !important;
+  }
+  
+  .kt-anim-text a.inline-flex:hover {
+    filter: brightness(1.05) !important;
+    box-shadow: 0 6px 16px rgba(255, 36, 70, 0.5) !important;
+    transform: translateY(-2px) !important;
+  }
+  
+  .kt-anim-text a.inline-flex:active {
+    transform: translateY(0) !important;
+    box-shadow: 0 2px 8px rgba(255, 36, 70, 0.4) !important;
+  }
+  
+  .space-y-6{
+    gap:0.35rem !important;
+    text-align: center;
+  }
+  
+  /* Larger text sizes on mobile */
+  .kt-anim-text p {
+    font-size: 0.95rem !important;
+    line-height: 1.4 !important;
+    margin:0 !important;
+  }
+  
+  .kt-anim-text .flex.flex-wrap.items-center {
+    font-size: 0.85rem !important;
+    gap: 0.15rem !important;
+    margin:0.5rem 0 !important;
+    justify-content: center;
+  }
+  
+  /* Compact sections */
+  .relative.flex-1.min-h {
+    min-height: 180px !important;
+  }
 }
 
 /* Compact title and product sizes for responsive hero (Nike layout) */

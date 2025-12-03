@@ -23,6 +23,28 @@
     console.log('Price Range:', minPrice, 'to', maxPrice, 'Range:', priceRange);
     console.log('Posts per page:', postsPerPage);
 
+    // ===== INITIALIZE FROM URL PARAMETERS =====
+    // Check if there's a search parameter in the URL (from header search)
+    var urlParams = new URLSearchParams(window.location.search);
+    var urlSearchParam = urlParams.get('s');
+    
+    if (urlSearchParam) {
+      console.log('Search parameter found in URL:', urlSearchParam);
+      
+      // Populate search field with the parameter value
+      $('#kt-product-search').val(urlSearchParam);
+      $('#kt-product-search-mobile').val(urlSearchParam);
+      
+      // Update currentFilters with search term
+      currentFilters.search = urlSearchParam;
+      
+      // Trigger the filter application with the search parameter
+      // Use setTimeout to ensure DOM is fully ready
+      setTimeout(function() {
+        applyFiltersAjax(urlSearchParam, 1);
+      }, 100);
+    }
+
     // ===== MOBILE FILTER DRAWER TOGGLE =====
     var $filterDrawer = $('#kt-filter-drawer');
     var $openFilterBtn = $('#kt-open-filters');
@@ -364,7 +386,9 @@ var priceMax = sliderValue;
         search: currentFilters.search,
         orderby: currentFilters.orderby,
         paged: currentFilters.paged,
-        nonce: ktShopAjax.nonce
+        nonce: ktShopAjax.nonce,
+        category_id: typeof ktShopAjax.category_id !== 'undefined' ? ktShopAjax.category_id : 0,
+        is_category_page: typeof ktShopAjax.is_category_page !== 'undefined' ? ktShopAjax.is_category_page : false
       };
 
       console.log('Sending Filter Data:', filterData);

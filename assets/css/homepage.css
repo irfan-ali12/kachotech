@@ -23,14 +23,28 @@
   --shadow-md: 0 8px 20px rgba(15, 18, 32, 0.12);
   --shadow-lg: 0 16px 40px rgba(15, 18, 32, 0.16);
   --transition: 0.3s ease;
+  --container-max-width: 1200px;
+  --container-padding: 16px;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --container-padding: 16px;
+  }
 }
 
 /* Global Styles */
+* {
+  box-sizing: border-box;
+}
+
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   line-height: 1.6;
   color: var(--kt-text);
   background-color: #ffffff;
+  margin: 0;
+  padding: 0;
 }
 
 a {
@@ -43,17 +57,31 @@ a:hover {
   opacity: 0.8;
 }
 
-/* Main Container */
-.ast-container {
-  max-width: 1320px;
-  margin: 0 auto;
-  padding: 0 16px;
+/* ===== UNIFIED CONTAINER SYSTEM (1200px max-width matching featured products) ===== */
+.kt-container,
+.ast-container,
+.kt-featured-wrapper,
+.site-content {
+  max-width: var(--container-max-width) !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding-left: var(--container-padding) !important;
+  padding-right: var(--container-padding) !important;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-@media (min-width: 768px) {
-  .ast-container {
-    padding: 0 24px;
-  }
+/* Container for category strip, promos, perks inside their sections */
+.kt-category-strip,
+.kt-promos-section,
+.rounded-3xl.bg-white.px-7.py-5.shadow-soft.grid.gap-6.md\:grid-cols-3 {
+  max-width: var(--container-max-width) !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding-left: var(--container-padding) !important;
+  padding-right: var(--container-padding) !important;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 /* ==================== HERO SECTION ==================== */
@@ -174,8 +202,11 @@ a:hover {
 /* ==================== CATEGORY STRIP ==================== */
 
 .kt-category-strip {
-  margin: 32px 0;
-  padding: 24px 0;
+  margin: 32px auto;
+  padding: 24px 16px;
+  max-width: 1200px !important;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .kt-category-item {
@@ -217,8 +248,11 @@ a:hover {
 /* ==================== FEATURED PRODUCTS ==================== */
 
 .kt-featured-section {
-  margin: 48px 0;
-  padding: 24px 0;
+  margin: 48px auto;
+  padding: 0 16px;
+  max-width: 1200px !important;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .kt-featured-header {
@@ -263,6 +297,7 @@ a:hover {
   background: var(--kt-dark);
   border-color: var(--kt-dark);
   color: #ffffff;
+  font-size: 10px;
 }
 
 .kt-products-grid {
@@ -422,8 +457,9 @@ a:hover {
 /* ==================== PROMOS SECTION ==================== */
 
 .kt-promos-section {
-  margin: 48px 0;
-  padding: 24px 0;
+  margin: 60px auto;
+  padding: 0;
+  width: 100%;
 }
 
 .kt-promo-row {
@@ -530,13 +566,13 @@ a:hover {
 }
 
 /* ==================== PERKS SECTION ==================== */
-
-.kt-perks-section {
-  margin: 48px 0;
+.rounded-3xl.bg-white.px-7.py-5.shadow-soft.grid.gap-6.md\:grid-cols-3{
+  margin: 60px auto;
   padding: 24px;
   background: #ffffff;
   border-radius: 24px;
   box-shadow: var(--shadow-soft);
+  width: 100%;
 }
 
 .kt-perks-grid {
@@ -681,12 +717,26 @@ a:hover {
 .kt-footer {
   background: linear-gradient(180deg, #e6f7f1 0%, #f0fbf8 100%);
   border-top: 1px solid #d5f0e6;
+  width: 100%;
 }
 
 .kt-footer-discount {
   background: #ffe4ec;
   border-bottom: 1px solid #ffd3e1;
   padding: 12px 0;
+  width: 100%;
+}
+
+.kt-footer-discount-inner {
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+  padding: 0 var(--container-padding);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  font-size: 11px;
 }
 
 .kt-footer-discount-row {
@@ -696,6 +746,7 @@ a:hover {
   justify-content: space-between;
   gap: 16px;
   font-size: 11px;
+  width: 100%;
 }
 
 .kt-footer-discount-item {
@@ -728,6 +779,14 @@ a:hover {
 
 .kt-footer-main {
   padding: 28px 0;
+  width: 100%;
+}
+
+.kt-footer-main-inner {
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+  padding: 0 var(--container-padding);
+  width: 100%;
 }
 
 .kt-footer-grid {
@@ -947,3 +1006,336 @@ a:hover {
   white-space: nowrap;
   border-width: 0;
 }
+
+/* ==================== SALE PRODUCTS SECTION (Professional Cards) ==================== */
+
+.kt-sale-products-section {
+  max-width: 1200px;
+  margin: 60px auto 0;
+  padding: 0 16px;
+}
+
+.kt-sale-products-header {
+  margin-bottom: 32px;
+}
+
+.kt-sale-products-header h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+  letter-spacing: -0.5px;
+}
+
+/* Removed - now integrated into main grid */
+.kt-sale-products-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+/* Sale Product Card - Match shop/featured products style */
+.kt-sale-product-card {
+  background: #ffffff;
+  border-radius: 22px;
+  border: 1px solid #e5e7eb;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: 0 14px 32px rgba(15, 23, 42, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.kt-sale-product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 45px rgba(15, 23, 42, 0.14);
+}
+
+.kt-sale-product-card.out-of-stock {
+  opacity: 0.8;
+}
+
+/* Thumbnail Section */
+.kt-sale-thumb {
+  position: relative;
+  padding: 12px;
+  background: #f9fafb;
+  border-radius: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 170px;
+  overflow: hidden;
+}
+
+.kt-sale-thumb a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.kt-sale-thumb img {
+  max-height: 150px;
+  width: auto;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.kt-sale-product-card:hover .kt-sale-thumb img {
+  transform: scale(1.05);
+}
+
+/* Badge Styling */
+.kt-sale-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: #fee2e2;
+  color: #ff2446;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.kt-sale-stock-status {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  background: #dcfce7;
+  color: #10b981;
+}
+
+.kt-sale-stock-status.out-of-stock {
+  background: #ffe4e6;
+  color: #ef4444;
+}
+
+/* Category Label */
+.kt-sale-category {
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #6b7280;
+}
+
+/* Product Title */
+.kt-sale-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.kt-sale-title a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.kt-sale-title a:hover {
+  color: #ff2446;
+}
+
+/* Rating */
+.kt-sale-rating {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.kt-sale-stars i {
+  font-size: 15px;
+  color: #fbbf24;
+}
+
+.kt-sale-stars i.fa-regular {
+  color: #d1d5db;
+}
+
+/* Price */
+.kt-sale-price-row {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+}
+
+.kt-sale-price-current {
+  font-size: 18px;
+  font-weight: 700;
+  color: #ff2446;
+}
+
+.kt-sale-price-old {
+  font-size: 13px;
+  color: #9ca3af;
+  text-decoration: line-through;
+}
+
+/* Availability */
+.kt-sale-availability {
+  font-size: 13px;
+  color: #10b981;
+}
+
+.kt-sale-product-card.out-of-stock .kt-sale-availability {
+  color: #ef4444;
+}
+
+/* Action Buttons */
+.kt-sale-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.kt-sale-btn {
+  flex: 1;
+  padding: 10px 14px;
+  border-radius: 999px;
+  border: none;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.kt-sale-btn-cart {
+  background: #111827;
+  color: #fff;
+}
+
+.kt-sale-btn-cart:hover {
+  background: #000;
+  transform: translateY(-1px);
+}
+
+.kt-sale-btn-cart[disabled],
+.kt-sale-product-card.out-of-stock .kt-sale-btn-cart {
+  background: #d1d5db;
+  cursor: not-allowed;
+}
+
+.kt-sale-btn-details {
+  background: transparent;
+  color: #111827;
+  border: 1px solid #e5e7eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  min-width: 44px;
+}
+
+.kt-sale-btn-details:hover {
+  background: #f9fafb;
+  transform: translateY(-1px);
+}
+
+/* Responsive Grid */
+@media (max-width: 1024px) {
+  .kt-sale-products-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .kt-sale-products-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .kt-sale-products-header h2 {
+    font-size: 20px;
+  }
+
+  .kt-sale-thumb {
+    min-height: 150px;
+  }
+
+  .kt-sale-thumb img {
+    max-height: 130px;
+  }
+
+  .kt-sale-title {
+    font-size: 14px;
+  }
+
+  .kt-sale-price-current {
+    font-size: 16px;
+  }
+
+  /* Stack grid on mobile - countdown timer on top */
+  .kt-promos-section > div:last-child {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Mobile Sale Banner - Reduce Height */
+  .mt-12.mb-12 > article {
+    min-height: 200px !important;
+  }
+
+  /* Mobile Sale Banner - Left Align H2 */
+ h2.text-2xl.font-bold.text-white.mb-6.leading-tight {
+    text-align: left !important;
+  }
+  a.inline-flex.items-center.gap-2.rounded-full.bg-white.px-4.py-2.text-xs.font-semibold.text-\[\#EC234A\].shadow-soft.hover\:shadow-lg.transition {
+    margin-top: 15px;
+}
+}
+
+@media (max-width: 1024px) {
+  .kt-promos-section > div:last-child {
+    grid-template-columns: 1fr 1fr !important;
+  }
+}
+
+/* ==================== CUSTOM FOOTER - HIDE ASTRA FOOTER ==================== */
+
+/* Hide Astra theme footer completely */
+.site-footer {
+  display: none !important;
+}
+
+/* Remove footer spacing from body */
+body {
+  margin-bottom: 0 !important;
+}
+
+/* Ensure custom footer is full width */
+footer[class*="mt-10"] {
+  width: 100%;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Add proper spacing above custom footer */
+.kt-promos-section {
+  margin-bottom: 0 !important;
+}
+
+/* Ensure no overlapping */
+main, .site-content, .ast-container {
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+}
+

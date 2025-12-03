@@ -20,7 +20,7 @@ $categories = get_terms( array(
 ) );
 ?>
 
-<section class="mx-auto mt-8 max-w-6xl px-4">
+<section class="kt-category-strip" style="max-width: 1200px; padding: 24px 16px; margin: 32px auto; width: 100%; box-sizing: border-box;">
 	<div class="mb-3 flex items-center justify-between text-sm">
 		<h2 class="text-base font-semibold"><?php esc_html_e( 'Shop Deals by Category', 'astra-child' ); ?></h2>
 		<a href="<?php echo esc_url( wc_get_page_permalink( 'shop' ) ); ?>" class="inline-flex items-center gap-1 text-xs font-semibold text-[#EC234A] hover:underline">

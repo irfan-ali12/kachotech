@@ -28,6 +28,7 @@ get_header();
 	// Promotional Banners
 	get_template_part( 'template-parts/home/promos-section' );
 
+
 	// Perks Section
 	get_template_part( 'template-parts/home/perks-section' );
 	?>
@@ -35,7 +36,6 @@ get_header();
 </main>
 
 <?php
-// Footer
-get_template_part( 'template-parts/home/footer-section' );
-
+// Footer is now loaded globally via footer.php
 get_footer();
+

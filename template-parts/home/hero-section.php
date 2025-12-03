@@ -47,7 +47,7 @@ function kt_get_products_for_cat( $cat_slug, $limit = 6 ) {
 
 <section class="kt-hero-bg min-h-screen overflow-hidden">
 
-  <div class="mx-auto flex h-full max-w-6xl flex-col px-4">
+  <div class="mx-auto flex h-full flex-col" style="max-width: 1200px; padding: 0 16px; width: 100%; box-sizing: border-box;">
 
     <!-- HERO CONTENT & PRODUCTS (no scroll, fills remaining height) -->
     <div class="flex min-h-0 flex-1 gap-6 pb-4">
@@ -65,15 +65,15 @@ function kt_get_products_for_cat( $cat_slug, $limit = 6 ) {
       <div class="flex min-h-0 flex-1 flex-col gap-4 pb-2">
 
         <!-- SLIDES -->
-        <div class="relative flex-1 min-h-[250px] md:min-h-[320px] lg:min-h-[360px]">
+        <div class="relative flex-1 min-h-[200px] md:min-h-[320px] lg:min-h-[360px]">
           <!-- HEATERS -->
           <div class="kt-slide kt-slide-active" data-kt-slide="0">
-            <div class="grid h-full items-center gap-8 md:grid-cols-[1.1fr_minmax(0,1fr)]">
+            <div class="grid h-full items-center gap-1 md:gap-8 grid-cols-[1.3fr_1fr] md:grid-cols-[1.1fr_minmax(0,1fr)]">
               <div class="kt-anim-text space-y-6">
-                <h1 class="text-4xl md:text-5xl lg:text-6xl font-black text-white leading-tight">BORING<br><span class="text-kt-primary">ROOMS?</span></h1>
-                <p class="max-w-md text-sm md:text-base text-slate-300">Turn freezing nights into warm, cozy evenings with safe, fuel-efficient heaters curated for Pakistan’s harsh winters.</p>
-                <div class="flex flex-wrap items-center gap-4 text-xs md:text-sm text-slate-300"><span>Starting from <span class="font-semibold text-white">Rs 2,499</span></span><span class="h-1 w-1 rounded-full bg-slate-500"></span><span>Extra <span class="font-semibold text-kt-primary">10% OFF</span> on online payments</span></div>
-                <div class="flex flex-wrap items-center gap-4 pt-2"><a href="#" class="inline-flex items-center justify-center rounded-full bg-kt-primary px-6 py-3 text-xs md:text-sm font-semibold uppercase tracking-[.2em] shadow-lg shadow-kt-primary/50 hover:bg-[#ff3b5b]">SHOP HEATERS</a></div>
+                <h1 class="text-base md:text-5xl lg:text-6xl font-black text-white leading-tight">BORING <span class="text-kt-primary">ROOMS?</span></h1>
+                <p class="max-w-md text-xs md:text-base text-slate-300">Turn freezing nights into warm, cozy evenings with safe, fuel-efficient heaters curated for Pakistan's harsh winters.</p>
+                <div class="flex flex-wrap items-center gap-2 md:gap-4 text-xs md:text-sm text-slate-300"><span>Starting from <span class="font-semibold text-white">Rs 2,499</span></span><span class="h-1 w-1 rounded-full bg-slate-500"></span><span>Extra <span class="font-semibold text-kt-primary">10% OFF</span></span></div>
+                <div class="flex flex-wrap items-center gap-2 md:gap-4 pt-1 md:pt-2"><a href="#" class="inline-flex items-center justify-center rounded-full bg-kt-primary px-2 md:px-6 py-1 md:py-3 text-xs md:text-sm font-semibold uppercase tracking-[.1em] md:tracking-[.2em] shadow-lg shadow-kt-primary/50 hover:bg-[#ff3b5b]">SHOP HEATERS</a></div>
               </div>
 
               <div class="kt-anim-image relative flex items-center justify-center">
@@ -87,12 +87,12 @@ function kt_get_products_for_cat( $cat_slug, $limit = 6 ) {
 
           <!-- COSMETICS -->
           <div class="kt-slide" data-kt-slide="1">
-            <div class="grid h-full items-center gap-8 md:grid-cols-[1.1fr_minmax(0,1fr)]">
+            <div class="grid h-full items-center gap-1 md:gap-8 grid-cols-[1.3fr_1fr] md:grid-cols-[1.1fr_minmax(0,1fr)]">
               <div class="kt-anim-text space-y-6">
-                <h2 class="text-4xl md:text-5xl lg:text-6xl font-black text-white leading-tight">DRY<br><span class="text-kt-primary">SKIN?</span></h2>
-                <p class="max-w-md text-sm md:text-base text-slate-300">Hydrating serums, moisturisers and makeup bundles that keep your skin glowing instead of cracking all winter.</p>
-                <div class="flex flex-wrap items-center gap-4 text-xs md:text-sm text-slate-300"><span>Bundles from <span class="font-semibold text-white">Rs 1,799</span></span><span class="h-1 w-1 rounded-full bg-slate-500"></span><span>Free mini serum on orders over <span class="font-semibold">Rs 4,000</span></span></div>
-                <div class="flex flex-wrap items-center gap-4 pt-2"><a href="<?php echo esc_url( get_term_link( 'cosmetics', 'product_cat' ) ); ?>" class="inline-flex items-center justify-center rounded-full bg-kt-primary px-6 py-3 text-xs md:text-sm font-semibold uppercase tracking-[.2em] shadow-lg shadow-kt-primary/50 hover:bg-[#ff3b5b]">SHOP COSMETICS</a></div>
+                <h2 class="text-base md:text-5xl lg:text-6xl font-black text-white leading-tight">DRY <span class="text-kt-primary">SKIN?</span></h2>
+                <p class="max-w-md text-xs md:text-base text-slate-300">Hydrating serums, moisturisers and makeup bundles that keep your skin glowing instead of cracking all winter.</p>
+                <div class="flex flex-wrap items-center gap-2 md:gap-4 text-xs md:text-sm text-slate-300"><span>Bundles from <span class="font-semibold text-white">Rs 1,799</span></span><span class="h-1 w-1 rounded-full bg-slate-500"></span><span>Free mini serum</span></div>
+                <div class="flex flex-wrap items-center gap-2 md:gap-4 pt-1 md:pt-2"><a href="<?php echo esc_url( get_term_link( 'cosmetics', 'product_cat' ) ); ?>" class="inline-flex items-center justify-center rounded-full bg-kt-primary px-2 md:px-6 py-1 md:py-3 text-xs md:text-sm font-semibold uppercase tracking-[.1em] md:tracking-[.2em] shadow-lg shadow-kt-primary/50 hover:bg-[#ff3b5b]">SHOP COSMETICS</a></div>
               </div>
               <div class="kt-anim-image relative flex items-center justify-center">
                 <div class="kt-arc absolute -right-6 top-4 h-60 w-60 md:h-72 md:w-72 border-rose-400/70"></div>
@@ -104,12 +104,12 @@ function kt_get_products_for_cat( $cat_slug, $limit = 6 ) {
           </div>
           <!-- ELECTRONICS -->
           <div class="kt-slide" data-kt-slide="2">
-            <div class="grid h-full items-center gap-8 md:grid-cols-[1.1fr_minmax(0,1fr)]">
+            <div class="grid h-full items-center gap-1 md:gap-8 grid-cols-[1.3fr_1fr] md:grid-cols-[1.1fr_minmax(0,1fr)]">
               <div class="kt-anim-text space-y-6">
-                <h2 class="text-4xl md:text-5xl lg:text-6xl font-black text-white leading-tight">DULL<br><span class="text-kt-primary">EVENINGS?</span></h2>
-                <p class="max-w-md text-sm md:text-base text-slate-300">Kettles, audio and smart gadgets for the perfect winter entertainment setup at home.</p>
-                <div class="flex flex-wrap items-center gap-4 text-xs md:text-sm text-slate-300"><span>Combos from <span class="font-semibold text-white">Rs 3,299</span></span><span class="h-1 w-1 rounded-full bg-slate-500"></span><span>Bundle &amp; save up to <span class="font-semibold">25%</span></span></div>
-                <div class="flex flex-wrap items-center gap-4 pt-2"><a href="<?php echo esc_url( get_term_link( 'electronics', 'product_cat' ) ); ?>" class="inline-flex items-center justify-center rounded-full bg-kt-primary px-6 py-3 text-xs md:text-sm font-semibold uppercase tracking-[.2em] shadow-lg shadow-kt-primary/50 hover:bg-[#ff3b5b]">BROWSE ELECTRONICS</a></div>
+                <h2 class="text-base md:text-5xl lg:text-6xl font-black text-white leading-tight">DULL <span class="text-kt-primary">EVENINGS?</span></h2>
+                <p class="max-w-md text-xs md:text-base text-slate-300">Kettles, audio and smart gadgets for the perfect winter entertainment setup at home.</p>
+                <div class="flex flex-wrap items-center gap-2 md:gap-4 text-xs md:text-sm text-slate-300"><span>Combos from <span class="font-semibold text-white">Rs 3,299</span></span><span class="h-1 w-1 rounded-full bg-slate-500"></span><span>Save up to <span class="font-semibold">25%</span></span></div>
+                <div class="flex flex-wrap items-center gap-2 md:gap-4 pt-1 md:pt-2"><a href="<?php echo esc_url( get_term_link( 'electronics', 'product_cat' ) ); ?>" class="inline-flex items-center justify-center rounded-full bg-kt-primary px-2 md:px-6 py-1 md:py-3 text-xs md:text-sm font-semibold uppercase tracking-[.1em] md:tracking-[.2em] shadow-lg shadow-kt-primary/50 hover:bg-[#ff3b5b]">BROWSE ELECTRONICS</a></div>
               </div>
               <div class="kt-anim-image relative flex items-center justify-center">
                 <div class="kt-arc absolute -right-6 top-4 h-60 w-60 md:h-72 md:w-72 border-sky-400/70"></div>
@@ -146,7 +146,7 @@ function kt_get_products_for_cat( $cat_slug, $limit = 6 ) {
                                     <h3 class="text-[11px] font-semibold uppercase tracking-[.16em] text-slate-100 line-clamp-2"><?php echo esc_html( $product_title ); ?></h3>
                                     <p class="text-[11px] text-slate-400"><?php echo wp_kses_post( $product_price ); ?></p>
                                     <div class="flex items-center justify-between text-[11px]">
-                                        <button class="kt-add-to-cart font-semibold text-kt-primary hover:text-[#ff3b5b]" data-product-id="<?php echo esc_attr( $product_id ); ?>">
+                                        <button class="kt-add-to-cart font-semibold text-kt-primary" data-product-id="<?php echo esc_attr( $product_id ); ?>">
                                             Add to Cart
                                         </button>
                                     </div>
@@ -161,6 +161,20 @@ function kt_get_products_for_cat( $cat_slug, $limit = 6 ) {
           </div>
 
           <button id="kt-next" class="ml-3 inline-flex h-9 items-center justify-center rounded-xl bg-kt-primary px-3 text-xs font-semibold tracking-[.16em] text-white shadow-lg shadow-kt-primary/40 hover:bg-[#ff3b5b]">NEXT<svg xmlns="http://www.w3.org/2000/svg" class="ml-1 h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 5l7 7-7 7"/></svg></button>
+          
+          <!-- Mobile Navigation Controls (Hidden on Desktop, Shown on Mobile) -->
+          <div id="kt-nav-controls">
+            <button class="kt-nav-btn kt-nav-prev" aria-label="Previous slide">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="width:24px;height:24px;">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
+            <button class="kt-nav-btn kt-nav-next" aria-label="Next slide">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="width:24px;height:24px;">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -220,6 +234,17 @@ function kt_get_products_for_cat( $cat_slug, $limit = 6 ) {
 
   rows[0]?.classList.add('kt-products-row-active');
   restartAuto();
+
+  // Mobile Navigation Buttons Event Listeners
+  const prevBtn = document.querySelector('.kt-nav-prev');
+  const nextMobileBtn = document.querySelector('.kt-nav-next');
+  
+  if (prevBtn) {
+    prevBtn.addEventListener('click', () => { setActive(current - 1); restartAuto(); });
+  }
+  if (nextMobileBtn) {
+    nextMobileBtn.addEventListener('click', () => { goNext(); restartAuto(); });
+  }
 
   // AJAX Add to Cart Handler
   document.addEventListener('click', function(e) {

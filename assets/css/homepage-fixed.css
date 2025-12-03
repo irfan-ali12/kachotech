@@ -1,0 +1,581 @@
+/* ========================================
+   KachoTech Homepage Styles - Fixed Responsive & Width Issues
+   ======================================== */
+
+/* CRITICAL: Isolate from Astra theme colors */
+.kt-homepage-wrapper * {
+	color-scheme: light;
+}
+
+/* Root Variables - Solid colors independent of theme */
+:root {
+	--kt-primary: #ff2446;
+	--kt-primary-dark: #ec234a;
+	--kt-primary-light: #ff3b5b;
+	--kt-dark: #0f172a;
+	--kt-dark-soft: #1a202c;
+	--kt-gray-900: #111827;
+	--kt-gray-700: #374151;
+	--kt-gray-300: #d1d5db;
+	--kt-white: #ffffff;
+	--kt-text: #1f2937;
+	--kt-text-muted: #6b7280;
+	--kt-text-light: #9ca3af;
+	--kt-bg-light: #f9fafb;
+	--kt-success: #10b981;
+	--kt-warning: #f59e0b;
+	--kt-error: #ef4444;
+	--kt-border: #e5e7eb;
+	--shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+	--shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+	--shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.15);
+	--shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.2);
+	--transition: 0.3s ease;
+}
+
+/* ========================================
+   HOMEPAGE WRAPPER - Isolate from Astra
+   ======================================== */
+.kt-homepage-wrapper,
+main.min-h-screen {
+	background: var(--kt-white) !important;
+	color: var(--kt-text) !important;
+}
+
+/* ========================================
+   HERO SECTION - Responsive & Consistent Width
+   ======================================== */
+.kt-hero-bg {
+	position: relative;
+	width: 100% !important;
+	min-height: 100vh !important;
+	padding-top: 80px !important;
+	padding-bottom: 40px !important;
+	background: linear-gradient(135deg, var(--kt-dark) 0%, var(--kt-dark-soft) 100%) !important;
+	overflow: hidden !important;
+}
+
+.kt-hero-bg .mx-auto {
+	width: 100% !important;
+	max-width: 1200px !important;
+	margin: 0 auto !important;
+	padding: 0 16px !important;
+}
+
+@media (min-width: 768px) {
+	.kt-hero-bg .mx-auto {
+		padding: 0 24px !important;
+	}
+}
+
+@media (min-width: 1024px) {
+	.kt-hero-bg .mx-auto {
+		padding: 0 32px !important;
+	}
+}
+
+/* Hero slides container */
+.kt-hero-bg .flex-col {
+	width: 100% !important;
+}
+
+/* Slide positioning */
+.kt-slide {
+	position: absolute !important;
+	inset: 0 !important;
+	opacity: 0 !important;
+	pointer-events: none !important;
+	transform: translateX(40px) scale(0.98) !important;
+	transition: opacity 420ms ease, transform 420ms cubic-bezier(0.22, 0.61, 0.36, 1) !important;
+}
+
+.kt-slide-active {
+	opacity: 1 !important;
+	pointer-events: auto !important;
+	transform: translateX(0) scale(1) !important;
+}
+
+.kt-slide-active .kt-anim-text {
+	animation: kt-fade-up 480ms ease-out both !important;
+}
+
+.kt-slide-active .kt-anim-image {
+	animation: kt-zoom-in 520ms 80ms ease-out both !important;
+}
+
+@keyframes kt-fade-up {
+	from {
+		opacity: 0;
+		transform: translateY(26px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes kt-zoom-in {
+	from {
+		opacity: 0;
+		transform: scale(0.9);
+	}
+	to {
+		opacity: 1;
+		transform: scale(1);
+	}
+}
+
+/* Slide content */
+.kt-slide .grid {
+	height: 100% !important;
+	align-items: center !important;
+	gap: 32px !important;
+}
+
+@media (max-width: 1024px) {
+	.kt-slide .grid {
+		gap: 24px !important;
+	}
+}
+
+@media (max-width: 768px) {
+	.kt-slide .grid {
+		gap: 16px !important;
+		grid-template-columns: 1fr !important;
+	}
+}
+
+/* Slide text content */
+.kt-anim-text {
+	display: flex !important;
+	flex-direction: column !important;
+	justify-content: center !important;
+	gap: 24px !important;
+}
+
+.kt-anim-text h1,
+.kt-anim-text h2 {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+	font-weight: 900 !important;
+	color: var(--kt-white) !important;
+	line-height: 1.1 !important;
+	letter-spacing: -0.5px !important;
+	margin: 0 !important;
+}
+
+@media (max-width: 1024px) {
+	.kt-anim-text h1,
+	.kt-anim-text h2 {
+		font-size: 36px !important;
+	}
+}
+
+@media (max-width: 640px) {
+	.kt-anim-text h1,
+	.kt-anim-text h2 {
+		font-size: 28px !important;
+	}
+}
+
+@media (min-width: 1024px) {
+	.kt-anim-text h1,
+	.kt-anim-text h2 {
+		font-size: 56px !important;
+	}
+}
+
+.kt-anim-text .text-kt-primary {
+	color: var(--kt-primary) !important;
+}
+
+.kt-anim-text p {
+	font-size: 16px !important;
+	color: #cbd5e1 !important;
+	line-height: 1.6 !important;
+	max-width: 500px !important;
+	margin: 0 !important;
+}
+
+@media (max-width: 640px) {
+	.kt-anim-text p {
+		font-size: 14px !important;
+	}
+}
+
+/* Hero buttons */
+.kt-anim-text .inline-flex {
+	display: inline-flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	padding: 12px 28px !important;
+	background: var(--kt-primary) !important;
+	color: var(--kt-white) !important;
+	border-radius: 24px !important;
+	font-weight: 600 !important;
+	font-size: 13px !important;
+	text-transform: uppercase !important;
+	letter-spacing: 0.2em !important;
+	transition: background 0.3s ease !important;
+	text-decoration: none !important;
+	border: none !important;
+	cursor: pointer !important;
+	box-shadow: 0 10px 25px rgba(255, 36, 70, 0.3) !important;
+}
+
+.kt-anim-text .inline-flex:hover {
+	background: var(--kt-primary-light) !important;
+	box-shadow: 0 15px 35px rgba(255, 36, 70, 0.4) !important;
+}
+
+@media (max-width: 640px) {
+	.kt-anim-text .inline-flex {
+		padding: 10px 20px !important;
+		font-size: 12px !important;
+	}
+}
+
+/* Slide image */
+.kt-anim-image {
+	display: flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	position: relative !important;
+}
+
+.kt-arc {
+	position: absolute !important;
+	border-radius: 50% !important;
+	border: 1px solid rgba(148, 163, 184, 0.3) !important;
+	opacity: 0.5 !important;
+}
+
+.kt-product-visual {
+	display: flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+}
+
+.kt-product-visual img {
+	max-width: 100% !important;
+	height: auto !important;
+	object-fit: contain !important;
+}
+
+@media (max-width: 768px) {
+	.kt-anim-image {
+		display: none !important;
+	}
+}
+
+/* ========================================
+   CATEGORY STRIP SECTION
+   ======================================== */
+.kt-category-strip {
+	width: 100% !important;
+	background: var(--kt-white) !important;
+	padding: 40px 16px !important;
+}
+
+.kt-category-strip .mx-auto {
+	width: 100% !important;
+	max-width: 1200px !important;
+	margin: 0 auto !important;
+}
+
+@media (min-width: 768px) {
+	.kt-category-strip {
+		padding: 60px 24px !important;
+	}
+}
+
+@media (min-width: 1024px) {
+	.kt-category-strip {
+		padding: 80px 32px !important;
+	}
+}
+
+/* ========================================
+   FEATURED PRODUCTS SECTION
+   ======================================== */
+.kt-featured-products {
+	width: 100% !important;
+	background: var(--kt-bg-light) !important;
+	padding: 40px 16px !important;
+}
+
+.kt-featured-products .mx-auto {
+	width: 100% !important;
+	max-width: 1200px !important;
+	margin: 0 auto !important;
+}
+
+@media (min-width: 768px) {
+	.kt-featured-products {
+		padding: 60px 24px !important;
+	}
+}
+
+@media (min-width: 1024px) {
+	.kt-featured-products {
+		padding: 80px 32px !important;
+	}
+}
+
+/* ========================================
+   PROMOS SECTION
+   ======================================== */
+.kt-promos-section {
+	width: 100% !important;
+	background: var(--kt-white) !important;
+	padding: 40px 16px !important;
+}
+
+.kt-promos-section .mx-auto {
+	width: 100% !important;
+	max-width: 1200px !important;
+	margin: 0 auto !important;
+}
+
+@media (min-width: 768px) {
+	.kt-promos-section {
+		padding: 60px 24px !important;
+	}
+}
+
+@media (min-width: 1024px) {
+	.kt-promos-section {
+		padding: 80px 32px !important;
+	}
+}
+
+/* ========================================
+   PERKS SECTION
+   ======================================== */
+.kt-perks-section {
+	width: 100% !important;
+	background: var(--kt-dark) !important;
+	color: var(--kt-white) !important;
+	padding: 40px 16px !important;
+}
+
+.kt-perks-section .mx-auto {
+	width: 100% !important;
+	max-width: 1200px !important;
+	margin: 0 auto !important;
+}
+
+@media (min-width: 768px) {
+	.kt-perks-section {
+		padding: 60px 24px !important;
+	}
+}
+
+@media (min-width: 1024px) {
+	.kt-perks-section {
+		padding: 80px 32px !important;
+	}
+}
+
+/* ========================================
+   FOOTER SECTION
+   ======================================== */
+.kt-footer-section {
+	width: 100% !important;
+	background: var(--kt-dark) !important;
+	color: var(--kt-white) !important;
+	padding: 40px 16px !important;
+}
+
+.kt-footer-section .mx-auto {
+	width: 100% !important;
+	max-width: 1200px !important;
+	margin: 0 auto !important;
+}
+
+@media (min-width: 768px) {
+	.kt-footer-section {
+		padding: 60px 24px !important;
+	}
+}
+
+@media (min-width: 1024px) {
+	.kt-footer-section {
+		padding: 80px 32px !important;
+	}
+}
+
+/* ========================================
+   RESPONSIVE GRID ADJUSTMENTS
+   ======================================== */
+.grid-cols-1 {
+	grid-template-columns: 1fr !important;
+}
+
+@media (min-width: 640px) {
+	.sm\:grid-cols-2 {
+		grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+	}
+}
+
+@media (min-width: 1024px) {
+	.lg\:grid-cols-3 {
+		grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+	}
+
+	.lg\:grid-cols-4 {
+		grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+	}
+}
+
+/* ========================================
+   TEXT UTILITIES - Override Tailwind theme colors
+   ======================================== */
+.text-kt-primary {
+	color: var(--kt-primary) !important;
+}
+
+.text-white {
+	color: var(--kt-white) !important;
+}
+
+.text-gray-900 {
+	color: var(--kt-gray-900) !important;
+}
+
+.text-gray-700 {
+	color: var(--kt-gray-700) !important;
+}
+
+.text-gray-500 {
+	color: var(--kt-text-muted) !important;
+}
+
+.text-gray-400 {
+	color: var(--kt-text-light) !important;
+}
+
+/* ========================================
+   BACKGROUND UTILITIES
+   ======================================== */
+.bg-white {
+	background: var(--kt-white) !important;
+}
+
+.bg-gray-50 {
+	background: var(--kt-bg-light) !important;
+}
+
+.bg-gray-900 {
+	background: var(--kt-dark) !important;
+}
+
+.bg-kt-primary {
+	background: var(--kt-primary) !important;
+}
+
+/* ========================================
+   BORDER UTILITIES
+   ======================================== */
+.border-gray-200 {
+	border-color: var(--kt-border) !important;
+}
+
+.border-gray-300 {
+	border-color: var(--kt-gray-300) !important;
+}
+
+/* ========================================
+   SPACING - Consistent across all sections
+   ======================================== */
+.gap-4 {
+	gap: 16px !important;
+}
+
+.gap-6 {
+	gap: 24px !important;
+}
+
+.gap-8 {
+	gap: 32px !important;
+}
+
+.p-4 {
+	padding: 16px !important;
+}
+
+.p-6 {
+	padding: 24px !important;
+}
+
+.p-8 {
+	padding: 32px !important;
+}
+
+.mb-4 {
+	margin-bottom: 16px !important;
+}
+
+.mb-6 {
+	margin-bottom: 24px !important;
+}
+
+.mb-8 {
+	margin-bottom: 32px !important;
+}
+
+/* ========================================
+   CONTAINER RESETS - Prevent Astra interference
+   ======================================== */
+.ast-container,
+.elementor-container,
+.wp-container {
+	max-width: 100% !important;
+	padding: 0 !important;
+	margin: 0 !important;
+}
+
+/* ========================================
+   MOBILE FIRST RESPONSIVE
+   ======================================== */
+@media (max-width: 640px) {
+	/* Stack all sections vertically */
+	.hidden {
+		display: none !important;
+	}
+
+	/* Ensure full width on mobile */
+	body,
+	html {
+		overflow-x: hidden !important;
+	}
+
+	/* Single column layout */
+	.grid {
+		grid-template-columns: 1fr !important;
+	}
+
+	/* Reduce padding on small screens */
+	.px-4 {
+		padding-left: 12px !important;
+		padding-right: 12px !important;
+	}
+
+	.px-6,
+	.px-8 {
+		padding-left: 16px !important;
+		padding-right: 16px !important;
+	}
+}
+
+/* ========================================
+   PRINT STYLES
+   ======================================== */
+@media print {
+	.kt-hero-bg,
+	.kt-category-strip,
+	.kt-featured-products,
+	.kt-promos-section,
+	.kt-perks-section {
+		break-inside: avoid;
+	}
+}

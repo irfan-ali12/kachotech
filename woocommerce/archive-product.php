@@ -189,6 +189,12 @@ $initial_args = array(
     )
 );
 
+// Check if there's a search parameter in the URL (from header search)
+if ( isset( $_GET['s'] ) && ! empty( $_GET['s'] ) ) {
+    $search_term = sanitize_text_field( wp_unslash( $_GET['s'] ) );
+    $initial_args['s'] = $search_term;
+}
+
 $initial_query = new WP_Query($initial_args);
 $total_products = $initial_query->found_posts;
 

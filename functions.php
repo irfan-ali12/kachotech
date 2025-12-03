@@ -148,71 +148,307 @@ function kt_load_featured_products() {
 	$products = new WP_Query( $args );
 
 	if ( ! $products->have_posts() ) {
-		wp_send_json_success( array( 'html' => '<p class="text-center col-span-full text-[#6B6F76]">' . esc_html__( 'No products found', 'astra-child' ) . '</p>' ) );
+		wp_send_json_success( array( 'html' => '<p class="kt-featured-no-products">' . esc_html__( 'No products found', 'astra-child' ) . '</p>' ) );
 		wp_die();
 	}
 
-	// Build HTML
+	// Build HTML matching related products design
 	$html = '';
 	while ( $products->have_posts() ) {
 		$products->the_post();
-		$product    = wc_get_product( get_the_ID() );
-		$badge      = $product->is_on_sale() ? 'SALE' : ( $product->is_featured() ? 'FEATURED' : 'NEW' );
-		$price_html = $product->get_price_html();
-		$stock      = $product->get_stock_quantity();
+		$product     = wc_get_product( get_the_ID() );
+		$product_id  = $product->get_id();
+		$title       = $product->get_name();
+		$price       = $product->get_regular_price();
+		$sale_price  = $product->get_sale_price();
+		$rating      = $product->get_average_rating();
+		$review_count = $product->get_review_count();
+		$in_stock    = $product->is_in_stock();
+		$on_sale     = $product->is_on_sale();
+		$featured    = $product->is_featured();
+		$stock       = $product->get_stock_quantity();
 
-		$html .= '<article class="flex flex-col rounded-3xl border border-[#edf0f6] bg-white p-3 shadow-soft transition hover:-translate-y-1 hover:shadow-[0_20px_45px_rgba(15,18,32,0.15)]">';
-		$html .= '<div class="relative rounded-2xl bg-[#F6F7FA] p-3">';
-		$html .= '<span class="absolute left-2 top-2 rounded-full bg-[#FFE7EC] px-2 py-0.5 text-[10px] font-bold text-[#EC234A]">' . esc_html( $badge ) . '</span>';
-		$html .= '<span class="absolute right-2 top-2 text-[10px] font-semibold text-[#40C6A8]">' . ( $stock > 0 ? esc_html__( 'In Stock', 'astra-child' ) : esc_html__( 'Out of Stock', 'astra-child' ) ) . '</span>';
-
-		if ( has_post_thumbnail() ) {
-			$html .= '<img src="' . esc_url( get_the_post_thumbnail_url( get_the_ID(), 'medium' ) ) . '" alt="' . esc_attr( get_the_title() ) . '" class="mx-auto h-28 w-auto object-contain" />';
-		} else {
-			$html .= '<img src="https://www.daewooelectricals.com/blog/wp-content/uploads/2023/11/admin-ajax.jpg" alt="' . esc_attr( get_the_title() ) . '" class="mx-auto h-28 w-auto object-contain" />';
+		// Get badge
+		$badge_class = '';
+		$badge_text  = '';
+		if ( $on_sale ) {
+			$badge_class = 'kt-badge-hot';
+			$badge_text  = 'SALE';
+		} elseif ( $featured ) {
+			$badge_class = 'kt-badge-new';
+			$badge_text  = 'FEATURED';
 		}
 
-		$html .= '</div>';
-		$html .= '<div class="mt-3 flex flex-1 flex-col gap-1 text-xs">';
-
-		// Category name
-		$cat_name = 'KachoTech';
-		$categories = $product->get_category_ids();
-		if ( ! empty( $categories ) ) {
-			$cat = get_term( $categories[0], 'product_cat' );
-			if ( $cat ) {
+		// Get category
+		$product_cats = $product->get_category_ids();
+		$cat_name = '';
+		if ( ! empty( $product_cats ) ) {
+			$cat = get_term( $product_cats[0], 'product_cat' );
+			if ( $cat && ! is_wp_error( $cat ) ) {
 				$cat_name = $cat->name;
 			}
 		}
-		$html .= '<span class="text-[10px] font-semibold uppercase tracking-wide text-[#6B6F76]">' . esc_html( $cat_name ) . '</span>';
 
-		// Title
-		$html .= '<h3 class="line-clamp-2 text-[13px] font-semibold text-[#1A1A1D]">';
-		$html .= '<a href="' . esc_url( get_permalink() ) . '" class="hover:text-[#EC234A] transition">' . esc_html( get_the_title() ) . '</a>';
-		$html .= '</h3>';
+		// Start product card
+		$html .= '<div class="kt-product-card ' . ( $in_stock ? '' : 'out-of-stock' ) . '">';
 
-		// Price
-		$html .= '<div class="mt-1 flex items-baseline gap-2 text-[13px]">';
-		$html .= '<span class="font-extrabold">' . wp_kses_post( $price_html ) . '</span>';
-		$html .= '</div>';
-
-		// Stock
-		$html .= '<span class="text-[11px] font-semibold text-[#40C6A8]">';
-		$html .= sprintf( esc_html__( 'Available: %d pcs', 'astra-child' ), absint( $stock ? $stock : 0 ) );
+		// THUMBNAIL + BADGES
+		$html .= '<div class="kt-thumb">';
+		if ( $badge_text ) {
+			$html .= '<span class="kt-badge ' . esc_attr( $badge_class ) . '">' . esc_html( $badge_text ) . '</span>';
+		}
+		$html .= '<span class="kt-stock-status ' . ( $in_stock ? 'in-stock' : '' ) . '">';
+		$html .= $in_stock ? esc_html__( 'In Stock', 'astra-child' ) : esc_html__( 'Out of Stock', 'astra-child' );
 		$html .= '</span>';
 
-		// Buttons
-		$html .= '<div class="mt-2 flex gap-2">';
-		$html .= '<a href="' . esc_url( $product->add_to_cart_url() ) . '" class="flex-1 inline-flex items-center justify-center rounded-full bg-[#1A1A1D] px-3 py-1.5 text-[11px] font-semibold text-white hover:bg-[#EC234A] transition">';
-		$html .= esc_html__( 'Add to Cart', 'astra-child' );
+		$html .= '<a href="' . esc_url( $product->get_permalink() ) . '">';
+		$image_id = $product->get_image_id();
+		if ( $image_id ) {
+			$image_url = wp_get_attachment_image_url( $image_id, 'woocommerce_thumbnail' );
+			if ( $image_url ) {
+				$html .= '<img src="' . esc_url( $image_url ) . '" alt="' . esc_attr( $title ) . '" class="kt-product-image">';
+			} else {
+				$html .= '<div class="kt-product-image-placeholder"></div>';
+			}
+		} else {
+			$html .= '<img src="' . esc_url( wc_placeholder_img_src( 'woocommerce_thumbnail' ) ) . '" alt="' . esc_attr( $title ) . '" class="kt-product-image">';
+		}
 		$html .= '</a>';
-		$html .= '<a href="' . esc_url( get_permalink() ) . '" class="flex h-8 w-8 items-center justify-center rounded-full border border-[#E4E6EC] bg-white text-xs text-[#1A1A1D] transition hover:border-[#1A1A1D] hover:bg-[#1A1A1D] hover:text-white">';
-		$html .= '<svg class="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>';
+		$html .= '</div>';
+
+		// RATING ROW
+		$html .= '<div class="kt-rating-row">';
+		$html .= '<div class="kt-stars">';
+		$filled = floor( $rating );
+		$half   = ( $rating - $filled ) >= 0.5;
+		for ( $i = 0; $i < 5; $i++ ) {
+			if ( $i < $filled ) {
+				$html .= '<i class="fa-solid fa-star"></i>';
+			} elseif ( $i === $filled && $half ) {
+				$html .= '<i class="fa-solid fa-star-half-stroke"></i>';
+			} else {
+				$html .= '<i class="fa-regular fa-star"></i>';
+			}
+		}
+		$html .= '</div>';
+		$html .= '<span class="kt-rating-count">';
+		if ( $review_count > 0 ) {
+			$html .= '(' . esc_html( $review_count ) . ')';
+		} else {
+			$html .= 'No reviews yet';
+		}
+		$html .= '</span>';
+		$html .= '</div>';
+
+		// CATEGORY
+		$html .= '<div class="kt-category">';
+		$html .= esc_html( $cat_name );
+		$html .= '</div>';
+
+		// TITLE
+		$html .= '<h3 class="kt-title">';
+		$html .= '<a href="' . esc_url( $product->get_permalink() ) . '">';
+		$html .= esc_html( $title );
+		$html .= '</a>';
+		$html .= '</h3>';
+
+		// PRICE
+		$html .= '<div class="kt-price-row">';
+		if ( $on_sale && $sale_price ) {
+			$html .= '<span class="kt-price-current">Rs ' . esc_html( number_format( (float) $sale_price, 0, '.', ',' ) ) . '</span>';
+			$html .= '<span class="kt-price-old">Rs ' . esc_html( number_format( (float) $price, 0, '.', ',' ) ) . '</span>';
+		} else {
+			$html .= '<span class="kt-price-current">Rs ' . esc_html( number_format( (float) $price, 0, '.', ',' ) ) . '</span>';
+		}
+		$html .= '</div>';
+
+		// AVAILABILITY
+		$html .= '<div class="kt-availability ' . ( $in_stock ? 'in-stock' : 'out-of-stock' ) . '">';
+		if ( $in_stock && $stock ) {
+			$html .= 'Available: ' . esc_html( (int) $stock ) . ' pcs';
+		} elseif ( $in_stock ) {
+			$html .= 'Available';
+		} else {
+			$html .= 'Out of Stock';
+		}
+		$html .= '</div>';
+
+		// FOOTER BUTTONS
+		$html .= '<div class="kt-footer-actions">';
+		if ( $in_stock ) {
+			$html .= '<a href="' . esc_url( $product->add_to_cart_url() ) . '" data-product_id="' . esc_attr( $product_id ) . '" class="kt-btn-cart add_to_cart_button ajax_add_to_cart">';
+			$html .= esc_html__( 'Add to Cart', 'astra-child' );
+			$html .= '</a>';
+		} else {
+			$html .= '<button class="kt-btn-cart" disabled>Add to Cart</button>';
+		}
+		$html .= '<a href="' . esc_url( $product->get_permalink() ) . '" class="kt-btn-details" title="View Details">';
+		$html .= '<i class="fa-solid fa-arrow-right"></i>';
 		$html .= '</a>';
 		$html .= '</div>';
 
 		$html .= '</div>';
-		$html .= '</article>';
+	}
+
+	wp_reset_postdata();
+
+	wp_send_json_success( array( 'html' => $html ) );
+	wp_die();
+}
+
+/**
+ * AJAX Handler: Load Sale Products (On Sale)
+ */
+add_action( 'wp_ajax_kt_load_sale_products', 'kt_load_sale_products' );
+add_action( 'wp_ajax_nopriv_kt_load_sale_products', 'kt_load_sale_products' );
+
+function kt_load_sale_products() {
+	// Build query args - only get products on sale
+	$args = array(
+		'post_type'      => 'product',
+		'posts_per_page' => 8,
+		'orderby'        => 'date',
+		'order'          => 'DESC',
+		'meta_key'       => '_sale_price',
+		'meta_compare'   => 'EXISTS',
+	);
+
+	$products = new WP_Query( $args );
+
+	if ( ! $products->have_posts() ) {
+		wp_send_json_success( array( 'html' => '<p style="text-align: center; padding: 40px 20px; color: #6b7280; grid-column: 1 / -1;">' . esc_html__( 'No products on sale', 'astra-child' ) . '</p>' ) );
+		wp_die();
+	}
+
+	// Build HTML matching featured products design
+	$html = '';
+	while ( $products->have_posts() ) {
+		$products->the_post();
+		$product     = wc_get_product( get_the_ID() );
+		$product_id  = $product->get_id();
+		$title       = $product->get_name();
+		$price       = $product->get_regular_price();
+		$sale_price  = $product->get_sale_price();
+		$rating      = $product->get_average_rating();
+		$review_count = $product->get_review_count();
+		$in_stock    = $product->is_in_stock();
+		$on_sale     = $product->is_on_sale();
+		$featured    = $product->is_featured();
+		$stock       = $product->get_stock_quantity();
+
+		// Get badge - all sale products get SALE badge
+		$badge_class = 'kt-badge-hot';
+		$badge_text  = 'SALE';
+
+		// Get category
+		$product_cats = $product->get_category_ids();
+		$cat_name = '';
+		if ( ! empty( $product_cats ) ) {
+			$cat = get_term( $product_cats[0], 'product_cat' );
+			if ( $cat && ! is_wp_error( $cat ) ) {
+				$cat_name = $cat->name;
+			}
+		}
+
+		// Start product card
+		$html .= '<div class="kt-product-card ' . ( $in_stock ? '' : 'out-of-stock' ) . '">';
+
+		// THUMBNAIL + BADGES
+		$html .= '<div class="kt-thumb">';
+		if ( $badge_text ) {
+			$html .= '<span class="kt-badge ' . esc_attr( $badge_class ) . '">' . esc_html( $badge_text ) . '</span>';
+		}
+		$html .= '<span class="kt-stock-status ' . ( $in_stock ? 'in-stock' : '' ) . '">';
+		$html .= $in_stock ? esc_html__( 'In Stock', 'astra-child' ) : esc_html__( 'Out of Stock', 'astra-child' );
+		$html .= '</span>';
+
+		$html .= '<a href="' . esc_url( $product->get_permalink() ) . '">';
+		$image_id = $product->get_image_id();
+		if ( $image_id ) {
+			$image_url = wp_get_attachment_image_url( $image_id, 'woocommerce_thumbnail' );
+			if ( $image_url ) {
+				$html .= '<img src="' . esc_url( $image_url ) . '" alt="' . esc_attr( $title ) . '" class="kt-product-image">';
+			} else {
+				$html .= '<div class="kt-product-image-placeholder"></div>';
+			}
+		} else {
+			$html .= '<img src="' . esc_url( wc_placeholder_img_src( 'woocommerce_thumbnail' ) ) . '" alt="' . esc_attr( $title ) . '" class="kt-product-image">';
+		}
+		$html .= '</a>';
+		$html .= '</div>';
+
+		// RATING ROW
+		$html .= '<div class="kt-rating-row">';
+		$html .= '<div class="kt-stars">';
+		$filled = floor( $rating );
+		$half   = ( $rating - $filled ) >= 0.5;
+		for ( $i = 0; $i < 5; $i++ ) {
+			if ( $i < $filled ) {
+				$html .= '<i class="fa-solid fa-star"></i>';
+			} elseif ( $i === $filled && $half ) {
+				$html .= '<i class="fa-solid fa-star-half-stroke"></i>';
+			} else {
+				$html .= '<i class="fa-regular fa-star"></i>';
+			}
+		}
+		$html .= '</div>';
+		$html .= '<span class="kt-rating-count">';
+		if ( $review_count > 0 ) {
+			$html .= '(' . esc_html( $review_count ) . ')';
+		} else {
+			$html .= 'No reviews yet';
+		}
+		$html .= '</span>';
+		$html .= '</div>';
+
+		// CATEGORY
+		$html .= '<div class="kt-category">';
+		$html .= esc_html( $cat_name );
+		$html .= '</div>';
+
+		// TITLE
+		$html .= '<h3 class="kt-title">';
+		$html .= '<a href="' . esc_url( $product->get_permalink() ) . '">';
+		$html .= esc_html( $title );
+		$html .= '</a>';
+		$html .= '</h3>';
+
+		// PRICE
+		$html .= '<div class="kt-price-row">';
+		if ( $on_sale && $sale_price ) {
+			$html .= '<span class="kt-price-current">Rs ' . esc_html( number_format( (float) $sale_price, 0, '.', ',' ) ) . '</span>';
+			$html .= '<span class="kt-price-old">Rs ' . esc_html( number_format( (float) $price, 0, '.', ',' ) ) . '</span>';
+		} else {
+			$html .= '<span class="kt-price-current">Rs ' . esc_html( number_format( (float) $price, 0, '.', ',' ) ) . '</span>';
+		}
+		$html .= '</div>';
+
+		// AVAILABILITY
+		$html .= '<div class="kt-availability ' . ( $in_stock ? 'in-stock' : 'out-of-stock' ) . '">';
+		if ( $in_stock && $stock ) {
+			$html .= 'Available: ' . esc_html( (int) $stock ) . ' pcs';
+		} elseif ( $in_stock ) {
+			$html .= 'Available';
+		} else {
+			$html .= 'Out of Stock';
+		}
+		$html .= '</div>';
+
+		// FOOTER BUTTONS
+		$html .= '<div class="kt-footer-actions">';
+		if ( $in_stock ) {
+			$html .= '<a href="' . esc_url( $product->add_to_cart_url() ) . '" data-product_id="' . esc_attr( $product_id ) . '" class="kt-btn-cart add_to_cart_button ajax_add_to_cart">';
+			$html .= esc_html__( 'Add to Cart', 'astra-child' );
+			$html .= '</a>';
+		} else {
+			$html .= '<button class="kt-btn-cart" disabled>Add to Cart</button>';
+		}
+		$html .= '<a href="' . esc_url( $product->get_permalink() ) . '" class="kt-btn-details" title="View Details">';
+		$html .= '<i class="fa-solid fa-arrow-right"></i>';
+		$html .= '</a>';
+		$html .= '</div>';
+
+		$html .= '</div>';
 	}
 
 	wp_reset_postdata();
@@ -316,3 +552,4 @@ function kt_enqueue_tailwind_for_product() {
 	);
 }
 add_action( 'wp_enqueue_scripts', 'kt_enqueue_tailwind_for_product', 30 );
+

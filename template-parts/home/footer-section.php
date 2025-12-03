@@ -11,132 +11,107 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 ?>
 
-<footer class="mt-10 bg-[#E6F7F1] border-t border-[#D5F0E6]">
-	<!-- Discount Strip -->
-	<div class="bg-[#FFE4EC] border-b border-[#FFD3E1]">
-		<div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-4 py-3 text-[11px]">
-			<div class="flex items-center gap-3">
-				<span class="rounded-full bg-white px-2.5 py-1 text-[10px] font-extrabold uppercase tracking-wide text-[#EC234A]">
-					<?php esc_html_e( 'FastPay', 'astra-child' ); ?>
-				</span>
-				<div>
-					<span class="font-semibold"><?php esc_html_e( '10% Instant Discount', 'astra-child' ); ?></span>
-					<span class="block text-[#6B6F76]">
-						<?php esc_html_e( 'With bank credit card EMI transactions.', 'astra-child' ); ?>
-					</span>
+<footer class="mt-10">
+	<!-- Social Media Bar -->
+	<div style="background-color: #EC234A; padding: 16px 0;">
+		<div class="mx-auto px-4" style="max-width: 1200px; width: 100%; box-sizing: border-box;">
+			<div class="flex items-center justify-between flex-wrap gap-4">
+				<p style="color: white; font-size: 15px; margin: 0;">
+					<?php esc_html_e( 'Get connected with us on social networks:', 'astra-child' ); ?>
+				</p>
+				<div class="flex gap-4">
+					<a href="#" style="color: white; font-size: 18px; text-decoration: none; transition: all 0.3s ease;" class="hover:opacity-80" title="Facebook">
+						<i class="fab fa-facebook-f"></i>
+					</a>
+					<a href="#" style="color: white; font-size: 18px; text-decoration: none; transition: all 0.3s ease;" class="hover:opacity-80" title="Twitter">
+						<i class="fab fa-twitter"></i>
+					</a>
+					<a href="#" style="color: white; font-size: 18px; text-decoration: none; transition: all 0.3s ease;" class="hover:opacity-80" title="Google">
+						<i class="fab fa-google"></i>
+					</a>
+					<a href="#" style="color: white; font-size: 18px; text-decoration: none; transition: all 0.3s ease;" class="hover:opacity-80" title="Instagram">
+						<i class="fab fa-instagram"></i>
+					</a>
+					<a href="#" style="color: white; font-size: 18px; text-decoration: none; transition: all 0.3s ease;" class="hover:opacity-80" title="LinkedIn">
+						<i class="fab fa-linkedin-in"></i>
+					</a>
+					<a href="#" style="color: white; font-size: 18px; text-decoration: none; transition: all 0.3s ease;" class="hover:opacity-80" title="GitHub">
+						<i class="fab fa-github"></i>
+					</a>
 				</div>
-			</div>
-			<div class="flex items-center gap-3">
-				<div>
-					<span class="font-semibold"><?php esc_html_e( 'Deals that suit your budget', 'astra-child' ); ?></span>
-					<span class="block text-[#6B6F76]">
-						<?php esc_html_e( 'Apply coupon at checkout', 'astra-child' ); ?>
-					</span>
-				</div>
-				<span class="rounded-full border border-dashed border-black/20 bg-white px-3 py-1 text-[10px] font-bold tracking-[0.18em]">
-					KACHO2024
-				</span>
-				<a href="<?php echo esc_url( wc_get_page_permalink( 'shop' ) ); ?>" class="rounded-full bg-[#EC234A] px-3 py-1.5 text-[11px] font-semibold text-white hover:bg-[#C9193A] transition">
-					<?php esc_html_e( 'Shop Now', 'astra-child' ); ?>
-				</a>
 			</div>
 		</div>
 	</div>
 
-	<!-- Main Footer -->
-	<div class="mx-auto max-w-6xl px-4 py-7">
-		<div class="grid gap-6 text-[11px] md:grid-cols-[2.1fr_1.2fr_1.2fr_1.3fr_1.7fr]">
-			<!-- About Section -->
-			<div>
-				<div class="text-lg font-extrabold tracking-[0.22em]">
-					<?php esc_html_e( 'KACHOTECH', 'astra-child' ); ?>
+	<!-- Main Footer Content -->
+	<div style="background-color: #0F172A; padding: 48px 0;">
+		<div class="mx-auto px-4" style="max-width: 1200px; width: 100%; box-sizing: border-box;">
+			<div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; margin-bottom: 40px;">
+				<!-- Company Info -->
+				<div>
+					<div style="display: flex; flex-direction: column; gap: 16px;">
+						<img src="http://kachotech.com/wp-content/uploads/2025/12/Kacho-tech-white-logo-scaled.png" alt="KachoTech Logo" style="width: auto;">
+						<p style="color: #C8CACE; font-size: 14px; line-height: 1.6; margin: 0;">
+							<?php esc_html_e( 'KachoTech brings premium winter heaters, small home appliances and cosmetics together in one trusted online store. Your comfort is our mission.', 'astra-child' ); ?>
+						</p>
+					</div>
 				</div>
-				<p class="mt-2 max-w-xs text-[#6B6F76]">
-					<?php esc_html_e( 'KachoTech brings winter heaters, small home appliances and cosmetics together in one trusted online store.', 'astra-child' ); ?>
+
+				<!-- Products -->
+				<div>
+					<h4 style="color: white; font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin: 0 0 20px 0;">
+						<?php esc_html_e( 'PRODUCTS', 'astra-child' ); ?>
+					</h4>
+					<ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px;">
+						<li><a href="#" style="color: #C8CACE; text-decoration: none; font-size: 14px; transition: color 0.3s ease;" class="hover:text-white"><?php esc_html_e( 'Winter Heaters', 'astra-child' ); ?></a></li>
+						<li><a href="#" style="color: #C8CACE; text-decoration: none; font-size: 14px; transition: color 0.3s ease;" class="hover:text-white"><?php esc_html_e( 'Home Appliances', 'astra-child' ); ?></a></li>
+						<li><a href="#" style="color: #C8CACE; text-decoration: none; font-size: 14px; transition: color 0.3s ease;" class="hover:text-white"><?php esc_html_e( 'Beauty & Cosmetics', 'astra-child' ); ?></a></li>
+						<li><a href="<?php echo esc_url( wc_get_page_permalink( 'shop' ) ); ?>" style="color: #C8CACE; text-decoration: none; font-size: 14px; transition: color 0.3s ease;" class="hover:text-white"><?php esc_html_e( 'View All Products', 'astra-child' ); ?></a></li>
+					</ul>
+				</div>
+
+				<!-- Useful Links -->
+				<div>
+					<h4 style="color: white; font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin: 0 0 20px 0;">
+						<?php esc_html_e( 'USEFUL LINKS', 'astra-child' ); ?>
+					</h4>
+					<ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px;">
+						<li><a href="<?php echo esc_url( wc_get_page_permalink( 'myaccount' ) ); ?>" style="color: #C8CACE; text-decoration: none; font-size: 14px; transition: color 0.3s ease;" class="hover:text-white"><?php esc_html_e( 'Your Account', 'astra-child' ); ?></a></li>
+						<li><a href="#" style="color: #C8CACE; text-decoration: none; font-size: 14px; transition: color 0.3s ease;" class="hover:text-white"><?php esc_html_e( 'Become an Affiliate', 'astra-child' ); ?></a></li>
+						<li><a href="#" style="color: #C8CACE; text-decoration: none; font-size: 14px; transition: color 0.3s ease;" class="hover:text-white"><?php esc_html_e( 'Shipping Rates', 'astra-child' ); ?></a></li>
+						<li><a href="#" style="color: #C8CACE; text-decoration: none; font-size: 14px; transition: color 0.3s ease;" class="hover:text-white"><?php esc_html_e( 'Help Center', 'astra-child' ); ?></a></li>
+					</ul>
+				</div>
+
+				<!-- Contact Info -->
+				<div>
+					<h4 style="color: white; font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin: 0 0 20px 0;">
+						<?php esc_html_e( 'CONTACT', 'astra-child' ); ?>
+					</h4>
+					<ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px;">
+						<li style="color: #C8CACE; font-size: 14px; display: flex; align-items: flex-start; gap: 10px;">
+							<i class="fas fa-map-marker-alt" style="color: #EC234A; flex-shrink: 0; margin-top: 2px;"></i>
+							<span><?php esc_html_e( 'B601-605, Ahmed Center Naya Mohallah Liaquat Road Rawalpindi', 'astra-child' ); ?></span>
+						</li>
+						<li style="color: #C8CACE; font-size: 14px; display: flex; align-items: center; gap: 10px;">
+							<i class="fas fa-envelope" style="color: #EC234A; flex-shrink: 0;"></i>
+							<a href="mailto:support@kachotech.com" style="color: #C8CACE; text-decoration: none; transition: color 0.3s ease;" class="hover:text-white">support@kachotech.com</a>
+						</li>
+						<li style="color: #C8CACE; font-size: 14px; display: flex; align-items: center; gap: 10px;">
+							<i class="fas fa-phone" style="color: #EC234A; flex-shrink: 0;"></i>
+							<a href="tel:+923295111000" style="color: #C8CACE; text-decoration: none; transition: color 0.3s ease;" class="hover:text-white"><?php esc_html_e( '+92 329-5111000', 'astra-child' ); ?></a>
+						</li>
+					</ul>
+				</div>
+			</div>
+
+			<!-- Footer Divider -->
+			<div style="border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 24px; margin-top: 24px;">
+				<p style="color: #7A7F86; font-size: 13px; text-align: center; margin: 0;">
+					© <?php echo esc_html( gmdate( 'Y' ) ); ?> <?php esc_html_e( 'KachoTech. All rights reserved. Designed & developed by KachoTech Team.', 'astra-child' ); ?>
 				</p>
-				<div class="mt-4 space-y-1">
-					<p>📍 <?php esc_html_e( 'Plot XX, Rawalpindi, Pakistan', 'astra-child' ); ?></p>
-					<p>📞 <?php esc_html_e( '03XX-XXXXXXX', 'astra-child' ); ?></p>
-					<p>✉️ support@kachotech.com</p>
-				</div>
 			</div>
-
-			<!-- Get To Know Us -->
-			<div>
-				<h4 class="mb-2 text-xs font-semibold"><?php esc_html_e( 'Get To Know Us', 'astra-child' ); ?></h4>
-				<ul class="space-y-1">
-					<li><a href="#" class="hover:text-[#EC234A] transition"><?php esc_html_e( 'About KachoTech', 'astra-child' ); ?></a></li>
-					<li><a href="#" class="hover:text-[#EC234A] transition"><?php esc_html_e( 'Careers', 'astra-child' ); ?></a></li>
-					<li><a href="#" class="hover:text-[#EC234A] transition"><?php esc_html_e( 'Customer Reviews', 'astra-child' ); ?></a></li>
-					<li><a href="#" class="hover:text-[#EC234A] transition"><?php esc_html_e( 'Store Locations', 'astra-child' ); ?></a></li>
-				</ul>
-			</div>
-
-			<!-- Legal -->
-			<div>
-				<h4 class="mb-2 text-xs font-semibold"><?php esc_html_e( 'Legal', 'astra-child' ); ?></h4>
-				<ul class="space-y-1">
-					<li><a href="<?php echo esc_url( home_url( '/privacy-policy' ) ); ?>" class="hover:text-[#EC234A] transition"><?php esc_html_e( 'Privacy Policy', 'astra-child' ); ?></a></li>
-					<li><a href="#" class="hover:text-[#EC234A] transition"><?php esc_html_e( 'Terms of Use', 'astra-child' ); ?></a></li>
-					<li><a href="#" class="hover:text-[#EC234A] transition"><?php esc_html_e( 'Cookies & Tracking', 'astra-child' ); ?></a></li>
-					<li><a href="#" class="hover:text-[#EC234A] transition"><?php esc_html_e( 'Compliance', 'astra-child' ); ?></a></li>
-				</ul>
-			</div>
-
-			<!-- Orders & Returns -->
-			<div>
-				<h4 class="mb-2 text-xs font-semibold"><?php esc_html_e( 'Orders & Returns', 'astra-child' ); ?></h4>
-				<ul class="space-y-1">
-					<li><a href="<?php echo esc_url( wc_get_page_permalink( 'myaccount' ) ); ?>" class="hover:text-[#EC234A] transition"><?php esc_html_e( 'Your Orders', 'astra-child' ); ?></a></li>
-					<li><a href="#" class="hover:text-[#EC234A] transition"><?php esc_html_e( 'Return & Replacement', 'astra-child' ); ?></a></li>
-					<li><a href="#" class="hover:text-[#EC234A] transition"><?php esc_html_e( 'Shipping & Delivery', 'astra-child' ); ?></a></li>
-					<li><a href="#" class="hover:text-[#EC234A] transition"><?php esc_html_e( 'Refund Policy', 'astra-child' ); ?></a></li>
-				</ul>
-			</div>
-
-			<!-- Newsletter -->
-			<div>
-				<h4 class="mb-2 text-xs font-semibold"><?php esc_html_e( 'Let\'s Keep In Touch', 'astra-child' ); ?></h4>
-				<p class="mb-2 text-[#6B6F76]">
-					<?php esc_html_e( 'Get recommendations, tips and exclusive winter deals.', 'astra-child' ); ?>
-				</p>
-				<form method="post" class="mb-3 flex gap-2">
-					<input
-						type="email"
-						name="email"
-						class="flex-1 rounded-full border border-[#C7D6CF] bg-white px-3 py-1.5 text-[11px] outline-none focus:border-[#EC234A]"
-						placeholder="<?php esc_attr_e( 'Enter email address', 'astra-child' ); ?>"
-						required
-					/>
-					<button type="submit" class="rounded-full bg-[#EC234A] px-3 py-1.5 text-[11px] font-semibold text-white hover:bg-[#C9193A] transition">
-						<?php esc_html_e( 'Subscribe', 'astra-child' ); ?>
-					</button>
-				</form>
-				<div class="mb-2 flex items-center gap-2">
-					<span><?php esc_html_e( 'Social', 'astra-child' ); ?></span>
-					<div class="flex gap-1">
-						<a href="#" class="flex h-5 w-5 items-center justify-center rounded-full bg-[#D4E8E0] text-[10px] hover:bg-[#EC234A] hover:text-white transition">f</a>
-						<a href="#" class="flex h-5 w-5 items-center justify-center rounded-full bg-[#D4E8E0] text-[10px] hover:bg-[#EC234A] hover:text-white transition">in</a>
-						<a href="#" class="flex h-5 w-5 items-center justify-center rounded-full bg-[#D4E8E0] text-[10px] hover:bg-[#EC234A] hover:text-white transition">ig</a>
-						<a href="#" class="flex h-5 w-5 items-center justify-center rounded-full bg-[#D4E8E0] text-[10px] hover:bg-[#EC234A] hover:text-white transition">yt</a>
-					</div>
-				</div>
-				<div class="flex gap-2">
-					<div class="flex flex-col rounded-lg bg-[#1A1A1D] px-2.5 py-1.5 text-[9px] text-white">
-						<span class="opacity-80"><?php esc_html_e( 'Download on the', 'astra-child' ); ?></span>
-						<span class="text-[11px] font-semibold"><?php esc_html_e( 'App Store', 'astra-child' ); ?></span>
-					</div>
-					<div class="flex flex-col rounded-lg bg-[#1A1A1D] px-2.5 py-1.5 text-[9px] text-white">
-						<span class="opacity-80"><?php esc_html_e( 'Get it on', 'astra-child' ); ?></span>
-						<span class="text-[11px] font-semibold"><?php esc_html_e( 'Google Play', 'astra-child' ); ?></span>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<div class="mt-5 flex flex-wrap items-center justify-between border-t border-[#D4EAE0] pt-3 text-[10px] text-[#7B8A85]">
-			<span>© <?php echo esc_html( gmdate( 'Y' ) ); ?> <?php esc_html_e( 'KachoTech. All rights reserved.', 'astra-child' ); ?></span>
-			<span><?php esc_html_e( 'Designed & developed by KachoTech Team.', 'astra-child' ); ?></span>
 		</div>
 	</div>
 </footer>
+

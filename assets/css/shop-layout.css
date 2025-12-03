@@ -578,7 +578,9 @@ body.kt-no-scroll {
   font-size:0.8rem;
   font-weight:600;
   color:#0f172a;
+  display:none;
 }
+
 
 .kt-filters-right{
   display:flex;
@@ -1237,6 +1239,9 @@ body.kt-no-scroll {
 }
 
 @media (min-width:768px){
+  form.kt-sort-form label {
+    display: none;
+}
   .kt-header-bar{
     margin-bottom:2.5rem;
   }
@@ -1247,6 +1252,10 @@ body.kt-no-scroll {
   
   .kt-results-count{
     display:inline;
+  }
+
+  #kt-sort-select{
+    display:flex;
   }
   
   #kt-open-filters{

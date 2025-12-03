@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 ?>
 
-<section class="mx-auto mt-10 max-w-6xl px-4">
+<section class="kt-perks-section" style="max-width: 1200px; margin: 40px auto; padding: 0 16px; width: 100%; box-sizing: border-box;">
 	<!-- Perks Row -->
 	<div class="rounded-3xl bg-white px-7 py-5 shadow-soft grid gap-6 md:grid-cols-3">
 		<?php
@@ -104,7 +104,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			</div>
 			<img
 				class="h-24 w-auto object-contain"
-				src="https://via.placeholder.com/150x120?text=Kitchen+Set"
+				src="http://kachotech.com/wp-content/uploads/2025/12/category-home-appliences.png"
 				alt="<?php esc_attr_e( 'Kitchen Set', 'astra-child' ); ?>"
 				loading="lazy"
 			/>
@@ -120,7 +120,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 					<?php esc_html_e( 'Save up to 25% Off', 'astra-child' ); ?>
 				</p>
 			</div>
-			<div class="h-24 w-24 rounded-full bg-white/60 flex-shrink-0"></div>
+			<div class="h-24 w-24 rounded-full bg-white/60 flex-shrink-0">
+				<img
+				class="h-24 w-auto object-contain"
+				src="http://kachotech.com/wp-content/uploads/2025/12/category-heater.png"
+				alt="<?php esc_attr_e( 'Kitchen Set', 'astra-child' ); ?>"
+				loading="lazy"
+			/>
+			</div>
 		</article>
 
 		<!-- Electronics Deals -->
@@ -132,7 +139,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			</div>
 			<img
 				class="h-24 w-auto object-contain"
-				src="https://via.placeholder.com/150x120?text=Electronics"
+				src="http://kachotech.com/wp-content/uploads/2025/12/category-electronics.png"
 				alt="<?php esc_attr_e( 'Electronics', 'astra-child' ); ?>"
 				loading="lazy"
 			/>

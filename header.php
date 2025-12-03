@@ -11,10 +11,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 <head>
 	<meta charset="<?php bloginfo( 'charset' ); ?>" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<link rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-      integrity="sha512-RXf+QSDCUq0xI1NQ1cT1t7LJYp6wH4u7q9jwIsyhlHLLJoPLD114F8CbnZ4PlzyBbs6j8ZZr3Su2MzKK3KpYkg=="
-      crossorigin="anonymous" referrerpolicy="no-referrer" />
 	
 	<?php wp_head(); ?>
 </head>

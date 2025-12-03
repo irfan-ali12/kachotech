@@ -23,7 +23,7 @@ $sale_args = array(
 $sale_products = new WP_Query( $sale_args );
 ?>
 
-<section class="mx-auto mt-10 max-w-6xl px-4">
+<section class="kt-promos-section" style="max-width: 1200px; margin: 40px auto; padding: 0 16px; width: 100%; box-sizing: border-box;">
 	<!-- Top Promo Row -->
 	<div class="grid gap-4 md:grid-cols-[2fr_1.3fr_1.2fr]">
 		<!-- Primary Promo -->
@@ -106,87 +106,71 @@ $sale_products = new WP_Query( $sale_args );
 		</article>
 	</div>
 
-	<!-- Bottom Sale + Mini Products -->
-	<div class="mt-4 grid gap-4 md:grid-cols-[1.6fr_1fr_1fr_1fr_1fr]">
-		<!-- Countdown Timer -->
-		<article class="flex flex-col justify-between rounded-3xl bg-gradient-to-br from-[#FFE6F0] via-[#FFF4DF] to-[#EAF5FF] p-6 shadow-soft">
-			<div>
-				<h3 class="text-lg font-extrabold"><?php esc_html_e( 'Biggest Friday Sale', 'astra-child' ); ?></h3>
-				<p class="mt-2 text-xs text-[#6B6F76] max-w-xs">
-					<?php esc_html_e( 'Limited-time offers on heaters, audio and cosmetics. Stock moves fast – grab your winter bundle.', 'astra-child' ); ?>
+	<!-- Sale Banner -->
+	<div class="mt-12 mb-12" style="max-width: 1200px; margin-top:20px;">
+		<article class="rounded-2xl bg-cover bg-center bg-contain bg-no-repeat flex items-center px-12" style="background-image: url('http://kachotech.com/wp-content/uploads/2025/12/sale-banner-img.jpg'); background-color: #1A1A1D; min-height: 300px; border: 1px solid rgba(0, 0, 0, 0.1); padding-left: 20px; background-size: contain; background-repeat: no-repeat; background-position: right;">
+			
+			<!-- Left: Sale Text -->
+			<div class="flex-1">
+				<p class="text-xs font-semibold text-[#EC234A] mb-3 uppercase tracking-widest">
+					<?php esc_html_e( 'Limited Time Offer', 'astra-child' ); ?>
 				</p>
-				<div class="mt-4 grid grid-cols-4 gap-2 text-center text-[11px]">
-					<div class="rounded-2xl bg-white/80 p-2 shadow-soft">
-						<div class="text-sm font-extrabold">02</div>
-						<div class="text-[10px] text-[#6B6F76]"><?php esc_html_e( 'Days', 'astra-child' ); ?></div>
-					</div>
-					<div class="rounded-2xl bg-white/80 p-2 shadow-soft">
-						<div class="text-sm font-extrabold">05</div>
-						<div class="text-[10px] text-[#6B6F76]"><?php esc_html_e( 'Hours', 'astra-child' ); ?></div>
-					</div>
-					<div class="rounded-2xl bg-white/80 p-2 shadow-soft">
-						<div class="text-sm font-extrabold">33</div>
-						<div class="text-[10px] text-[#6B6F76]"><?php esc_html_e( 'Minutes', 'astra-child' ); ?></div>
-					</div>
-					<div class="rounded-2xl bg-white/80 p-2 shadow-soft">
-						<div class="text-sm font-extrabold">45</div>
-						<div class="text-[10px] text-[#6B6F76]"><?php esc_html_e( 'Seconds', 'astra-child' ); ?></div>
-					</div>
-				</div>
-			</div>
-			<div class="mt-4 flex items-center justify-between gap-3">
-				<p class="text-[10px] text-[#6B6F76]">
-					<?php esc_html_e( 'Special prices apply automatically at checkout on eligible items.', 'astra-child' ); ?>
-				</p>
-				<a href="<?php echo esc_url( wc_get_page_permalink( 'shop' ) ); ?>" class="inline-flex items-center gap-2 rounded-full bg-[#EC234A] px-3 py-1.5 text-[11px] font-semibold text-white hover:bg-[#C9193A] transition">
-					<?php esc_html_e( 'See All', 'astra-child' ); ?>
+				<h2 class="text-2xl font-bold text-white mb-6 leading-tight">
+					<?php esc_html_e( 'Premium Heating', 'astra-child' ); ?>
+					<br />
+					<?php esc_html_e( 'Solutions', 'astra-child' ); ?>
+				</h2>
+				<a href="<?php echo esc_url( wc_get_page_permalink( 'shop' ) ); ?>" class="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-xs font-semibold text-[#EC234A] shadow-soft hover:shadow-lg transition">
+					<?php esc_html_e( 'Shop Now', 'astra-child' ); ?>
 					<svg class="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
 				</a>
 			</div>
 		</article>
-
-		<!-- Mini Product Cards -->
-		<?php
-		if ( $sale_products->have_posts() ) {
-			while ( $sale_products->have_posts() ) {
-				$sale_products->the_post();
-				$product = wc_get_product( get_the_ID() );
-				?>
-				<article class="rounded-3xl bg-white p-3 shadow-soft hover:shadow-lg transition">
-					<div class="relative rounded-2xl bg-[#F6F7FA] p-3">
-						<span class="absolute left-2 top-2 rounded-full bg-[#FFE7EC] px-2 py-0.5 text-[10px] font-bold text-[#EC234A]">
-							<?php esc_html_e( 'SALE', 'astra-child' ); ?>
-						</span>
-						<span class="absolute right-2 top-2 text-[10px] font-semibold text-[#40C6A8]">
-							<?php esc_html_e( 'In Stock', 'astra-child' ); ?>
-						</span>
-						<?php
-						if ( has_post_thumbnail() ) {
-							echo '<img src="' . esc_url( get_the_post_thumbnail_url( get_the_ID(), 'medium' ) ) . '" alt="' . esc_attr( get_the_title() ) . '" class="mx-auto h-24 w-auto object-contain" />';
-						} else {
-							echo '<img src="https://via.placeholder.com/150x150?text=' . urlencode( get_the_title() ) . '" alt="' . esc_attr( get_the_title() ) . '" class="mx-auto h-24 w-auto object-contain" />';
-						}
-						?>
-					</div>
-					<div class="mt-2 text-[11px]">
-						<h4 class="line-clamp-2 font-semibold"><?php the_title(); ?></h4>
-						<div class="mt-1 flex items-baseline gap-2">
-							<span class="text-[13px] font-extrabold">
-								<?php echo wp_kses_post( $product->get_price_html() ); ?>
-							</span>
-						</div>
-						<p class="mt-1 text-[10px] font-semibold text-[#40C6A8]">
-							<?php
-							$stock = $product->get_stock_quantity();
-							printf( esc_html_e( '%d in stock', 'astra-child' ), absint( $stock ? $stock : 0 ) );
-							?>
-						</p>
-					</div>
-				</article>
-				<?php
-			}
-			wp_reset_postdata();
-		}
-		?>
 	</div>
+
+	<!-- Products on Sale Section -->
+	<div class="kt-sale-products-wrapper" style="margin-top: 40px; max-width: 1200px; margin-left: auto; margin-right: auto;">
+		<div class="kt-sale-products-header" style="margin-bottom: 24px;">
+			<h2 style="font-size: 24px; font-weight: 700; color: #0f172a; margin: 0; letter-spacing: -0.5px;">
+				<?php esc_html_e( 'Products on Sale', 'astra-child' ); ?>
+			</h2>
+		</div>
+
+		<div id="kt-sale-products-grid" class="kt-featured-grid">
+			<!-- Sale products will load here via AJAX -->
+		</div>
+	</div>
+
+	<script>
+	(function() {
+		const saleProductsGrid = document.getElementById('kt-sale-products-grid');
+
+		function loadSaleProducts() {
+			const formData = new FormData();
+			formData.append('action', 'kt_load_sale_products');
+
+			fetch('<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>', {
+				method: 'POST',
+				body: formData,
+				credentials: 'same-origin'
+			})
+			.then(response => response.json())
+			.then(data => {
+				if (data.success) {
+					saleProductsGrid.innerHTML = data.data.html;
+				} else {
+					saleProductsGrid.innerHTML = '<p style="text-align: center; padding: 40px 20px; color: #6b7280; grid-column: 1 / -1;"><?php esc_html_e( 'No products on sale', 'astra-child' ); ?></p>';
+				}
+			})
+			.catch(err => {
+				console.error('Error loading sale products:', err);
+				saleProductsGrid.innerHTML = '<p style="text-align: center; padding: 40px 20px; color: #6b7280; grid-column: 1 / -1;"><?php esc_html_e( 'Error loading products', 'astra-child' ); ?></p>';
+			});
+		}
+
+		// Load sale products on page load
+		loadSaleProducts();
+	})();
+	</script>
+
 </section>

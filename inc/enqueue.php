@@ -106,9 +106,24 @@ function kachotech_child_enqueue_scripts() {
 			true
 		);
 
+		// Shop JS for sale products add to cart functionality
+		wp_enqueue_script(
+			'kt-shop-js',
+			get_stylesheet_directory_uri() . '/assets/js/shop.js',
+			array( 'jquery', 'woocommerce' ),
+			'1.0',
+			true
+		);
+
 		wp_localize_script( 'kt-hero-js', 'KT_AJAX', array(
 			'ajax_url' => admin_url( 'admin-ajax.php' ),
 			'hero_nonce' => wp_create_nonce( 'kt_hero_nonce' ),
+		) );
+
+		// Localize shop script for AJAX
+		wp_localize_script( 'kt-shop-js', 'ktShopAjax', array(
+			'ajaxurl' => admin_url( 'admin-ajax.php' ),
+			'nonce' => wp_create_nonce( 'kt_shop_nonce' ),
 		) );
 	}
 
