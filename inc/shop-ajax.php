@@ -8,6 +8,99 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
+ * Get price range for the current context (shop or category)
+ * Simplified and optimized with caching
+ */
+function kt_get_price_range_for_context( $category_id, $is_category_page, $cat_array ) {
+    global $wpdb;
+    
+    // Create cache key based on context
+    $cache_key = 'kt_price_range_' . md5( json_encode( array( $category_id, $is_category_page, $cat_array ) ) );
+    $cached_range = get_transient( $cache_key );
+    
+    if ( $cached_range !== false ) {
+        return $cached_range;
+    }
+    
+    // Build query args for WP_Query (more reliable than raw SQL)
+    $args = array(
+        'post_type'      => 'product',
+        'post_status'    => 'publish',
+        'posts_per_page' => -1,
+        'fields'         => 'ids',
+        'meta_query'     => array(
+            array(
+                'key'     => '_price',
+                'value'   => 0,
+                'compare' => '>',
+                'type'    => 'NUMERIC'
+            )
+        ),
+    );
+
+    // If category page, filter by that category
+    if ( $is_category_page && $category_id > 0 ) {
+        $args['tax_query'] = array(
+            array(
+                'taxonomy' => 'product_cat',
+                'field'    => 'id',
+                'terms'    => $category_id,
+            )
+        );
+    }
+    // If categories selected on shop page
+    elseif ( ! empty( $cat_array ) && ! $is_category_page ) {
+        $args['tax_query'] = array(
+            array(
+                'taxonomy' => 'product_cat',
+                'field'    => 'slug',
+                'terms'    => $cat_array,
+            )
+        );
+    }
+
+    $query = new WP_Query( $args );
+    $product_ids = $query->posts;
+
+    if ( empty( $product_ids ) ) {
+        // Fallback with safe defaults
+        $result = array( 'min' => 0, 'max' => 25000 );
+        set_transient( $cache_key, $result, HOUR_IN_SECONDS );
+        return $result;
+    }
+
+    // Get min and max price from the products
+    $prices = array();
+    foreach ( $product_ids as $product_id ) {
+        $product = wc_get_product( $product_id );
+        if ( $product ) {
+            $price = (float) $product->get_price();
+            if ( $price > 0 ) {
+                $prices[] = $price;
+            }
+        }
+    }
+
+    if ( ! empty( $prices ) ) {
+        $min_price = floor( min( $prices ) );
+        $max_price = ceil( max( $prices ) );
+        
+        if ( $max_price <= $min_price ) {
+            $max_price = $min_price + 1000;
+        }
+        
+        $result = array( 'min' => $min_price, 'max' => $max_price );
+    } else {
+        $result = array( 'min' => 0, 'max' => 25000 );
+    }
+
+    // Cache for 1 hour
+    set_transient( $cache_key, $result, HOUR_IN_SECONDS );
+    
+    return $result;
+}
+
+/**
  * AJAX endpoint for filtering products
  */
 function kt_filter_products_ajax() {
@@ -47,6 +140,11 @@ function kt_filter_products_ajax() {
     // Ensure minimum pagination
     $paged = max( 1, $paged );
     $posts_per_page = 12;
+
+    // Simplified: Use defaults if price params are invalid or not set
+    if ( $max_price <= 0 ) {
+        $max_price = 25000; // Safe default
+    }
 
     // Build WooCommerce query args - EXCLUDE PRODUCTS WITH NO PRICE
     $args = array(
@@ -157,11 +255,12 @@ function kt_filter_products_ajax() {
         }
     }
 
-    // Add meta_query for max price - FIXED to handle price ranges correctly
-    if ( ! empty( $max_price ) && $max_price > 0 ) {
+    // Add meta_query for max price - only if a valid price is specified
+    // When max_price is 0, it means no price filter was applied
+    if ( $max_price > 0 ) {
         $args['meta_query'][] = array(
             'key'     => '_price',
-            'value'   => array( 1, (float) $max_price ), // Start from 1 instead of 0
+            'value'   => array( 0.01, (float) $max_price ), // Include prices above 0 up to max
             'type'    => 'NUMERIC',
             'compare' => 'BETWEEN',
         );
@@ -194,9 +293,14 @@ function kt_filter_products_ajax() {
         }
     }
 
-    // Set tax_query relation if we have multiple tax queries
-    if ( count( $args['tax_query'] ) > 1 ) {
-        $args['tax_query']['relation'] = 'AND';
+    // Remove empty tax_query if no tax conditions before setting relations
+    if ( empty( $args['tax_query'] ) ) {
+        unset( $args['tax_query'] );
+    } else {
+        // Only set tax_query relation if we have multiple queries
+        if ( count( $args['tax_query'] ) > 1 ) {
+            $args['tax_query']['relation'] = 'AND';
+        }
     }
 
     // Set meta_query relation if we have multiple meta conditions
@@ -204,44 +308,62 @@ function kt_filter_products_ajax() {
         $args['meta_query']['relation'] = 'AND';
     }
 
-    // Remove empty tax_query if no tax conditions
-    if ( empty( $args['tax_query'] ) ) {
-        unset( $args['tax_query'] );
+    // For custom sorting (only when NO filters are applied)
+    // Skip custom sorting if user has applied any filters
+    $has_filters = ! empty( $brands_array ) || ! empty( $availability_array ) || $min_rating > 0 || 
+                   ( $max_price > 0 && $max_price < 25000 ) || ! empty( $search );
+    $use_custom_sorting = empty( $cat_array ) && ! $is_category_page && ! $has_filters;
+    
+    if ( $use_custom_sorting ) {
+        // Get all matching products for custom sorting (only on initial unfiltered shop view)
+        $args_all = $args;
+        $args_all['posts_per_page'] = -1;  // Get all
+        $args_all['paged'] = 1;
+        $query = new WP_Query( $args_all );
+    } else {
+        // Normal pagination query
+        $query = new WP_Query( $args );
     }
-
-    // Query products
-    $query = new WP_Query( $args );
 
     // Apply smart sorting when NO category filter is applied (default shop view)
     // Priority: Rated products first (by rating DESC), then unrated, with Heaters prioritized in each group
-    if ( empty( $cat_array ) && ! $is_category_page ) {
+    if ( $use_custom_sorting ) {
+        // Optimize: Get all ratings and heater category info in one query instead of per-product
+        global $wpdb;
+        $post_ids = wp_list_pluck( $query->posts, 'ID' );
+        
+        // Get all ratings at once
+        $rating_query = "SELECT post_id, AVG(CAST(pm.meta_value AS FLOAT)) as avg_rating
+                         FROM {$wpdb->postmeta} pm
+                         WHERE pm.post_id IN (" . implode(',', array_map('absint', $post_ids)) . ")
+                         AND pm.meta_key = '_wc_average_rating'
+                         GROUP BY pm.post_id";
+        $ratings = wp_cache_get( 'kt_product_ratings_' . md5( implode( ',', $post_ids ) ) );
+        if ( false === $ratings ) {
+            $ratings = $wpdb->get_results( $rating_query );
+            wp_cache_set( 'kt_product_ratings_' . md5( implode( ',', $post_ids ) ), $ratings, '', 3600 );
+        }
+        $ratings_map = wp_list_pluck( $ratings, 'avg_rating', 'post_id' );
+        
+        // Check heater category
+        $heater_term = get_term_by( 'slug', 'heaters', 'product_cat' );
+        $heater_term_id = $heater_term ? $heater_term->term_id : 0;
+        
         // Collect all products with their metadata for custom sorting
         $product_list = array();
         foreach ( $query->posts as $post ) {
-            $product = wc_get_product( $post->ID );
-            if ( ! $product ) {
-                continue;
-            }
+            $product_id = $post->ID;
+            
+            // Get rating from cache
+            $rating = isset( $ratings_map[ $product_id ] ) ? (float) $ratings_map[ $product_id ] : 0;
+            $has_rating = $rating > 0;
             
             // Check if product is in heaters category
-            $product_cats = $product->get_category_ids();
-            $is_heater = false;
-            
-            if ( ! empty( $product_cats ) ) {
-                foreach ( $product_cats as $cat_id ) {
-                    $cat = get_term( $cat_id, 'product_cat' );
-                    if ( $cat && ! is_wp_error( $cat ) && 'heaters' === $cat->slug ) {
-                        $is_heater = true;
-                        break;
-                    }
-                }
-            }
-            
-            $rating = (float) $product->get_average_rating();
-            $has_rating = $rating > 0;
+            $is_heater = $heater_term_id && has_term( $heater_term_id, 'product_cat', $product_id );
             
             $product_list[] = array(
                 'post'        => $post,
+                'product_id'  => $product_id,
                 'rating'      => $rating,
                 'is_heater'   => $is_heater,
                 'has_rating'  => $has_rating,
@@ -285,7 +407,12 @@ function kt_filter_products_ajax() {
 
     // Apply rating filter in PHP (since WooCommerce stores ratings in postmeta)
     $filtered_posts = $query->posts;
-    $total_filtered_products = $query->found_posts;
+    // For custom sorting, the actual post count is the filtered posts array
+    if ( $use_custom_sorting ) {
+        $total_filtered_products = count( $filtered_posts );
+    } else {
+        $total_filtered_products = $query->found_posts;
+    }
     
     if ( $min_rating > 0 ) {
         $filtered_posts = array_filter( $filtered_posts, function( $post ) use ( $min_rating ) {
@@ -300,40 +427,22 @@ function kt_filter_products_ajax() {
         // Re-index array after filtering
         $filtered_posts = array_values( $filtered_posts );
         
-        // Recalculate total count for rating filter
-        if ( $min_rating > 0 ) {
-            // We need to count all products that match the rating, not just the current page
-            $count_args = $args;
-            $count_args['posts_per_page'] = -1;
-            $count_args['paged'] = 1;
-            $count_args['fields'] = 'ids';
-            
-            $count_query = new WP_Query( $count_args );
-            $all_filtered_posts = $count_query->posts;
-            
-            if ( $min_rating > 0 ) {
-                $all_filtered_posts = array_filter( $all_filtered_posts, function( $post_id ) use ( $min_rating ) {
-                    $product = wc_get_product( $post_id );
-                    if ( ! $product ) {
-                        return false;
-                    }
-                    $average_rating = $product->get_average_rating();
-                    return $average_rating >= $min_rating;
-                });
-            }
-            
-            $total_filtered_products = count( $all_filtered_posts );
-        }
+        // Update total count after rating filter
+        $total_filtered_products = count( $filtered_posts );
+        
+        // Update query posts to reflect rating filter
+        $query->posts = $filtered_posts;
     }
 
     // Calculate pagination correctly
     $total_products = $total_filtered_products;
     $max_pages = ceil( $total_products / $posts_per_page );
 
-    // Apply pagination to filtered posts for current page
-    if ( $min_rating > 0 ) {
+    // Apply pagination to filtered/sorted posts for current page
+    // This applies when we have custom sorting or rating filter
+    if ( $use_custom_sorting || $min_rating > 0 ) {
         $offset = ( $paged - 1 ) * $posts_per_page;
-        $current_page_posts = array_slice( $filtered_posts, $offset, $posts_per_page );
+        $current_page_posts = array_slice( $query->posts, $offset, $posts_per_page );
         $query->posts = $current_page_posts;
         $query->post_count = count( $current_page_posts );
     }
@@ -520,29 +629,48 @@ function kt_filter_products_ajax() {
     wp_reset_postdata();
     $html = ob_get_clean();
     
-    // Generate pagination HTML - FIXED to work with filtered results
+    // Generate pagination HTML with data attributes for AJAX handling
     $pagination_html = '';
     if ( $max_pages > 1 ) {
-        $pagination_args = array(
-            'base'      => add_query_arg( 'paged', '%#%' ),
-            'format'    => '',
-            'current'   => $paged,
-            'total'     => $max_pages,
-            'prev_text' => '&laquo;',
-            'next_text' => '&raquo;',
-            'type'      => 'plain',
-            'end_size'  => 1,
-            'mid_size'  => 2,
-        );
+        $pagination_html = '<div class="woocommerce-pagination">';
         
-        $pagination_links = paginate_links( $pagination_args );
-        
-        if ( $pagination_links ) {
-            // Add kt-page-link class to all pagination links except current
-            $pagination_links = str_replace( 'class="page-numbers', 'class="page-numbers kt-page-link', $pagination_links );
-            $pagination_links = str_replace( 'class="page-numbers kt-page-link current', 'class="page-numbers current', $pagination_links );
-            $pagination_html = $pagination_links;
+        // Previous link
+        if ( $paged > 1 ) {
+            $pagination_html .= '<a class="page-numbers kt-page-link prev-page" data-paged="' . ( $paged - 1 ) . '" href="#">&laquo;</a>';
         }
+        
+        // Page numbers with ellipsis support
+        $start_page = max( 1, $paged - 2 );
+        $end_page = min( $max_pages, $paged + 2 );
+        
+        if ( $start_page > 1 ) {
+            $pagination_html .= '<a class="page-numbers kt-page-link" data-paged="1" href="#">1</a>';
+            if ( $start_page > 2 ) {
+                $pagination_html .= '<span class="page-numbers dots">&hellip;</span>';
+            }
+        }
+        
+        for ( $i = $start_page; $i <= $end_page; $i++ ) {
+            if ( $i == $paged ) {
+                $pagination_html .= '<span aria-current="page" class="page-numbers current">' . $i . '</span>';
+            } else {
+                $pagination_html .= '<a class="page-numbers kt-page-link" data-paged="' . $i . '" href="#">' . $i . '</a>';
+            }
+        }
+        
+        if ( $end_page < $max_pages ) {
+            if ( $end_page < $max_pages - 1 ) {
+                $pagination_html .= '<span class="page-numbers dots">&hellip;</span>';
+            }
+            $pagination_html .= '<a class="page-numbers kt-page-link" data-paged="' . $max_pages . '" href="#">' . $max_pages . '</a>';
+        }
+        
+        // Next link
+        if ( $paged < $max_pages ) {
+            $pagination_html .= '<a class="page-numbers kt-page-link next-page" data-paged="' . ( $paged + 1 ) . '" href="#">&raquo;</a>';
+        }
+        
+        $pagination_html .= '</div>';
     }
     
     // Prepare response data

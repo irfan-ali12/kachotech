@@ -367,10 +367,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<div class="kt-featured-header">
 		<h2><?php esc_html_e( 'Featured Products', 'astra-child' ); ?></h2>
 		<div class="kt-featured-filters" id="kt-product-filters">
-			<button class="kt-filter-btn kt-filter-active" data-category="all">
+			<button class="kt-filter-btn" data-category="all">
 				<?php esc_html_e( 'All Products', 'astra-child' ); ?>
 			</button>
-			<button class="kt-filter-btn" data-category="heaters">
+			<button class="kt-filter-btn kt-filter-active" data-category="heaters">
 				<?php esc_html_e( 'Heaters', 'astra-child' ); ?>
 			</button>
 			<button class="kt-filter-btn" data-category="home-appliances">
@@ -433,7 +433,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		});
 	});
 
-	// Load all products on page load
-	loadProducts('all');
+	// Load heaters on page load (default category)
+	loadProducts('heaters');
 })();
 </script>

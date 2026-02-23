@@ -17,10 +17,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
 
-<!-- Global Page Loader -->
+<!-- Global Page Loader (excluded from shop pages) -->
+<?php if ( ! is_shop() && ! is_product_category() && ! is_product_tag() && ! is_product() ) : ?>
 <div id="kt-global-loader" class="kt-global-loader">
 	<div class="kt-spinner"></div>
 </div>
+<?php endif; ?>
 
 <?php
 /**

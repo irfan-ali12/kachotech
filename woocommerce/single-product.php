@@ -71,8 +71,6 @@ $first_src = $image_urls[0];
 
   /* Breadcrumb */
   .kt-product-page .kt-breadcrumb {
-    max-width: 1200px;
-    margin: 0 auto 12px;
     font-size: 12px;
     color: #6b7280; /* slate-500 */
   }
@@ -112,7 +110,6 @@ $first_src = $image_urls[0];
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 32px;
   }
 
   .kt-product-page .kt-main-image img {
@@ -202,8 +199,8 @@ $first_src = $image_urls[0];
   }
 
   .kt-product-page .kt-thumb img {
-    width: 80px;
-    height: 80px;
+    width: 100%;
+    height: 100%;
     object-fit: contain;
   }
 
@@ -230,7 +227,7 @@ $first_src = $image_urls[0];
 
   /* Title */
   .kt-product-page .kt-title {
-    font-size: 15px;
+    font-size: 34px;
     line-height: 1.3;
     font-weight: 600;
     margin: 0px;
@@ -303,7 +300,7 @@ $first_src = $image_urls[0];
   }
 
   .kt-product-page .kt-price {
-    font-size: 30px;
+    font-size: 24px;
     line-height: 1.1;
     font-weight: 600;
     color: #ff2446;
@@ -493,7 +490,7 @@ $first_src = $image_urls[0];
   }
 
   .kt-product-page .kt-payment-methods img {
-    max-width: 260px;
+    max-width: 340px;
     width: 100%;
     height: auto;
   }
@@ -631,8 +628,11 @@ $first_src = $image_urls[0];
     }
 
     .kt-product-page .kt-thumb img {
-      height: 70px;
+
     }
+     .kt-product-page .kt-price {
+    font-size: 18px;
+  }
   }
 
 
@@ -660,11 +660,6 @@ $first_src = $image_urls[0];
 </style>
 
 <div class="kt-product-page">
-
-    <!-- Breadcrumb -->
-    <div class="kt-breadcrumb">
-        <?php woocommerce_breadcrumb(); ?>
-    </div>
 
     <!-- MAIN GRID -->
     <div class="kt-product-grid">
@@ -716,7 +711,10 @@ $first_src = $image_urls[0];
 
         <!-- RIGHT: PRODUCT DETAILS -->
         <div class="kt-details">
-
+            <!-- Breadcrumb -->
+            <div class="kt-breadcrumb">
+                <?php woocommerce_breadcrumb(); ?>
+            </div>
             <h1 class="kt-title"><?php the_title(); ?></h1>
 
             <div class="kt-rating-line">
@@ -853,7 +851,7 @@ $first_src = $image_urls[0];
             <!-- PAYMENT METHODS -->
             <div class="kt-payment-methods">
                 <h4>PAYMENT METHODS</h4>
-                <img src="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/img/payment-methods.png' ); ?>" alt="Accepted payment methods" />
+                <img src="http://kachotech.com/wp-content/uploads/2025/12/kachotech-payment-gateway.jpg" alt="Accepted payment methods" />
             </div>
 
         </div>

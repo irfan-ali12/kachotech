@@ -7,9 +7,17 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * 1) Compute global min / max price for slider - OPTIMIZED VERSION
+ * 1) Compute global min / max price for slider - OPTIMIZED WITH CACHING
  */
 function kt_get_product_price_range() {
+    // Check transient cache first
+    $cache_key = 'kt_shop_price_range';
+    $cached_range = get_transient( $cache_key );
+    
+    if ( $cached_range !== false ) {
+        return $cached_range;
+    }
+    
     global $wpdb;
     
     // More efficient query to get price range from products that have prices > 0
@@ -26,9 +34,6 @@ function kt_get_product_price_range() {
             AND CAST(meta_value AS DECIMAL(10,2)) > 0
     ");
     
-    // Debug logging
-    error_log('Price Range Query Result: ' . print_r($price_range, true));
-    
     if ( $price_range && $price_range->min_price !== null ) {
         $min_price = floor( (float) $price_range->min_price );
         $max_price = ceil( (float) $price_range->max_price );
@@ -38,33 +43,27 @@ function kt_get_product_price_range() {
             $max_price = $min_price + 1000; // Add reasonable buffer
         }
         
-        error_log('Calculated Price Range - Min: ' . $min_price . ', Max: ' . $max_price);
-        
-        return array(
+        $result = array(
             'min' => $min_price,
             'max' => $max_price
         );
+    } else {
+        // Fallbacks with reasonable values
+        $result = array(
+            'min' => 0,
+            'max' => 25000
+        );
     }
     
-    // Fallbacks with reasonable values
-    error_log('Using fallback price range');
-    return array(
-        'min' => 0,
-        'max' => 25000
-    );
+    // Cache for 2 hours
+    set_transient( $cache_key, $result, 2 * HOUR_IN_SECONDS );
+    
+    return $result;
 }
 
 $price_range = kt_get_product_price_range();
 $min_price = $price_range['min'];
 $max_price = $price_range['max'];
-// Debug output
-error_log('Final Price Range - Min: ' . $min_price . ', Max: ' . $max_price);
-
-// Also output to console for JavaScript
-wp_add_inline_script('kt-shop-js', 
-    'console.log("PHP Price Range - Min: ' . $min_price . ', Max: ' . $max_price . '");', 
-    'before'
-);
 
 /**
  * 2) Get dynamic brands from product_brand taxonomy
@@ -207,6 +206,8 @@ if ( ! isset( $_GET['s'] ) || empty( $_GET['s'] ) ) {
 			continue;
 		}
 		
+		$product_id = $product->get_id();
+		
 		// Check if product is in heaters category
 		$product_cats = $product->get_category_ids();
 		$is_heater = false;
@@ -221,11 +222,21 @@ if ( ! isset( $_GET['s'] ) || empty( $_GET['s'] ) ) {
 			}
 		}
 		
-		$rating = (float) $product->get_average_rating();
+		// Get rating from database directly (more reliable)
+		global $wpdb;
+		$rating_query = $wpdb->get_var( $wpdb->prepare(
+			"SELECT AVG(CAST(pm.meta_value AS FLOAT))
+			FROM {$wpdb->postmeta} pm
+			WHERE pm.post_id = %d AND pm.meta_key = '_wc_average_rating'",
+			$product_id
+		) );
+		
+		$rating = $rating_query ? (float) $rating_query : 0;
 		$has_rating = $rating > 0;
 		
 		$product_list[] = array(
 			'post'        => $post,
+			'product_id'  => $product_id,
 			'rating'      => $rating,
 			'is_heater'   => $is_heater,
 			'has_rating'  => $has_rating,

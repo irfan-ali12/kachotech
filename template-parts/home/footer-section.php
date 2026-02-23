@@ -68,14 +68,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 					<?php esc_html_e( 'Get connected with us on social networks:', 'astra-child' ); ?>
 				</p>
 				<div class="kt-social-icons" style="display: flex; gap: 4px;">
-					<a href="#" style="color: white; font-size: 18px; text-decoration: none; transition: all 0.3s ease; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center;" class="hover:opacity-80" title="Facebook">
+					<a href="https://www.facebook.com/kachotech" style="color: white; font-size: 18px; text-decoration: none; transition: all 0.3s ease; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center;" class="hover:opacity-80" title="Facebook">
 						<i class="fab fa-facebook-f"></i>
 					</a>
-					<a href="#" style="color: white; font-size: 18px; text-decoration: none; transition: all 0.3s ease; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center;" class="hover:opacity-80" title="Google">
+					<a href="https://www.google.com/maps/place/KachoTech/@33.6382705,73.0711845,17z/data=!3m1!4b1!4m6!3m5!1s0x38df95660fb946c1:0xbe12ba723d82b060!8m2!3d33.6382661!4d73.0737594!16s%2Fg%2F11ys3ss2qg?entry=ttu&g_ep=EgoyMDI1MTIwOS4wIKXMDSoASAFQAw%3D%3D" style="color: white; font-size: 18px; text-decoration: none; transition: all 0.3s ease; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center;" class="hover:opacity-80" title="Google">
 						<i class="fab fa-google"></i>
 					</a>
-					<a href="#" style="color: white; font-size: 18px; text-decoration: none; transition: all 0.3s ease; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center;" class="hover:opacity-80" title="Instagram">
+					<a href="https://www.instagram.com/kachotech/" style="color: white; font-size: 18px; text-decoration: none; transition: all 0.3s ease; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center;" class="hover:opacity-80" title="Instagram">
 						<i class="fab fa-instagram"></i>
+					</a>
+					<a href="https://www.youtube.com/@kachotech" target="_blank" rel="noopener noreferrer" style="color: white; font-size: 18px; text-decoration: none; transition: all 0.3s ease; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center;" class="hover:opacity-80" title="YouTube">
+						<i class="fab fa-youtube"></i>
 					</a>
 				</div>
 			</div>
@@ -118,7 +121,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 						<li><a href="<?php echo esc_url( wc_get_page_permalink( 'myaccount' ) ); ?>" style="color: #C8CACE; text-decoration: none; font-size: 14px; transition: color 0.3s ease;" class="hover:text-white"><?php esc_html_e( 'Your Account', 'astra-child' ); ?></a></li>
 						<li><a href="#" style="color: #C8CACE; text-decoration: none; font-size: 14px; transition: color 0.3s ease;" class="hover:text-white"><?php esc_html_e( 'Become an Affiliate', 'astra-child' ); ?></a></li>
 						<li><a href="#" style="color: #C8CACE; text-decoration: none; font-size: 14px; transition: color 0.3s ease;" class="hover:text-white"><?php esc_html_e( 'Shipping Rates', 'astra-child' ); ?></a></li>
-						<li><a href="#" style="color: #C8CACE; text-decoration: none; font-size: 14px; transition: color 0.3s ease;" class="hover:text-white"><?php esc_html_e( 'Help Center', 'astra-child' ); ?></a></li>
+						<li><a href="<?php echo site_url('/contact-us'); ?>" style="color: #C8CACE; text-decoration: none; font-size: 14px; transition: color 0.3s ease;" class="hover:text-white"><?php esc_html_e( 'Help Center', 'astra-child' ); ?></a></li>
 					</ul>
 				</div>
 
@@ -130,7 +133,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 					<ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px;">
 						<li style="color: #C8CACE; font-size: 14px; display: flex; align-items: flex-start; gap: 10px;">
 							<i class="fas fa-map-marker-alt" style="color: #EC234A; flex-shrink: 0; margin-top: 2px;"></i>
-							<span><?php esc_html_e( 'B601-605, Ahmed Center Naya Mohallah Liaquat Road Rawalpindi', 'astra-child' ); ?></span>
+							<span><?php esc_html_e( 'Ahmed Center shop no 12 (LG) property # B 601_605 Nia Mohalla Street no #1', 'astra-child' ); ?></span>
 						</li>
 						<li style="color: #C8CACE; font-size: 14px; display: flex; align-items: center; gap: 10px;">
 							<i class="fas fa-envelope" style="color: #EC234A; flex-shrink: 0;"></i>
@@ -138,7 +141,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 						</li>
 						<li style="color: #C8CACE; font-size: 14px; display: flex; align-items: center; gap: 10px;">
 							<i class="fas fa-phone" style="color: #EC234A; flex-shrink: 0;"></i>
-							<a href="tel:+923295111000" style="color: #C8CACE; text-decoration: none; transition: color 0.3s ease;" class="hover:text-white"><?php esc_html_e( '+92 329-5111000', 'astra-child' ); ?></a>
+							<a href="tel:+923295111000" style="color: #C8CACE; text-decoration: none; transition: color 0.3s ease;" class="hover:text-white"><?php esc_html_e( '+92308-0007082', 'astra-child' ); ?></a>
 						</li>
 					</ul>
 				</div>

@@ -10,14 +10,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-// Get product categories
-$categories = get_terms( array(
-	'taxonomy'   => 'product_cat',
-	'hide_empty' => false,
-	'number'     => 4,
-	'orderby'    => 'term_order',
-	'order'      => 'ASC',
-) );
+// Define the specific categories to display in order
+$category_slugs = array( 'heaters', 'gas-kerosene', 'electric', 'home-appliances', 'kitchen', 'cosmetics-personal-care' );
+
+// Get categories by slug
+$categories = array();
+foreach ( $category_slugs as $slug ) {
+	$cat = get_term_by( 'slug', $slug, 'product_cat' );
+	if ( $cat && ! is_wp_error( $cat ) ) {
+		$categories[] = $cat;
+	}
+}
 ?>
 
 <section class="kt-category-strip">
@@ -31,12 +34,14 @@ $categories = get_terms( array(
 
 	<div class="kt-category-grid">
 		<?php
-		if ( ! is_wp_error( $categories ) && ! empty( $categories ) ) {
+		if ( ! empty( $categories ) ) {
 			foreach ( $categories as $category ) {
 				$thumbnail_id = get_term_meta( $category->term_id, 'thumbnail_id', true );
 				$image_url    = wp_get_attachment_url( $thumbnail_id );
+				
+				// Use placeholder if no image
 				if ( ! $image_url ) {
-					$image_url = 'https://via.placeholder.com/100x100?text=' . urlencode( $category->name );
+					$image_url = 'https://via.placeholder.com/300x300?text=' . urlencode( $category->name );
 				}
 				?>
 				<a href="<?php echo esc_url( get_term_link( $category ) ); ?>" class="kt-category-card">
@@ -45,32 +50,12 @@ $categories = get_terms( array(
 							src="<?php echo esc_url( $image_url ); ?>"
 							alt="<?php echo esc_attr( $category->name ); ?>"
 							loading="lazy"
+							width="300"
+							height="300"
 						/>
 					</div>
 					<span class="kt-category-card-name"><?php echo esc_html( $category->name ); ?></span>
 				</a>
-				<?php
-			}
-		} else {
-			// Fallback categories
-			$fallback_categories = array(
-				array( 'name' => 'All Products', 'icon' => 'Store' ),
-				array( 'name' => 'Heaters', 'icon' => 'Heater' ),
-				array( 'name' => 'Home Appliances', 'icon' => 'Tv' ),
-				array( 'name' => 'Cosmetics & Personal Care', 'icon' => 'Beauty' ),
-			);
-			foreach ( $fallback_categories as $cat ) {
-				?>
-				<div class="kt-category-card">
-					<div class="kt-category-card-icon">
-						<img
-							src="https://via.placeholder.com/100x100?text=<?php echo urlencode( $cat['name'] ); ?>"
-							alt="<?php echo esc_attr( $cat['name'] ); ?>"
-							loading="lazy"
-						/>
-					</div>
-					<span class="kt-category-card-name"><?php echo esc_html( $cat['name'] ); ?></span>
-				</div>
 				<?php
 			}
 		}

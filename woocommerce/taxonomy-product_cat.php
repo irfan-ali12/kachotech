@@ -20,25 +20,30 @@ $category_image = $category_image_id ? wp_get_attachment_url( $category_image_id
  * 2) Get category color (stored in term meta or use default color based on category)
  */
 $category_colors = array(
-    'heaters' => array( 'bg' => '#F39C12', 'text' => '#FFFFFF', 'secondary' => '#FF8E8E' ),
-    'cosmetics-personal-care' => array( 'bg' => '#FF69B4', 'text' => '#FFFFFF', 'secondary' => '#FF85C0' ),
-    'home-appliances' => array( 'bg' => '#4ECDC4', 'text' => '#FFFFFF', 'secondary' => '#6BE3DB' ),
-    'personal-care' => array( 'bg' => '#9B59B6', 'text' => '#FFFFFF', 'secondary' => '#B370CC' ),
-    'home' => array( 'bg' => '#F39C12', 'text' => '#FFFFFF', 'secondary' => '#F5B041' ),
-    'sports' => array( 'bg' => '#1ABC9C', 'text' => '#FFFFFF', 'secondary' => '#48D1C3' ),
-    'books' => array( 'bg' => '#3498DB', 'text' => '#FFFFFF', 'secondary' => '#5DADE2' ),
-    'default' => array( 'bg' => '#ff2446', 'text' => '#FFFFFF', 'secondary' => '#FF4466' )
+    'heaters' => array( 'bg' => '#F39C12', 'text' => '#FFFFFF', 'secondary' => '#FF8E8E', 'light' => '#FEF0E0' ),
+    'gas-kerosene' => array( 'bg' => '#E74C3C', 'text' => '#FFFFFF', 'secondary' => '#F25A4A', 'light' => '#FADBD8' ),
+    'home-appliances' => array( 'bg' => '#4ECDC4', 'text' => '#FFFFFF', 'secondary' => '#6BE3DB', 'light' => '#D5F4F1' ),
+    'kitchen' => array( 'bg' => '#27AE60', 'text' => '#FFFFFF', 'secondary' => '#52BE80', 'light' => '#D5F4E6' ),
+    'cosmetics-personal-care' => array( 'bg' => '#FF69B4', 'text' => '#FFFFFF', 'secondary' => '#FF85C0', 'light' => '#FFD7E8' ),
+    'electric' => array( 'bg' => '#9B59B6', 'text' => '#FFFFFF', 'secondary' => '#B370CC', 'light' => '#EBD7F2' ),
+    'personal-care' => array( 'bg' => '#9B59B6', 'text' => '#FFFFFF', 'secondary' => '#B370CC', 'light' => '#EBD7F2' ),
+    'home' => array( 'bg' => '#F39C12', 'text' => '#FFFFFF', 'secondary' => '#F5B041', 'light' => '#FEF0E0' ),
+    'sports' => array( 'bg' => '#1ABC9C', 'text' => '#FFFFFF', 'secondary' => '#48D1C3', 'light' => '#D1F0ED' ),
+    'books' => array( 'bg' => '#3498DB', 'text' => '#FFFFFF', 'secondary' => '#5DADE2', 'light' => '#D6EAF8' ),
+    'default' => array( 'bg' => '#ff2446', 'text' => '#FFFFFF', 'secondary' => '#FF4466', 'light' => '#FFD7DC' )
 );
 
 $category_slug = $category->slug;
 $color_scheme = isset( $category_colors[ $category_slug ] ) ? $category_colors[ $category_slug ] : $category_colors['default'];
 
 /**
- * 3) Compute price range
+ * 3) Compute price range - Universal function for all categories
+ * This function correctly handles all category types including those with no products initially
  */
 function kt_get_category_price_range( $category_id ) {
     global $wpdb;
     
+    // Query to get min/max price for products in this category (including nested sub-categories)
     $price_range = $wpdb->get_row( $wpdb->prepare(
         "SELECT 
             MIN(CAST(pm.meta_value AS DECIMAL(10,2))) as min_price,
@@ -70,6 +75,14 @@ function kt_get_category_price_range( $category_id ) {
         );
     }
     
+    // If no products found in this category, try to get a reasonable fallback
+    // by looking at the parent category's price range
+    $parent_category = get_term( $category_id, 'product_cat' );
+    if ( $parent_category && $parent_category->parent > 0 ) {
+        return kt_get_category_price_range( $parent_category->parent );
+    }
+    
+    // Ultimate fallback with safe global defaults
     return array(
         'min' => 0,
         'max' => 25000
@@ -494,6 +507,128 @@ if ( $current_orderby && $current_orderby !== 'date' ) {
             </div>
 
         </aside>
+
+        <!-- MOBILE FILTER DRAWER -->
+        <div id="kt-filter-drawer" class="kt-filter-drawer">
+            <div class="kt-filter-overlay"></div>
+            <div class="kt-filter-panel">
+                <div class="kt-filter-header">
+                    <h3 class="kt-filter-title">Filters</h3>
+                    <button id="kt-close-filters" class="kt-filter-close" type="button">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+
+                <div class="kt-filter-scroll">
+                    <!-- Mobile search -->
+                    <div class="kt-filter-section">
+                        <h4 class="kt-filter-section-title">Search</h4>
+                        <div class="kt-search-bar">
+                            <input
+                                type="text"
+                                id="kt-product-search-mobile"
+                                class="kt-search-input"
+                                placeholder="Search in category..."
+                            >
+                            <button type="button" class="kt-search-btn">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Sub-categories for mobile -->
+                    <?php
+                    if ( ! is_wp_error( $sub_categories ) && ! empty( $sub_categories ) ) :
+                    ?>
+                    <div class="kt-filter-section">
+                        <h4 class="kt-filter-section-title">Sub-Categories</h4>
+                        <div class="kt-categories-list">
+                            <?php foreach ( $sub_categories as $sub_cat ) : ?>
+                                <label class="kt-checkbox-row">
+                                    <input
+                                        type="checkbox"
+                                        class="kt-category-filter-mobile"
+                                        value="<?php echo esc_attr( $sub_cat->slug ); ?>"
+                                    >
+                                    <?php echo esc_html( $sub_cat->name ); ?>
+                                </label>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                    <?php endif; ?>
+
+                    <!-- Price for mobile -->
+                    <div class="kt-filter-section">
+                        <h4 class="kt-filter-section-title">Price (Rs)</h4>
+                        <div class="kt-price-range-wrapper">
+                            <input
+                                type="range"
+                                min="<?php echo esc_attr( $min_price ); ?>"
+                                max="<?php echo esc_attr( $max_price ); ?>"
+                                value="<?php echo esc_attr( $max_price ); ?>"
+                                step="1"
+                                class="kt-range"
+                                id="kt-price-range-mobile"
+                            >
+                            <div class="kt-price-tooltip" id="kt-price-tooltip-mobile">
+                                <span id="kt-price-tooltip-text-mobile">
+                                    Rs <?php echo esc_html( number_format( $max_price ) ); ?>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="kt-price-labels">
+                            <span>Rs <?php echo esc_html( number_format( $min_price ) ); ?></span>
+                            <span>Rs <?php echo esc_html( number_format( $max_price ) ); ?></span>
+                        </div>
+                    </div>
+
+                    <!-- Rating for mobile -->
+                    <div class="kt-filter-section">
+                        <h4 class="kt-filter-section-title">Rating</h4>
+                        <div class="kt-rating-options">
+                            <label class="kt-radio-row">
+                                <input type="radio" name="rating-mobile" value="4">
+                                <span>4★ &amp; above</span>
+                            </label>
+                            <label class="kt-radio-row">
+                                <input type="radio" name="rating-mobile" value="3">
+                                <span>3★ &amp; above</span>
+                            </label>
+                            <label class="kt-radio-row">
+                                <input type="radio" name="rating-mobile" value="2">
+                                <span>2★ &amp; above</span>
+                            </label>
+                            <label class="kt-radio-row">
+                                <input type="radio" name="rating-mobile" value="1">
+                                <span>1★ &amp; above</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Availability for mobile -->
+                    <div class="kt-filter-section">
+                        <h4 class="kt-filter-section-title">Availability</h4>
+                        <label class="kt-checkbox-row">
+                            <input type="checkbox" class="kt-availability-filter-mobile" value="in-stock">
+                            In stock
+                        </label>
+                        <label class="kt-checkbox-row">
+                            <input type="checkbox" class="kt-availability-filter-mobile" value="out-of-stock">
+                            Out of stock
+                        </label>
+                    </div>
+                </div>
+
+                <div class="kt-filter-actions">
+                    <button class="kt-btn-primary" id="kt-apply-filters-mobile" type="button">
+                        Apply Filters
+                    </button>
+                    <button class="kt-btn-secondary" id="kt-clear-filters-mobile" type="button">
+                        Clear all
+                    </button>
+                </div>
+            </div>
+        </div>
 
         <!-- MAIN CONTENT AREA -->
         <main class="kt-main-content">

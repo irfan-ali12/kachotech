@@ -223,7 +223,7 @@ function updatePriceTooltip(value, $slider, $tooltipElement, isMobile) {
     $(document).on('click', '#kt-apply-filters-mobile', function() {
       // Sync mobile filters to currentFilters before applying
       syncMobileFilters();
-      applyFiltersAjax();
+      applyFiltersAjax('', 1, null, true); // true = skip desktop filter read, use synced mobile filters
       $filterDrawer.removeClass('kt-visible');
       $('body').removeClass('kt-no-scroll');
     });
@@ -248,13 +248,13 @@ function updatePriceTooltip(value, $slider, $tooltipElement, isMobile) {
     });
 
     function clearAllFilters() {
-      // Clear all checkboxes
-      $('.kt-category-filter').prop('checked', false);
-      $('.kt-category-filter-mobile').prop('checked', false);
-      $('.kt-availability-filter').prop('checked', false);
-      $('.kt-availability-filter-mobile').prop('checked', false);
-      $('input[name="rating"]').prop('checked', false);
-      $('input[name="rating-mobile"]').prop('checked', false);
+      // Clear all checkboxes and uncheck them completely
+      $('.kt-category-filter').prop('checked', false).attr('checked', false);
+      $('.kt-category-filter-mobile').prop('checked', false).attr('checked', false);
+      $('.kt-availability-filter').prop('checked', false).attr('checked', false);
+      $('.kt-availability-filter-mobile').prop('checked', false).attr('checked', false);
+      $('input[name="rating"]').prop('checked', false).attr('checked', false);
+      $('input[name="rating-mobile"]').prop('checked', false).attr('checked', false);
       
       // Reset price range to max value (actual price, not percentage)
       $priceRange.val(maxPrice);
@@ -262,27 +262,25 @@ function updatePriceTooltip(value, $slider, $tooltipElement, isMobile) {
       updatePriceTooltip(maxPrice, $priceRange, $tooltip, false);
       updatePriceTooltip(maxPrice, $priceRangeMobile, $tooltipMobile, true);
       
-      // Clear ALL brand pills
+      // Clear ALL brand pills - remove active class
       $('.kt-pill').removeClass('kt-pill-active');
       $('.kt-pill-mobile').removeClass('kt-pill-active');
 
-      // Clear search inputs
+      // Clear search inputs completely
       $('#kt-product-search').val('');
       $('#kt-product-search-mobile').val('');
 
-      // Reset currentFilters
-      currentFilters = {
-        categories: '',
-        availability: '',
-        brands: '',
-        min_rating: 0,
-        max_price: maxPrice,
-        search: '',
-        orderby: $('#kt-sort-select').val() || 'date',
-        paged: 1
-      };
+      // Reset currentFilters to clean state
+      currentFilters.categories = '';
+      currentFilters.availability = '';
+      currentFilters.brands = '';
+      currentFilters.min_rating = 0;
+      currentFilters.max_price = maxPrice;
+      currentFilters.search = '';
+      currentFilters.paged = 1;
+      currentFilters.orderby = $('#kt-sort-select').val() || 'date';
 
-      console.log('All filters cleared');
+      console.log('All filters cleared. Current filters reset to:', currentFilters);
     }
 
     // ===== SORT FUNCTIONALITY =====
@@ -319,10 +317,10 @@ function updatePriceTooltip(value, $slider, $tooltipElement, isMobile) {
       var mobileRating = $('input[name="rating-mobile"]:checked').val() || '';
       currentFilters.min_rating = mobileRating;
 
-      // Sync price - FIXED PRICE CALCULATION
-      var mobileSliderValue = $priceRangeMobile.val();
-      var mobilePriceMax = minPrice + (mobileSliderValue / 100) * (maxPrice - minPrice);
-      currentFilters.max_price = Math.round(mobilePriceMax);
+      // Sync price - FIXED PRICE CALCULATION (slider value is now the actual price)
+      var mobileSliderValue = parseInt($priceRangeMobile.val());
+      var mobilePriceMax = mobileSliderValue;
+      currentFilters.max_price = mobilePriceMax;
 
       // Sync search
       var mobileSearch = $('#kt-product-search-mobile').val();
@@ -334,58 +332,73 @@ function updatePriceTooltip(value, $slider, $tooltipElement, isMobile) {
     }
 
     // ===== MAIN FILTER FUNCTION =====
-    function applyFiltersAjax(search, page, orderby) {
-      search = search || currentFilters.search || '';
+    function applyFiltersAjax(search, page, orderby, skipDesktopRead) {
+      search = (search || currentFilters.search || '').trim();
       page = page || currentFilters.paged || 1;
       orderby = orderby || currentFilters.orderby || $('#kt-sort-select').val() || 'date';
       
-      // Get selected filters from desktop
-      var categories = [];
-      $('.kt-category-filter:checked').each(function() {
-        categories.push($(this).val());
-      });
+      // Only read desktop filters if skipDesktopRead is not set (i.e., not from mobile apply)
+      if (!skipDesktopRead) {
+        // Read desktop filters - ensure we get actual values, not null/undefined
+        var categories = [];
+        $('.kt-category-filter:checked').each(function() {
+          var val = $(this).val();
+          if (val && val.trim()) {
+            categories.push(val);
+          }
+        });
 
-      var availability = [];
-      $('.kt-availability-filter:checked').each(function() {
-        availability.push($(this).val());
-      });
+        var availability = [];
+        $('.kt-availability-filter:checked').each(function() {
+          var val = $(this).val();
+          if (val && val.trim()) {
+            availability.push(val);
+          }
+        });
 
-      var brands = [];
-      $('.kt-pill.kt-pill-active:not(.kt-pill-mobile)').each(function() {
-        brands.push($(this).data('brand'));
-      });
+        var brands = [];
+        $('.kt-pill.kt-pill-active:not(.kt-pill-mobile)').each(function() {
+          var val = $(this).data('brand');
+          if (val && val.trim()) {
+            brands.push(val);
+          }
+        });
 
-      var rating = $('input[name="rating"]:checked').val() || '';
-      
-      // FIXED PRICE CALCULATION - Slider value is now the actual price
-var sliderValue = parseInt($priceRange.val());
-var priceMax = sliderValue;
+        var rating = $('input[name="rating"]:checked').val() || '';
+        
+        // FIXED PRICE CALCULATION - Slider value is now the actual price
+        var sliderValue = parseInt($priceRange.val());
+        var priceMax = isNaN(sliderValue) ? maxPrice : sliderValue;
 
-      console.log('Slider value:', sliderValue, 'Max price to filter:', priceMax, 'Min price:', minPrice, 'Max available price:', maxPrice);
+        console.log('Slider value:', sliderValue, 'Max price to filter:', priceMax, 'Min price:', minPrice, 'Max available price:', maxPrice);
 
-      // Update currentFilters
-      currentFilters = {
-        categories: categories.length > 0 ? categories.join(',') : '',
-        availability: availability.length > 0 ? availability.join(',') : '',
-        brands: brands.length > 0 ? brands.join(',') : '',
-        min_rating: rating,
-        max_price: priceMax,
-        search: search,
-        orderby: orderby,
-        paged: page
-      };
+        // Update currentFilters with desktop values
+        currentFilters.categories = categories.length > 0 ? categories.join(',') : '';
+        currentFilters.availability = availability.length > 0 ? availability.join(',') : '';
+        currentFilters.brands = brands.length > 0 ? brands.join(',') : '';
+        currentFilters.min_rating = rating ? parseInt(rating) : 0;
+        currentFilters.max_price = priceMax;
+        currentFilters.search = search;
+        currentFilters.orderby = orderby;
+        currentFilters.paged = page;
+      } else {
+        // Mobile filters already synced, just update metadata
+        currentFilters.search = search;
+        currentFilters.orderby = orderby;
+        currentFilters.paged = page;
+      }
 
-      // Build filter data
+      // Build filter data - ensure empty strings for empty filters
       var filterData = {
         action: 'kt_filter_products',
-        categories: currentFilters.categories,
-        availability: currentFilters.availability,
-        brands: currentFilters.brands,
-        min_rating: currentFilters.min_rating,
-        max_price: currentFilters.max_price,
-        search: currentFilters.search,
-        orderby: currentFilters.orderby,
-        paged: currentFilters.paged,
+        categories: currentFilters.categories || '',
+        availability: currentFilters.availability || '',
+        brands: currentFilters.brands || '',
+        min_rating: currentFilters.min_rating || 0,
+        max_price: currentFilters.max_price || 0,
+        search: currentFilters.search || '',
+        orderby: currentFilters.orderby || 'date',
+        paged: currentFilters.paged || 1,
         nonce: ktShopAjax.nonce,
         category_id: typeof ktShopAjax.category_id !== 'undefined' ? ktShopAjax.category_id : 0,
         is_category_page: typeof ktShopAjax.is_category_page !== 'undefined' ? ktShopAjax.is_category_page : false,
@@ -417,17 +430,20 @@ var priceMax = sliderValue;
     }
 
     function showLoadingState() {
-      $('#kt-products-container').css('opacity', '0.6').css('pointer-events', 'none');
-      $('#kt-products-container').prepend(
-        '<div class="kt-loading-overlay" style="position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(255,255,255,0.8);display:flex;align-items:center;justify-content:center;z-index:10;">' +
-        '<div class="kt-spinner" style="width:40px;height:40px;border:4px solid rgba(255,36,70,0.1);border-top:4px solid #ff2446;border-radius:50%;animation:spin 1s linear infinite;"></div>' +
-        '</div>'
-      );
+      // Show shop-specific loader overlay
+      if (!$('#kt-shop-loader-overlay').length) {
+        $('body').append(
+          '<div id="kt-shop-loader-overlay" style="position:fixed;inset:0;background:rgba(15,23,42,0.4);backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;z-index:99998;">' +
+          '<div style="width:50px;height:50px;border:4px solid rgba(255,36,70,0.1);border-top-color:#ff2446;border-radius:50%;animation:kt-spin 0.8s linear infinite;"></div>' +
+          '</div>'
+        );
+      } else {
+        $('#kt-shop-loader-overlay').show();
+      }
     }
 
     function hideLoadingState() {
-      $('#kt-products-container').css('opacity', '1').css('pointer-events', 'auto');
-      $('.kt-loading-overlay').remove();
+      $('#kt-shop-loader-overlay').fadeOut(300);
     }
 
     function handleAjaxSuccess(response) {
@@ -523,12 +539,7 @@ var priceMax = sliderValue;
       e.preventDefault();
       
       var $link = $(this);
-      var href = $link.attr('href');
-      if (!href) return;
-      
-      // Extract page number from href
-      var pageMatch = href.match(/paged=(\d+)/);
-      var page = pageMatch ? parseInt(pageMatch[1]) : 1;
+      var page = parseInt($link.data('paged')) || 1;
       
       console.log('Pagination clicked - Page:', page);
       
@@ -537,7 +548,7 @@ var priceMax = sliderValue;
         scrollTop: $('#kt-products-container').offset().top - 100
       }, 300);
       
-      // Apply filters with new page
+      // Apply filters with new page and current filters maintained
       currentFilters.paged = page;
       applyFiltersAjax(currentFilters.search || '', page);
     });

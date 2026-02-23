@@ -1,4 +1,16 @@
 <?php
+/**
+ * KachoTech Enqueue Scripts & Styles
+ * 
+ * IMPORTANT FOR LIVE DEPLOYMENT:
+ * 1. All CSS/JS versions use filemtime() for automatic cache busting
+ * 2. On live site, rebuild Tailwind after ANY PHP/HTML/JS changes:
+ *    npm run build
+ * 3. Clear any LiteSpeed cache: wp-admin > LiteSpeed Cache > Purge All
+ * 4. Clear CloudFlare cache if enabled (https://cloudflare.com)
+ * 5. Clear browser cache or hard refresh (Ctrl+Shift+R / Cmd+Shift+R)
+ */
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -42,7 +54,7 @@ function kachotech_child_enqueue_scripts() {
 		'kt-header-custom-css',
 		get_stylesheet_directory_uri() . '/assets/css/header-custom.css',
 		array(),
-		'1.0'
+		filemtime( get_stylesheet_directory() . '/assets/css/header-custom.css' )
 	);
 
 	// Load Tailwind CSS on homepage and product pages
@@ -54,7 +66,7 @@ function kachotech_child_enqueue_scripts() {
 			'tailwind-local-css',
 			get_stylesheet_directory_uri() . '/assets/css/tailwind.min.css',
 			array(),
-			'1.0'
+			filemtime( get_stylesheet_directory() . '/assets/css/tailwind.min.css' )
 		);
 	}
 
@@ -64,7 +76,7 @@ function kachotech_child_enqueue_scripts() {
 			'kt-shop-layout-css',
 			get_stylesheet_directory_uri() . '/assets/css/shop-layout.css',
 			array( 'kachotech-child-css' ),
-			'1.0'
+			filemtime( get_stylesheet_directory() . '/assets/css/shop-layout.css' )
 		);
 		
 		// Cart page specific styles
@@ -73,7 +85,7 @@ function kachotech_child_enqueue_scripts() {
 				'kt-cart-custom-css',
 				get_stylesheet_directory_uri() . '/assets/css/cart-custom.css',
 				array( 'kachotech-child-css' ),
-				'1.0'
+				filemtime( get_stylesheet_directory() . '/assets/css/cart-custom.css' )
 			);
 		}
 	}
@@ -94,7 +106,7 @@ function kachotech_child_enqueue_scripts() {
 			'kt-hero-css',
 			get_stylesheet_directory_uri() . '/assets/css/hero.css',
 			array( 'kachotech-homepage-css' ),
-			'1.0'
+			filemtime( get_stylesheet_directory() . '/assets/css/hero.css' )
 		);
 
 		// Category Strip styles (Shop Deals by Category section)
@@ -102,7 +114,7 @@ function kachotech_child_enqueue_scripts() {
 			'kt-category-strip-css',
 			get_stylesheet_directory_uri() . '/assets/css/category-strip.css',
 			array( 'kachotech-homepage-css' ),
-			'1.0'
+			filemtime( get_stylesheet_directory() . '/assets/css/category-strip.css' )
 		);
 
 		// Hero JS (carousel + add-to-cart)
@@ -110,7 +122,7 @@ function kachotech_child_enqueue_scripts() {
 			'kt-hero-js',
 			get_stylesheet_directory_uri() . '/assets/js/hero.js',
 			array(),
-			'1.0',
+			filemtime( get_stylesheet_directory() . '/assets/js/hero.js' ),
 			true
 		);
 
@@ -119,7 +131,7 @@ function kachotech_child_enqueue_scripts() {
 			'kt-shop-js',
 			get_stylesheet_directory_uri() . '/assets/js/shop.js',
 			array( 'jquery', 'woocommerce' ),
-			'1.0',
+			filemtime( get_stylesheet_directory() . '/assets/js/shop.js' ),
 			true
 		);
 
@@ -150,7 +162,7 @@ function kachotech_child_enqueue_scripts() {
 			'kachotech-homepage-css',
 			get_stylesheet_directory_uri() . '/assets/css/homepage.css',
 			array( 'kachotech-child-css' ),
-			'1.0'
+			filemtime( get_stylesheet_directory() . '/assets/css/homepage.css' )
 		);
 
 		// Load shop layout CSS so related products have proper styling
@@ -158,14 +170,14 @@ function kachotech_child_enqueue_scripts() {
 			'kt-shop-layout-css',
 			get_stylesheet_directory_uri() . '/assets/css/shop-layout.css',
 			array( 'kachotech-child-css' ),
-			'1.0'
+			filemtime( get_stylesheet_directory() . '/assets/css/shop-layout.css' )
 		);
 
 		wp_enqueue_script(
 			'kt-single-product-js',
 			get_stylesheet_directory_uri() . '/assets/js/single-product.js',
 			array(),
-			'1.0',
+			filemtime( get_stylesheet_directory() . '/assets/js/single-product.js' ),
 			true
 		);
 
@@ -174,7 +186,7 @@ function kachotech_child_enqueue_scripts() {
 			'kt-related-products-js',
 			get_stylesheet_directory_uri() . '/assets/js/related-products.js',
 			array( 'jquery', 'woocommerce' ),
-			'1.0',
+			filemtime( get_stylesheet_directory() . '/assets/js/related-products.js' ),
 			true
 		);
 
@@ -185,13 +197,16 @@ function kachotech_child_enqueue_scripts() {
 		) );
 	}
 
-	// Global page loader for entire site
-	wp_enqueue_script(
-		'kt-global-loader-js',
-		get_stylesheet_directory_uri() . '/assets/js/global-loader.js',
-		array( 'jquery' ),
-		'1.0',
-		true
-	);
+	// Global page loader for entire site (exclude shop pages - they have their own loaders)
+	// Check if NOT on shop, product category, product tag, or product page
+	if ( ! is_shop() && ! is_product_category() && ! is_product_tag() && ! is_product() ) {
+		wp_enqueue_script(
+			'kt-global-loader-js',
+			get_stylesheet_directory_uri() . '/assets/js/global-loader.js',
+			array( 'jquery' ),
+			filemtime( get_stylesheet_directory() . '/assets/js/global-loader.js' ),
+			true
+		);
+	}
 }
 add_action( 'wp_enqueue_scripts', 'kachotech_child_enqueue_scripts', 20 );

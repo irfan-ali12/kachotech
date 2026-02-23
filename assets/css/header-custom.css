@@ -9,6 +9,12 @@
 	margin: 0 auto;
 	padding: 0 16px;
 }
+button.kt-search-cat-toggle {
+    
+}
+button.kt-search-cat-toggle:hover {
+    color: #111111 !important;
+}
 
 @media (min-width: 768px) {
 	.ast-container {
